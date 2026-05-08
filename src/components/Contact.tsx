@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 import imgBgLogo from "@/assets/0a072b9885ca84a574ec1ed74c34c0098abc5ff1.png";
 import { Phone, Mail, MapPin, ArrowRight, Loader2, CheckCircle2 } from "lucide-react";
 
@@ -47,7 +47,7 @@ export function Contact() {
       icon: Phone,
       title: "Speak With Us",
       subtitle: "CONCIERGE LINE",
-      details: "+971 4 000 0000"
+      details: "+91 989 5544 321"
     },
     {
       icon: Mail,

@@ -1,6 +1,7 @@
 import heroImage from "figma:asset/07719174ecd19efeb79d22ddda1e5a4b50c21394.png";
 import logoFull from "figma:asset/4ad3b8a239befc4caeab434186a8daffd93b0422.png";
 import { ChevronDown } from 'lucide-react';
+import Image from "next/image";
 
 export function Hero() {
   return (
@@ -8,7 +9,7 @@ export function Hero() {
       {/* Background Image with Parallax Effect */}
       <div className="absolute inset-0">
         <div className="relative w-full h-full mx-2 my-2 md:mx-4 md:my-3 lg:mx-6 lg:my-4">
-          <img 
+          <Image 
             src={heroImage} 
             alt="Arabic Dry Fruits Store" 
             className="w-full h-full object-cover rounded-2xl md:rounded-3xl shadow-2xl"

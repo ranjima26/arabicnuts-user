@@ -58,7 +58,6 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
       if (result?.error) {
         toast.error(result.error || "Invalid credentials");
       } else {
-        toast.success("login successfull..Welcome to Arabic Dry Fruits");
         onClose();
         router.refresh();
       }

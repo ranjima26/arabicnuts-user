@@ -1,19 +1,35 @@
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { ShoppingBag, Trash2, Plus, Minus, ArrowLeft, HelpCircle, ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSelector, useDispatch } from 'react-redux';
-import { addToCart, removeFromCart } from '@/redux/slices/cartSlice';
+import { addToCart, removeFromCart, clearBuyNowItem } from '@/redux/slices/cartSlice';
 import jarImage from '@/assets/0d50403659dbeb714860454d0322380314619c03.png';
 
 export function Cart() {
   const dispatch = useDispatch();
   const { cartItems: items } = useSelector((state: any) => state.cart);
+  const [isMounted, setIsMounted] = useState(false);
 
-  const subtotal = items.reduce((acc: any, item: any) => acc + item.price * item.qty, 0);
-  const shipping = 10.00;
+  React.useEffect(() => {
+    setIsMounted(true);
+    // Clear any buy now item when viewing the full cart
+    dispatch(clearBuyNowItem());
+  }, [dispatch]);
+
+  if (!isMounted) return null;
+
+  const subtotal = items.reduce((acc: any, item: any) => {
+    const rawPrice = typeof item.price === 'string' 
+      ? item.price.replace(/[^\d]/g, '') 
+      : String(item.price);
+    const price = Number(rawPrice) || 0;
+    const qty = Number(item.qty || item.quantity) || 1;
+    return acc + (price * qty);
+  }, 0);
+  const shipping = 0;
   const total = subtotal + shipping;
 
   const updateQuantity = (item: any, delta: number) => {

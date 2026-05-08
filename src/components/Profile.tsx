@@ -5,41 +5,37 @@ import { User, ShoppingBag, LogOut, ChevronRight, MapPin, Phone, Mail, Edit2, Sh
 import { useSession, signOut } from "next-auth/react";
 import { useUpdateProfileMutation } from '@/redux/api/userApi';
 import { toast } from 'react-toastify';
-
-interface Order {
-  id: string;
-  date: string;
-  items: number;
-  price: number;
-  status: 'DELIVERED' | 'PROCESSING';
-}
-
-const orders: Order[] = [
-  { id: '#ORD-7721', date: '24 Apr 2024', items: 2, price: 899, status: 'DELIVERED' },
-  { id: '#ORD-6542', date: '12 Mar 2024', items: 1, price: 1250, status: 'PROCESSING' },
-  { id: '#ORD-5431', date: '05 Feb 2024', items: 3, price: 450, status: 'DELIVERED' },
-];
+import { useSelector } from 'react-redux';
+import { useSearchParams } from 'next/navigation';
 
 export default function Profile() {
   const { data: session, update: updateSession } = useSession();
+  const searchParams = useSearchParams();
   const [updateProfile, { isLoading: isUpdating }] = useUpdateProfileMutation();
-  const [activeTab, setActiveTab] = useState<'details' | 'orders'>('details');
+  
+  const initialTab = (searchParams.get('tab') as 'details' | 'orders') || 'details';
+  const [activeTab, setActiveTab] = useState<'details' | 'orders'>(initialTab);
+  
+  const { orders } = useSelector((state: any) => state.cart);
 
   const [formData, setFormData] = useState({
     name: session?.user?.name || "",
     email: session?.user?.email || "",
-    phone: "+91 00 00 00 00 00", // Mock for now or from DB if available
-    location: "Kochi, Kerala, India" // Mock for now
+    phone: "", 
+    location: "" 
   });
+  const [isMounted, setIsMounted] = useState(false);
 
-  // Sync with session data when it loads
   React.useEffect(() => {
-    const user = session?.user;
+    setIsMounted(true);
+    const user = session?.user as any;
     if (user) {
       setFormData(prev => ({
         ...prev,
         name: user.name || prev.name,
-        email: user.email || prev.email
+        email: user.email || prev.email,
+        phone: user.phone || prev.phone,
+        location: user.location || prev.location
       }));
     }
   }, [session]);
@@ -57,7 +53,8 @@ export default function Profile() {
       await updateProfile({
         name: formData.name,
         email: formData.email,
-        // Add other fields if your backend supports them
+        phone: formData.phone,
+        location: formData.location
       }).unwrap();
 
       // Optionally update NextAuth session
@@ -66,7 +63,9 @@ export default function Profile() {
         user: {
           ...session?.user,
           name: formData.name,
-          email: formData.email
+          email: formData.email,
+          phone: formData.phone,
+          location: formData.location
         }
       });
 
@@ -76,14 +75,16 @@ export default function Profile() {
     }
   };
 
+  if (!isMounted) return null;
+
   return (
     <div className="min-h-screen bg-[#FDFCF7] pb-20 relative overflow-hidden">
-      {/* Decorative Background Elements */}
+     
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#496506]/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none"></div>
       <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[#D39B16]/5 rounded-full blur-3xl translate-y-1/3 -translate-x-1/4 pointer-events-none"></div>
 
       <div className="max-w-7xl mx-auto px-4 pt-12 md:pt-20 relative z-10">
-        {/* Premium Profile Header */}
+      
         <div className="bg-white rounded-[40px] p-8 md:p-12 shadow-sm border border-[#496506]/10 mb-10 flex flex-col md:flex-row items-center gap-8 md:gap-12 relative overflow-hidden">
           <div className="absolute top-0 right-0 w-32 h-32 bg-[#496506]/5 rounded-bl-full pointer-events-none"></div>
           
@@ -110,7 +111,7 @@ export default function Profile() {
               </div>
               <div className="flex items-center gap-2">
                 <MapPin className="w-4 h-4 text-[#496506]" />
-                <span className="text-sm font-medium">Kochi, India</span>
+                <span className="text-sm font-medium">{formData.location || "Location not set"}</span>
               </div>
             </div>
           </div>
@@ -168,7 +169,7 @@ export default function Profile() {
                 <div className="h-[1px] bg-gray-100 my-4 mx-4"></div>
                 
                 <button 
-                  onClick={() => signOut()}
+                  onClick={() => signOut({ callbackUrl: '/' })}
                   className="w-full flex items-center gap-4 p-4 rounded-2xl text-red-500 hover:bg-red-50 transition-all font-bold"
                 >
                   <LogOut className="w-5 h-5" />
@@ -191,10 +192,10 @@ export default function Profile() {
                     
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                       {[
-                        { label: 'Full Name', name: 'name', value: formData.name, icon: User },
-                        { label: 'Email Address', name: 'email', value: formData.email, icon: Mail },
-                        { label: 'Phone Number', name: 'phone', value: formData.phone, icon: Phone },
-                        { label: 'Location', name: 'location', value: formData.location, icon: MapPin },
+                        { label: 'Full Name', name: 'name', value: formData.name, icon: User, placeholder: "Your Name" },
+                        { label: 'Email Address', name: 'email', value: formData.email, icon: Mail, placeholder: "your@email.com" },
+                        { label: 'Phone Number', name: 'phone', value: formData.phone, icon: Phone, placeholder: "10 digit mobile number" },
+                        { label: 'Location', name: 'location', value: formData.location, icon: MapPin, placeholder: "eg. Kochi" },
                       ].map((field) => (
                         <div key={field.label} className="space-y-3 group">
                           <label className="text-xs font-black text-[#496506] uppercase tracking-widest ml-1">{field.label}</label>
@@ -203,6 +204,7 @@ export default function Profile() {
                               type="text" 
                               name={field.name}
                               value={field.value} 
+                              placeholder={field.placeholder}
                               onChange={handleInputChange}
                               className="w-full p-5 bg-[#f4f7ed]/50 rounded-2xl border-2 border-transparent focus:border-[#496506] focus:bg-white outline-none transition-all font-bold text-gray-800 placeholder-gray-400"
                             />
@@ -230,42 +232,60 @@ export default function Profile() {
                     </div>
                     
                     <div className="space-y-6">
-                      {orders.map((order) => (
-                        <div key={order.id} className="group bg-[#f4f7ed]/30 p-6 rounded-3xl flex items-center justify-between border-2 border-transparent hover:border-[#496506]/20 hover:bg-white transition-all cursor-pointer">
-                          <div className="flex items-center gap-6">
-                            <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform duration-500">
-                              <ShoppingBag className="w-7 h-7 text-[#496506]" />
-                            </div>
-                            <div>
-                              <div className="flex items-center gap-3 mb-1">
-                                <h3 className="font-black text-xl text-gray-900 leading-tight">{order.id}</h3>
-                                <span className={`text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-tighter ${
-                                  order.status === 'DELIVERED' 
-                                    ? 'bg-green-100 text-green-700' 
-                                    : 'bg-blue-100 text-blue-700'
-                                }`}>
-                                  {order.status}
-                                </span>
-                              </div>
-                              <p className="text-sm text-gray-500 font-bold uppercase tracking-tighter">{order.date} • {order.items} Items</p>
-                            </div>
-                          </div>
-                          
-                          <div className="flex items-center gap-8">
-                            <div className="text-right">
-                              <p className="font-black text-2xl text-gray-900">₹{order.price}</p>
-                            </div>
-                            <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center group-hover:bg-[#496506] group-hover:text-white shadow-sm transition-all">
-                              <ChevronRight className="w-6 h-6" />
-                            </div>
-                          </div>
+                      {!orders || orders.length === 0 ? (
+                        <div className="text-center py-20 bg-[#f4f7ed]/20 rounded-[40px] border-2 border-dashed border-[#496506]/10 px-6">
+                          <ShoppingBag className="w-16 h-16 text-[#496506]/20 mx-auto mb-4" />
+                          <p className="text-gray-900 font-bold text-xl mb-2">No orders yet</p>
+                          <p className="text-gray-500 mb-8 max-w-xs mx-auto">Looks like you haven't placed any orders yet. Start shopping to see your orders here!</p>
+                          <button 
+                            onClick={() => window.location.href = '/shop'}
+                            className="px-8 py-4 bg-[#496506] text-white rounded-2xl font-black hover:bg-[#3a5105] transition-all shadow-lg shadow-[#496506]/20"
+                          >
+                            Explore Shop
+                          </button>
                         </div>
-                      ))}
+                      ) : (
+                        orders.map((order: any) => (
+                          <div key={order.id} className="group bg-[#f4f7ed]/30 p-6 rounded-3xl flex items-center justify-between border-2 border-transparent hover:border-[#496506]/20 hover:bg-white transition-all cursor-pointer">
+                            <div className="flex items-center gap-6">
+                              <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform duration-500">
+                                <ShoppingBag className="w-7 h-7 text-[#496506]" />
+                              </div>
+                              <div>
+                                <div className="flex items-center gap-3 mb-1">
+                                  <h3 className="font-black text-xl text-gray-900 leading-tight">{order.id}</h3>
+                                  <span className={`text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-tighter ${
+                                    order.status === 'DELIVERED' 
+                                      ? 'bg-green-100 text-green-700' 
+                                      : 'bg-blue-100 text-blue-700'
+                                  }`}>
+                                    {order.status}
+                                  </span>
+                                </div>
+                                <p className="text-sm text-gray-500 font-bold uppercase tracking-tighter">
+                                  {order.date} • {order.items?.length || 0} Items
+                                </p>
+                              </div>
+                            </div>
+                            
+                            <div className="flex items-center gap-8">
+                              <div className="text-right">
+                                <p className="font-black text-2xl text-gray-900">₹{order.total || order.price}</p>
+                              </div>
+                              <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center group-hover:bg-[#496506] group-hover:text-white shadow-sm transition-all">
+                                <ChevronRight className="w-6 h-6" />
+                              </div>
+                            </div>
+                          </div>
+                        ))
+                      )}
                     </div>
                     
-                    <button className="w-full py-5 rounded-2xl border-2 border-dashed border-[#496506]/30 text-[#496506] font-black hover:bg-[#496506]/5 transition-all">
-                      View All Orders
-                    </button>
+                    {orders && orders.length > 0 && (
+                      <button className="w-full py-5 rounded-2xl border-2 border-dashed border-[#496506]/30 text-[#496506] font-black hover:bg-[#496506]/5 transition-all mt-6">
+                        View All Orders
+                      </button>
+                    )}
                   </div>
                 )}
               </div>

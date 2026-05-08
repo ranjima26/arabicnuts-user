@@ -1,5 +1,5 @@
 "use client";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 import imgBgLogo from "@/assets/0a072b9885ca84a574ec1ed74c34c0098abc5ff1.png";
 import imgDates from "../assets/Container.png";
 import imgAlmonds from "../assets/Margin.png";
@@ -14,6 +14,9 @@ import Link from 'next/link';
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { addToCart } from "@/redux/slices/cartSlice";
+import { useEffect, useState } from "react";
+
+import { products } from "@/data/products";
 
 const bentoItems = [
   { name: "Almonds", img: imgAlmonds },
@@ -24,30 +27,26 @@ const bentoItems = [
   { name: "Spices", img: imgSpices },
 ];
 
-const bestsellers = Array(8).fill({
-  name: "Roasted Pistachios",
-  desc: "Lightly salted pistachios",
-  price: "₹899",
-  oldPrice: "₹1,199",
-  discount: "25% OFF",
-  rating: 4.6,
-  img: imgJar
-});
+const bestsellers = products;
 
 export function ShopPage() {
   const router = useRouter();
   const dispatch = useDispatch();
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const handleAddToCart = (product: any, id: number) => {
-    // Parse price string like "₹899" to number 899
     const priceValue = typeof product.price === 'string' 
       ? Number(product.price.replace(/[^\d]/g, '')) 
       : product.price;
 
     dispatch(addToCart({
-      _id: `shop-${id}`,
+      _id: product.id,
       name: product.name,
-      image: product.img.src,
+      image: product.images[0],
       price: priceValue,
       qty: 1
     }));
@@ -55,13 +54,15 @@ export function ShopPage() {
     router.push("/cart");
   };
 
+  if (!isMounted) return null;
+
   return (
     <div id="shop" className="w-full bg-[#fcfcfb] flex flex-col items-center pb-24 overflow-x-hidden">
 
       {/* Background Watermark */}
       <div className="absolute top-0 left-0 w-full h-[600px] overflow-hidden pointer-events-none z-0 flex justify-center opacity-10">
         <img
-          src={imgBgLogo.src}
+          src={imgBgLogo?.src}
           alt="Watermark"
           className="w-full max-w-[800px] object-cover object-top"
           style={{ transform: 'translateY(-20%) scale(1.5)' }}
@@ -109,7 +110,7 @@ export function ShopPage() {
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6"
         >
           {/* Large Card */}
-          <Link href="/product/premium-dates" className="lg:col-span-1 lg:row-span-2 bg-[#f4ebd0]/30 backdrop-blur-sm rounded-[24px] overflow-hidden border border-[#d0c5af]/20 p-6 md:p-8 flex flex-col relative min-h-[300px] lg:min-h-full group hover:shadow-xl transition-all cursor-pointer block">
+          <Link href="/product/premium-dates" className="lg:col-span-1 lg:row-span-2 bg-[#f4ebd0]/30 backdrop-blur-sm rounded-[24px] overflow-hidden border border-[#d0c5af]/20 p-6 md:p-8 flex flex-col relative min-h-[300px] lg:min-h-full group hover:shadow-xl transition-all cursor-pointer">
             <div className="z-10 relative">
               <p className="text-[#735c00] font-bold text-xs uppercase tracking-widest mb-2">Signature</p>
               <h3 className="text-[#1b1d0e] font-bold text-3xl">Premium Dates</h3>
@@ -161,14 +162,16 @@ export function ShopPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.5, delay: idx * 0.1 }}
-                className="bg-white rounded-[24px] overflow-hidden shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] hover:shadow-xl transition-shadow group flex flex-col border border-gray-100"
+                className="bg-[#f8faeb] rounded-[24px] overflow-hidden shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] hover:shadow-xl transition-shadow group flex flex-col border border-[#e6eed4]"
               >
                 {/* Product Image */}
-                <Link href={`/product/${idx}`} className="relative h-[250px] w-full bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden flex items-center justify-center p-8 block">
-                  <div className="absolute top-4 left-4 z-10 bg-gradient-to-r from-[#fb2c36] to-[#e7000b] text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-md">
-                    {item.discount}
-                  </div>
-                  <img src={item.img.src} alt={item.name} className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500 drop-shadow-2xl" />
+                <Link href={`/product/${item.id}`} className="relative h-[250px] w-full bg-gradient-to-br from-[#f4ebd0]/30 to-[#f4ebd0]/10 overflow-hidden flex items-center justify-center p-8">
+                  {item.discount && (
+                    <div className="absolute top-4 left-4 z-10 bg-gradient-to-r from-[#fb2c36] to-[#e7000b] text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-md">
+                      {item.discount}
+                    </div>
+                  )}
+                  <img src={item.images[0]} alt={item.name} className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500 drop-shadow-2xl" />
                 </Link>
 
                 {/* Product Details */}
@@ -182,10 +185,10 @@ export function ShopPage() {
                     <span className="text-gray-500 text-xs ml-1 font-medium">({item.rating})</span>
                   </div>
 
-                  <Link href={`/product/${idx}`} className="block w-fit">
+                  <Link href={`/product/${item.id}`} className="block w-fit">
                     <h4 className="text-xl font-bold text-[#373737] mb-1 hover:text-[#496506] transition-colors">{item.name}</h4>
                   </Link>
-                  <p className="text-gray-500 text-sm mb-6 flex-1">{item.desc}</p>
+                  <p className="text-gray-500 text-sm mb-6 flex-1 line-clamp-2">{item.description}</p>
 
                   <div className="flex items-center justify-between border-t border-gray-100 pt-4 mt-auto">
                     <div className="flex items-center gap-2">

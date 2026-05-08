@@ -3,6 +3,7 @@ import imgObject from "@/assets/4e138d87f88df0007c9807655df9185a27fcb39e.png";
 import imgObject1 from "@/assets/aac24150bf0e4fe83a245fc50f804619dbda80f7.png";
 import imgEllipse2 from "@/assets/b62d98777bde6fa4c9383bcbe46df6681961a15e.png";
 import imgVarietyNutsBowls1 from "@/assets/5e72bbb9a47ea7e8217a8f2a210b8120d125dbfc.png";
+import Image from "next/image";
 
 function Frame2() {
   return <div className="absolute bg-[rgba(0,0,0,0)] border-[0.5px] border-[rgba(140,139,138,0.75)] border-solid h-[175px] left-[250px] rounded-[25px] top-[623px] w-[125px]" />;
@@ -13,7 +14,7 @@ function Group9() {
     <div className="absolute contents left-[263px] top-[639px]">
       <div className="absolute h-[108px] left-[263px] shadow-[36px_0px_10px_0px_rgba(0,0,0,0),23px_0px_9px_0px_rgba(0,0,0,0.01),13px_0px_8px_0px_rgba(0,0,0,0.05),6px_0px_6px_0px_rgba(0,0,0,0.09),1px_0px_3px_0px_rgba(0,0,0,0.1)] top-[639px] w-[100px]" data-name="variety-nuts-bowls 1">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <img alt="" className="absolute h-[347.47%] left-[0.07%] max-w-none top-[-5.05%] w-[296.59%]" src={imgVarietyNutsBowls1} />
+          <Image alt="" className="absolute h-[347.47%] left-[0.07%] max-w-none top-[-5.05%] w-[296.59%]" src={imgVarietyNutsBowls1} />
         </div>
       </div>
       <p className="-translate-x-1/2 absolute capitalize font-['Roboto:Medium',sans-serif] font-medium leading-[17px] left-[312.5px] text-[#373737] text-[16px] text-center top-[751px] w-[81px]" style={{ fontVariationSettings: "'wdth' 100" }}>
@@ -28,7 +29,7 @@ function Group10() {
     <button className="absolute contents cursor-pointer left-[393px] top-[639px]">
       <div className="absolute h-[108px] left-[393px] shadow-[36px_0px_10px_0px_rgba(0,0,0,0),23px_0px_9px_0px_rgba(0,0,0,0.01),13px_0px_8px_0px_rgba(0,0,0,0.05),6px_0px_6px_0px_rgba(0,0,0,0.09),1px_0px_3px_0px_rgba(0,0,0,0.1)] top-[639px] w-[100px]" data-name="variety-nuts-bowls 1">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <img alt="" className="absolute h-[347.47%] left-[-99.93%] max-w-none top-[-5.05%] w-[296.59%]" src={imgVarietyNutsBowls1} />
+          <Image alt="" className="absolute h-[347.47%] left-[-99.93%] max-w-none top-[-5.05%] w-[296.59%]" src={imgVarietyNutsBowls1} />
         </div>
       </div>
       <p className="-translate-x-1/2 absolute capitalize font-['Roboto:Medium',sans-serif] font-medium leading-[17px] left-[442.5px] text-[#373737] text-[16px] text-center top-[751px] w-[81px]" style={{ fontVariationSettings: "'wdth' 100" }}>
@@ -43,7 +44,7 @@ function Group11() {
     <button className="absolute contents cursor-pointer left-[523px] top-[639px]">
       <div className="absolute h-[108px] left-[523px] shadow-[36px_0px_10px_0px_rgba(0,0,0,0),23px_0px_9px_0px_rgba(0,0,0,0.01),13px_0px_8px_0px_rgba(0,0,0,0.05),6px_0px_6px_0px_rgba(0,0,0,0.09),1px_0px_3px_0px_rgba(0,0,0,0.1)] top-[639px] w-[100px]" data-name="variety-nuts-bowls 1">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <img alt="" className="absolute h-[347.47%] left-[-196.93%] max-w-none top-[-116.16%] w-[296.59%]" src={imgVarietyNutsBowls1} />
+          <Image alt="" className="absolute h-[347.47%] left-[-196.93%] max-w-none top-[-116.16%] w-[296.59%]" src={imgVarietyNutsBowls1} />
         </div>
       </div>
       <p className="-translate-x-1/2 absolute capitalize font-['Roboto:Medium',sans-serif] font-medium leading-[17px] left-[572.5px] text-[#373737] text-[16px] text-center top-[751px] w-[81px]" style={{ fontVariationSettings: "'wdth' 100" }}>
@@ -58,7 +59,7 @@ function Group12() {
     <button className="absolute contents cursor-pointer left-[653px] top-[636px]">
       <div className="absolute h-[108px] left-[653px] shadow-[36px_0px_10px_0px_rgba(0,0,0,0),23px_0px_9px_0px_rgba(0,0,0,0.01),13px_0px_8px_0px_rgba(0,0,0,0.05),6px_0px_6px_0px_rgba(0,0,0,0.09),1px_0px_3px_0px_rgba(0,0,0,0.1)] top-[636px] w-[100px]" data-name="variety-nuts-bowls 1">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <img alt="" className="absolute h-[347.47%] left-[-97.93%] max-w-none top-[-116.16%] w-[296.59%]" src={imgVarietyNutsBowls1} />
+          <Image alt="" className="absolute h-[347.47%] left-[-97.93%] max-w-none top-[-116.16%] w-[296.59%]" src={imgVarietyNutsBowls1} />
         </div>
       </div>
       <p className="-translate-x-1/2 absolute capitalize font-['Roboto:Medium',sans-serif] font-medium leading-[17px] left-[702.5px] text-[#373737] text-[16px] text-center top-[748px] w-[81px]" style={{ fontVariationSettings: "'wdth' 100" }}>
@@ -73,7 +74,7 @@ function Group13() {
     <button className="absolute contents cursor-pointer left-[783px] top-[636px]">
       <div className="absolute h-[108px] left-[783px] shadow-[36px_0px_10px_0px_rgba(0,0,0,0),23px_0px_9px_0px_rgba(0,0,0,0.01),13px_0px_8px_0px_rgba(0,0,0,0.05),6px_0px_6px_0px_rgba(0,0,0,0.09),1px_0px_3px_0px_rgba(0,0,0,0.1)] top-[636px] w-[100px]" data-name="variety-nuts-bowls 1">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <img alt="" className="absolute h-[347.47%] left-[-0.93%] max-w-none top-[-116.16%] w-[296.59%]" src={imgVarietyNutsBowls1} />
+          <Image alt="" className="absolute h-[347.47%] left-[-0.93%] max-w-none top-[-116.16%] w-[296.59%]" src={imgVarietyNutsBowls1} />
         </div>
       </div>
       <p className="-translate-x-1/2 absolute capitalize font-['Roboto:Medium',sans-serif] font-medium leading-[17px] left-[832.5px] text-[#373737] text-[16px] text-center top-[748px] w-[81px]" style={{ fontVariationSettings: "'wdth' 100" }}>
@@ -88,7 +89,7 @@ function Group14() {
     <button className="absolute contents cursor-pointer left-[913px] top-[639px]">
       <div className="absolute h-[108px] left-[913px] shadow-[36px_0px_10px_0px_rgba(0,0,0,0),23px_0px_9px_0px_rgba(0,0,0,0.01),13px_0px_8px_0px_rgba(0,0,0,0.05),6px_0px_6px_0px_rgba(0,0,0,0.09),1px_0px_3px_0px_rgba(0,0,0,0.1)] top-[639px] w-[100px]" data-name="variety-nuts-bowls 1">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <img alt="" className="absolute h-[347.47%] left-[0.07%] max-w-none top-[-234.68%] w-[296.59%]" src={imgVarietyNutsBowls1} />
+          <Image alt="" className="absolute h-[347.47%] left-[0.07%] max-w-none top-[-234.68%] w-[296.59%]" src={imgVarietyNutsBowls1} />
         </div>
       </div>
       <p className="-translate-x-1/2 absolute capitalize font-['Roboto:Medium',sans-serif] font-medium leading-[17px] left-[962.5px] text-[#373737] text-[16px] text-center top-[751px] w-[81px]" style={{ fontVariationSettings: "'wdth' 100" }}>
@@ -405,32 +406,32 @@ function Frame1() {
     <div className="absolute h-[512px] left-[160px] overflow-clip top-0 w-[576px]">
       <div className="absolute h-[402px] left-[147px] shadow-[182px_72px_55px_0px_rgba(0,0,0,0),116px_46px_50px_0px_rgba(0,0,0,0.01),65px_26px_42px_0px_rgba(0,0,0,0.05),29px_11px_31px_0px_rgba(0,0,0,0.09),7px_3px_17px_0px_rgba(0,0,0,0.1)] top-[110px] w-[374px]" data-name="2">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <img alt="" className="absolute h-[347.47%] left-[0.07%] max-w-none top-[-5.05%] w-[296.59%]" src={imgVarietyNutsBowls1} />
+          <Image alt="" className="absolute h-[347.47%] left-[0.07%] max-w-none top-[-5.05%] w-[296.59%]" src={imgVarietyNutsBowls1} />
         </div>
       </div>
       <div className="absolute h-[402px] left-[521px] shadow-[182px_72px_55px_0px_rgba(0,0,0,0),116px_46px_50px_0px_rgba(0,0,0,0.01),65px_26px_42px_0px_rgba(0,0,0,0.05),29px_11px_31px_0px_rgba(0,0,0,0.09),7px_3px_17px_0px_rgba(0,0,0,0.1)] top-[-312px] w-[374px]" data-name="3">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <img alt="" className="absolute h-[347.47%] left-[-98.86%] max-w-none top-[-5.05%] w-[296.59%]" src={imgVarietyNutsBowls1} />
+          <Image alt="" className="absolute h-[347.47%] left-[-98.86%] max-w-none top-[-5.05%] w-[296.59%]" src={imgVarietyNutsBowls1} />
         </div>
       </div>
       <div className="absolute h-[402px] left-[895px] shadow-[182px_72px_55px_0px_rgba(0,0,0,0),116px_46px_50px_0px_rgba(0,0,0,0.01),65px_26px_42px_0px_rgba(0,0,0,0.05),29px_11px_31px_0px_rgba(0,0,0,0.09),7px_3px_17px_0px_rgba(0,0,0,0.1)] top-[-694px] w-[374px]" data-name="4">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <img alt="" className="absolute h-[347.47%] left-[-195.11%] max-w-none top-[-116.99%] w-[296.59%]" src={imgVarietyNutsBowls1} />
+          <Image alt="" className="absolute h-[347.47%] left-[-195.11%] max-w-none top-[-116.99%] w-[296.59%]" src={imgVarietyNutsBowls1} />
         </div>
       </div>
       <div className="absolute h-[402px] left-[1269px] shadow-[182px_72px_55px_0px_rgba(0,0,0,0),116px_46px_50px_0px_rgba(0,0,0,0.01),65px_26px_42px_0px_rgba(0,0,0,0.05),29px_11px_31px_0px_rgba(0,0,0,0.09),7px_3px_17px_0px_rgba(0,0,0,0.1)] top-[-1085px] w-[374px]" data-name="5">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <img alt="" className="absolute h-[347.47%] left-[-98.06%] max-w-none top-[-116.99%] w-[296.59%]" src={imgVarietyNutsBowls1} />
+          <Image alt="" className="absolute h-[347.47%] left-[-98.06%] max-w-none top-[-116.99%] w-[296.59%]" src={imgVarietyNutsBowls1} />
         </div>
       </div>
       <div className="absolute h-[402px] left-[1643px] shadow-[182px_72px_55px_0px_rgba(0,0,0,0),116px_46px_50px_0px_rgba(0,0,0,0.01),65px_26px_42px_0px_rgba(0,0,0,0.05),29px_11px_31px_0px_rgba(0,0,0,0.09),7px_3px_17px_0px_rgba(0,0,0,0.1)] top-[-1487px] w-[374px]" data-name="6">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <img alt="" className="absolute h-[347.47%] left-[-0.19%] max-w-none top-[-116.99%] w-[296.59%]" src={imgVarietyNutsBowls1} />
+          <Image alt="" className="absolute h-[347.47%] left-[-0.19%] max-w-none top-[-116.99%] w-[296.59%]" src={imgVarietyNutsBowls1} />
         </div>
       </div>
       <div className="absolute h-[402px] left-[2017px] shadow-[182px_72px_55px_0px_rgba(0,0,0,0),116px_46px_50px_0px_rgba(0,0,0,0.01),65px_26px_42px_0px_rgba(0,0,0,0.05),29px_11px_31px_0px_rgba(0,0,0,0.09),7px_3px_17px_0px_rgba(0,0,0,0.1)] top-[-1889px] w-[374px]" data-name="7">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <img alt="" className="absolute h-[347.47%] left-[-0.19%] max-w-none top-[-232.41%] w-[296.59%]" src={imgVarietyNutsBowls1} />
+          <Image alt="" className="absolute h-[347.47%] left-[-0.19%] max-w-none top-[-232.41%] w-[296.59%]" src={imgVarietyNutsBowls1} />
         </div>
       </div>
     </div>
@@ -444,7 +445,7 @@ export default function Group25() {
         <div className="flex-none h-[104.991px] rotate-[87.63deg] skew-x-[-0.28deg] w-[77.047px]">
           <div className="relative shadow-[-50px_25px_16px_0px_rgba(0,0,0,0),-32px_16px_14px_0px_rgba(0,0,0,0.01),-18px_9px_12px_0px_rgba(0,0,0,0.05),-8px_4px_9px_0px_rgba(0,0,0,0.09),-2px_1px_5px_0px_rgba(0,0,0,0.1)] size-full" data-name="Object">
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <img alt="" className="absolute left-0 max-w-none size-full top-0" src={imgObject} />
+              <Image alt="" className="absolute left-0 max-w-none size-full top-0" src={imgObject} />
             </div>
           </div>
         </div>
@@ -453,7 +454,7 @@ export default function Group25() {
         <div className="flex-none h-[104.991px] rotate-[156.98deg] skew-x-[-0.28deg] w-[77.047px]">
           <div className="relative shadow-[-50px_25px_16px_0px_rgba(0,0,0,0),-32px_16px_14px_0px_rgba(0,0,0,0.01),-18px_9px_12px_0px_rgba(0,0,0,0.05),-8px_4px_9px_0px_rgba(0,0,0,0.09),-2px_1px_5px_0px_rgba(0,0,0,0.1)] size-full" data-name="Object">
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <img alt="" className="absolute left-0 max-w-none size-full top-0" src={imgObject} />
+              <Image alt="" className="absolute left-0 max-w-none size-full top-0" src={imgObject} />
             </div>
           </div>
         </div>
@@ -462,7 +463,7 @@ export default function Group25() {
         <div className="flex-none h-[117.864px] rotate-[-69.2deg] skew-x-[2.26deg] w-[92.046px]">
           <div className="relative shadow-[-50px_25px_16px_0px_rgba(0,0,0,0),-32px_16px_14px_0px_rgba(0,0,0,0.01),-18px_9px_12px_0px_rgba(0,0,0,0.05),-8px_4px_9px_0px_rgba(0,0,0,0.09),-2px_1px_5px_0px_rgba(0,0,0,0.1)] size-full" data-name="Object">
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <img alt="" className="absolute h-[100.01%] left-0 max-w-none top-0 w-[99.99%]" src={imgObject1} />
+              <Image alt="" className="absolute h-[100.01%] left-0 max-w-none top-0 w-[99.99%]" src={imgObject1} />
             </div>
           </div>
         </div>
@@ -471,7 +472,7 @@ export default function Group25() {
         <div className="flex-none h-[117.864px] rotate-[-104.73deg] skew-x-[2.26deg] w-[92.046px]">
           <div className="relative shadow-[-50px_25px_16px_0px_rgba(0,0,0,0),-32px_16px_14px_0px_rgba(0,0,0,0.01),-18px_9px_12px_0px_rgba(0,0,0,0.05),-8px_4px_9px_0px_rgba(0,0,0,0.09),-2px_1px_5px_0px_rgba(0,0,0,0.1)] size-full" data-name="Object">
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <img alt="" className="absolute h-[100.01%] left-0 max-w-none top-0 w-[99.99%]" src={imgObject1} />
+              <Image alt="" className="absolute h-[100.01%] left-0 max-w-none top-0 w-[99.99%]" src={imgObject1} />
             </div>
           </div>
         </div>
@@ -480,7 +481,7 @@ export default function Group25() {
         <div className="flex-none h-[117.864px] rotate-[18.63deg] skew-x-[2.26deg] w-[92.046px]">
           <div className="relative shadow-[-50px_25px_16px_0px_rgba(0,0,0,0),-32px_16px_14px_0px_rgba(0,0,0,0.01),-18px_9px_12px_0px_rgba(0,0,0,0.05),-8px_4px_9px_0px_rgba(0,0,0,0.09),-2px_1px_5px_0px_rgba(0,0,0,0.1)] size-full" data-name="Object">
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <img alt="" className="absolute h-[100.01%] left-0 max-w-none top-0 w-[99.99%]" src={imgObject1} />
+              <Image alt="" className="absolute h-[100.01%] left-0 max-w-none top-0 w-[99.99%]" src={imgObject1} />
             </div>
           </div>
         </div>
@@ -491,7 +492,7 @@ export default function Group25() {
           <div className="flex-none rotate-[-50.22deg]">
             <div className="h-[766.245px] relative w-[767.583px]">
               <div className="absolute inset-[-19.58%_-19.54%]">
-                <img alt="" className="block max-w-none size-full" height="1066.248" src={imgEllipse2} width="1067.586" />
+                <Image alt="" className="block max-w-none size-full" height="1066.248" src={imgEllipse2} width="1067.586" />
               </div>
             </div>
           </div>

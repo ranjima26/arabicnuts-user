@@ -4,6 +4,7 @@ import jarImage3 from "figma:asset/bafcbb36618376f2be6baa21a502e6dde5d503ce.png"
 import jarImage4 from "figma:asset/74d9a6c3bef843949950fe498bf3c54e2386ee9a.png";
 import jarImage5 from "figma:asset/b75f359c97a9056886d9272d1913f28f8d483254.png";
 import { Eye } from 'lucide-react';
+import Image from "next/image";
 
 const products = [
   { id: 1, name: 'Almonds', description: 'Premium whole California almonds', image: jarImage1 },
@@ -49,7 +50,7 @@ export function Collection() {
               <div className="bg-white rounded-2xl shadow-lg overflow-hidden transition-all duration-500 hover:shadow-2xl hover:-translate-y-2">
                 {/* Product Image */}
                 <div className="relative w-full aspect-[240/229] overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100">
-                  <img 
+                  <Image 
                     src={product.image}
                     alt={product.name}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"

@@ -3,6 +3,7 @@ import imgObject from "@/assets/4e138d87f88df0007c9807655df9185a27fcb39e.png";
 import imgObject1 from "@/assets/4e092aad07eae5043c54b22342da629da2582b12.png";
 import imgObject2 from "@/assets/aac24150bf0e4fe83a245fc50f804619dbda80f7.png";
 import imgObject3 from "@/assets/c344b3da9eeb6df01d966269130958792e0fb116.png";
+import Image from "next/image";
 
 function Group() {
   return (
@@ -85,14 +86,14 @@ function Group4() {
     <div className="absolute contents left-0 top-0">
       <div className="-translate-x-1/2 absolute h-[749px] left-[calc(50%+176.26px)] opacity-20 top-[287px] w-[711px]" data-name="arabic nuts logo_png 3">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <img alt="" className="absolute h-[169.94%] left-[-39.75%] max-w-none top-[-34.65%] w-[179.24%]" src={imgArabicNutsLogoPng3} />
+          <Image alt="" className="absolute h-[169.94%] left-[-39.75%] max-w-none top-[-34.65%] w-[179.24%]" src={imgArabicNutsLogoPng3} />
         </div>
       </div>
       <div className="absolute flex inset-[29.22%_15.97%_59.85%_77.78%] items-center justify-center">
         <div className="flex-none h-[103.741px] rotate-[61.74deg] skew-x-[-2.88deg] w-[78.073px]">
           <div className="relative shadow-[-50px_25px_16px_0px_rgba(0,0,0,0),-32px_16px_14px_0px_rgba(0,0,0,0.01),-18px_9px_12px_0px_rgba(0,0,0,0.05),-8px_4px_9px_0px_rgba(0,0,0,0.09),-2px_1px_5px_0px_rgba(0,0,0,0.1)] size-full" data-name="Object">
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <img alt="" className="absolute left-0 max-w-none size-full top-0" src={imgObject} />
+              <Image alt="" className="absolute left-0 max-w-none size-full top-0" src={imgObject} />
             </div>
           </div>
         </div>
@@ -109,7 +110,7 @@ function Group4() {
         <div className="flex-none h-[491.102px] rotate-[12.16deg] skew-x-[-1.56deg] w-[432.726px]">
           <div className="relative shadow-[-465px_-61px_131px_0px_rgba(0,0,0,0),-298px_-39px_120px_0px_rgba(0,0,0,0.01),-168px_-22px_101px_0px_rgba(0,0,0,0.05),-74px_-10px_75px_0px_rgba(0,0,0,0.09),-19px_-2px_41px_0px_rgba(0,0,0,0.1)] size-full" data-name="Object">
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <img alt="" className="absolute left-0 max-w-none size-full top-0" src={imgObject1} />
+              <Image alt="" className="absolute left-0 max-w-none size-full top-0" src={imgObject1} />
             </div>
           </div>
         </div>
@@ -118,7 +119,7 @@ function Group4() {
         <div className="flex-none h-[100.595px] rotate-[31.59deg] skew-x-[-3.28deg] w-[80.544px]">
           <div className="relative shadow-[-50px_25px_16px_0px_rgba(0,0,0,0),-32px_16px_14px_0px_rgba(0,0,0,0.01),-18px_9px_12px_0px_rgba(0,0,0,0.05),-8px_4px_9px_0px_rgba(0,0,0,0.09),-2px_1px_5px_0px_rgba(0,0,0,0.1)] size-full" data-name="Object">
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <img alt="" className="absolute left-0 max-w-none size-full top-0" src={imgObject} />
+              <Image alt="" className="absolute left-0 max-w-none size-full top-0" src={imgObject} />
             </div>
           </div>
         </div>
@@ -127,7 +128,7 @@ function Group4() {
         <div className="flex-none h-[100.595px] rotate-[31.59deg] skew-x-[-3.28deg] w-[80.544px]">
           <div className="relative shadow-[-50px_25px_16px_0px_rgba(0,0,0,0),-32px_16px_14px_0px_rgba(0,0,0,0.01),-18px_9px_12px_0px_rgba(0,0,0,0.05),-8px_4px_9px_0px_rgba(0,0,0,0.09),-2px_1px_5px_0px_rgba(0,0,0,0.1)] size-full" data-name="Object">
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <img alt="" className="absolute left-0 max-w-none size-full top-0" src={imgObject} />
+              <Image alt="" className="absolute left-0 max-w-none size-full top-0" src={imgObject} />
             </div>
           </div>
         </div>
@@ -136,7 +137,7 @@ function Group4() {
         <div className="flex-none h-[104.991px] rotate-[87.63deg] skew-x-[-0.28deg] w-[77.047px]">
           <div className="relative shadow-[-50px_25px_16px_0px_rgba(0,0,0,0),-32px_16px_14px_0px_rgba(0,0,0,0.01),-18px_9px_12px_0px_rgba(0,0,0,0.05),-8px_4px_9px_0px_rgba(0,0,0,0.09),-2px_1px_5px_0px_rgba(0,0,0,0.1)] size-full" data-name="Object">
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <img alt="" className="absolute left-0 max-w-none size-full top-0" src={imgObject} />
+              <Image alt="" className="absolute left-0 max-w-none size-full top-0" src={imgObject} />
             </div>
           </div>
         </div>
@@ -145,7 +146,7 @@ function Group4() {
         <div className="flex-none h-[104.991px] rotate-[87.63deg] skew-x-[-0.28deg] w-[77.047px]">
           <div className="relative shadow-[-50px_25px_16px_0px_rgba(0,0,0,0),-32px_16px_14px_0px_rgba(0,0,0,0.01),-18px_9px_12px_0px_rgba(0,0,0,0.05),-8px_4px_9px_0px_rgba(0,0,0,0.09),-2px_1px_5px_0px_rgba(0,0,0,0.1)] size-full" data-name="Object">
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <img alt="" className="absolute left-0 max-w-none size-full top-0" src={imgObject} />
+              <Image alt="" className="absolute left-0 max-w-none size-full top-0" src={imgObject} />
             </div>
           </div>
         </div>
@@ -154,7 +155,7 @@ function Group4() {
         <div className="flex-none h-[114.046px] rotate-[65.09deg] skew-x-[-2.62deg] w-[85.366px]">
           <div className="relative shadow-[-50px_25px_16px_0px_rgba(0,0,0,0),-32px_16px_14px_0px_rgba(0,0,0,0.01),-18px_9px_12px_0px_rgba(0,0,0,0.05),-8px_4px_9px_0px_rgba(0,0,0,0.09),-2px_1px_5px_0px_rgba(0,0,0,0.1)] size-full" data-name="Object">
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <img alt="" className="absolute h-[100.01%] left-0 max-w-none top-0 w-[99.99%]" src={imgObject2} />
+              <Image alt="" className="absolute h-[100.01%] left-0 max-w-none top-0 w-[99.99%]" src={imgObject2} />
             </div>
           </div>
         </div>
@@ -163,7 +164,7 @@ function Group4() {
         <div className="flex-none h-[114.366px] rotate-[-69.2deg] skew-x-[2.26deg] w-[85.105px]">
           <div className="relative shadow-[-50px_25px_16px_0px_rgba(0,0,0,0),-32px_16px_14px_0px_rgba(0,0,0,0.01),-18px_9px_12px_0px_rgba(0,0,0,0.05),-8px_4px_9px_0px_rgba(0,0,0,0.09),-2px_1px_5px_0px_rgba(0,0,0,0.1)] size-full" data-name="Object">
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <img alt="" className="absolute h-[100.01%] left-0 max-w-none top-0 w-[99.99%]" src={imgObject2} />
+              <Image alt="" className="absolute h-[100.01%] left-0 max-w-none top-0 w-[99.99%]" src={imgObject2} />
             </div>
           </div>
         </div>
@@ -172,7 +173,7 @@ function Group4() {
         <div className="flex-none h-[109.606px] rotate-[-154.73deg] skew-x-[-2.87deg] w-[88.842px]">
           <div className="relative shadow-[-50px_25px_16px_0px_rgba(0,0,0,0),-32px_16px_14px_0px_rgba(0,0,0,0.01),-18px_9px_12px_0px_rgba(0,0,0,0.05),-8px_4px_9px_0px_rgba(0,0,0,0.09),-2px_1px_5px_0px_rgba(0,0,0,0.1)] size-full" data-name="Object">
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <img alt="" className="absolute h-[100.01%] left-0 max-w-none top-0 w-[99.99%]" src={imgObject2} />
+              <Image alt="" className="absolute h-[100.01%] left-0 max-w-none top-0 w-[99.99%]" src={imgObject2} />
             </div>
           </div>
         </div>
@@ -181,7 +182,7 @@ function Group4() {
         <div className="flex-none h-[102.807px] rotate-[128.13deg] skew-x-[3.41deg] w-[78.822px]">
           <div className="relative shadow-[-50px_25px_16px_0px_rgba(0,0,0,0),-32px_16px_14px_0px_rgba(0,0,0,0.01),-18px_9px_12px_0px_rgba(0,0,0,0.05),-8px_4px_9px_0px_rgba(0,0,0,0.09),-2px_1px_5px_0px_rgba(0,0,0,0.1)] size-full" data-name="Object">
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <img alt="" className="absolute left-0 max-w-none size-full top-0" src={imgObject} />
+              <Image alt="" className="absolute left-0 max-w-none size-full top-0" src={imgObject} />
             </div>
           </div>
         </div>
@@ -190,7 +191,7 @@ function Group4() {
         <div className="flex-none h-[699.55px] rotate-[-53.81deg] w-[518px]">
           <div className="relative shadow-[-149px_199px_70px_0px_rgba(0,0,0,0),-95px_127px_64px_0px_rgba(0,0,0,0.01),-54px_72px_54px_0px_rgba(0,0,0,0.05),-24px_32px_40px_0px_rgba(0,0,0,0.09),-6px_8px_22px_0px_rgba(0,0,0,0.1)] size-full" data-name="Object">
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <img alt="" className="absolute h-[67.19%] left-0 max-w-none top-[32.81%] w-full" src={imgObject3} />
+              <Image alt="" className="absolute h-[67.19%] left-0 max-w-none top-[32.81%] w-full" src={imgObject3} />
             </div>
           </div>
         </div>

@@ -16,26 +16,113 @@ import {
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useSelector, useDispatch } from 'react-redux';
-import { clearBuyNowItem } from '@/redux/slices/cartSlice';
+import { clearBuyNowItem, createOrder, clearCartItems } from '@/redux/slices/cartSlice';
 import jarImage from '@/assets/0d50403659dbeb714860454d0322380314619c03.png';
+import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
+import { toast } from 'react-toastify';
+import Swal from 'sweetalert2';
 
 export function Checkout() {
   const dispatch = useDispatch();
+  const router = useRouter();
+  const { data: session } = useSession();
   const [paymentMethod, setPaymentMethod] = useState<'cod' | 'online'>('online');
+  const [isMounted, setIsMounted] = useState(false);
   
+  const [shippingData, setShippingData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    address: '',
+    city: '',
+    state: '',
+    pinCode: ''
+  });
+
   const { cartItems, buyNowItem } = useSelector((state: any) => state.cart);
 
-  // If buyNowItem exists, only show that. Otherwise, show all cart items.
+  const getSafePrice = (price: any) => {
+    const raw = typeof price === 'string' ? price.replace(/[^\d]/g, '') : String(price);
+    return Number(raw) || 0;
+  };
+
   const items = buyNowItem ? [buyNowItem] : cartItems;
 
-  const subtotal = items.reduce((acc: number, item: any) => acc + (item.price * (item.qty || item.quantity || 1)), 0);
-  const shipping = 0;
-  const total = subtotal + shipping;
+  const subtotal = items.reduce((acc: number, item: any) => {
+    const price = getSafePrice(item.price);
+    const qty = Number(item.qty || item.quantity) || 1;
+    return acc + (price * qty);
+  }, 0);
+
+  const total = subtotal;
+
+  const handlePlaceOrder = (e: React.FormEvent) => {
+    e.preventDefault(); // Trigger browser validation
+
+    if (items.length === 0) {
+      toast.error("Your cart is empty!");
+      return;
+    }
+
+    // Capture current items to preserve summary during success state
+    const orderItems = [...items];
+
+    Swal.fire({
+      title: 'Order Successful!',
+      text: 'Thank you for shopping with Arabic Dry Fruits. Your premium selection is being prepared!',
+      icon: 'success',
+      confirmButtonColor: '#496506',
+      background: '#ffffff',
+      customClass: {
+        popup: 'rounded-[32px]',
+        confirmButton: 'rounded-xl px-8 py-3'
+      }
+    }).then(() => {
+      // Create order in Redux
+      dispatch(createOrder({
+        items: orderItems,
+        total: total,
+        shippingAddress: shippingData
+      }));
+
+      // Clear relevant items
+      if (buyNowItem) {
+        dispatch(clearBuyNowItem());
+      } else {
+        dispatch(clearCartItems());
+      }
+
+      // Navigate to orders
+      router.push('/profile?tab=orders');
+    });
+  };
+
+  React.useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  React.useEffect(() => {
+    if (session?.user && !shippingData.name && !shippingData.email) {
+      setShippingData(prev => ({
+        ...prev,
+        name: session.user?.name || '',
+        email: session.user?.email || '',
+      }));
+    }
+  }, [session, shippingData.name, shippingData.email]);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setShippingData(prev => ({ ...prev, [name]: value }));
+  };
+
+  if (!isMounted) return null;
 
   return (
     <div className="min-h-screen bg-[#F8F9FA] pt-32 pb-20">
       <div className="container mx-auto px-4 md:px-8 lg:px-12">
-        <div className="max-w-7xl mx-auto">
+        <form onSubmit={handlePlaceOrder} className="max-w-7xl mx-auto">
 
           {/* Header & Breadcrumbs */}
           <div className="text-center mb-12">
@@ -69,8 +156,12 @@ export function Checkout() {
                       <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                       <input
                         type="text"
+                        name="name"
+                        value={shippingData.name}
+                        onChange={handleInputChange}
                         placeholder="John Doe"
-                        className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 pl-12 pr-4 text-gray-800 placeholder:text-gray-500 focus:ring-2 focus:ring-[#496506] focus:bg-white transition-all outline-none"
+                        className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 pl-12 pr-4 text-gray-800 placeholder:text-gray-500 focus:ring-2 focus:ring-[#496506] focus:bg-white transition-all outline-none font-bold"
+                        required
                       />
                     </div>
                   </div>
@@ -82,8 +173,12 @@ export function Checkout() {
                       <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                       <input
                         type="email"
+                        name="email"
+                        value={shippingData.email}
+                        onChange={handleInputChange}
                         placeholder="john@example.com"
-                        className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 pl-12 pr-4 text-gray-800 placeholder:text-gray-500 focus:ring-2 focus:ring-[#496506] focus:bg-white transition-all outline-none"
+                        className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 pl-12 pr-4 text-gray-800 placeholder:text-gray-500 focus:ring-2 focus:ring-[#496506] focus:bg-white transition-all outline-none font-bold"
+                        required
                       />
                     </div>
                   </div>
@@ -95,8 +190,12 @@ export function Checkout() {
                       <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                       <input
                         type="tel"
+                        name="phone"
+                        value={shippingData.phone}
+                        onChange={handleInputChange}
                         placeholder="10 digit mobile number"
-                        className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 pl-12 pr-4 text-gray-800 placeholder:text-gray-500 focus:ring-2 focus:ring-[#496506] focus:bg-white transition-all outline-none"
+                        className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 pl-12 pr-4 text-gray-800 placeholder:text-gray-500 focus:ring-2 focus:ring-[#496506] focus:bg-white transition-all outline-none font-bold"
+                        required
                       />
                     </div>
                   </div>
@@ -108,8 +207,12 @@ export function Checkout() {
                       <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                       <input
                         type="text"
+                        name="address"
+                        value={shippingData.address}
+                        onChange={handleInputChange}
                         placeholder="House no, Building, Street name"
-                        className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 pl-12 pr-4 text-gray-800 placeholder:text-gray-500 focus:ring-2 focus:ring-[#496506] focus:bg-white transition-all outline-none"
+                        className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 pl-12 pr-4 text-gray-800 placeholder:text-gray-500 focus:ring-2 focus:ring-[#496506] focus:bg-white transition-all outline-none font-bold"
+                        required
                       />
                     </div>
                   </div>
@@ -119,8 +222,12 @@ export function Checkout() {
                     <label className="text-xs font-bold text-gray-600 uppercase tracking-wider ml-1">City</label>
                     <input
                       type="text"
+                      name="city"
+                      value={shippingData.city}
+                      onChange={handleInputChange}
                       placeholder="e.g. Kochi"
-                      className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 px-6 text-gray-800 placeholder:text-gray-500 focus:ring-2 focus:ring-[#496506] focus:bg-white transition-all outline-none"
+                      className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 px-6 text-gray-800 placeholder:text-gray-500 focus:ring-2 focus:ring-[#496506] focus:bg-white transition-all outline-none font-bold"
+                      required
                     />
                   </div>
                   <div className="grid grid-cols-2 gap-4">
@@ -128,16 +235,24 @@ export function Checkout() {
                       <label className="text-xs font-bold text-gray-600 uppercase tracking-wider ml-1">State</label>
                       <input
                         type="text"
+                        name="state"
+                        value={shippingData.state}
+                        onChange={handleInputChange}
                         placeholder="e.g. Kerala"
-                        className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 px-6 text-gray-800 placeholder:text-gray-500 focus:ring-2 focus:ring-[#496506] focus:bg-white transition-all outline-none"
+                        className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 px-6 text-gray-800 placeholder:text-gray-500 focus:ring-2 focus:ring-[#496506] focus:bg-white transition-all outline-none font-bold"
+                        required
                       />
                     </div>
                     <div className="space-y-2">
                       <label className="text-xs font-bold text-gray-600 uppercase tracking-wider ml-1">Pin Code</label>
                       <input
                         type="text"
+                        name="pinCode"
+                        value={shippingData.pinCode}
+                        onChange={handleInputChange}
                         placeholder="######"
-                        className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 px-6 text-gray-800 placeholder:text-gray-500 focus:ring-2 focus:ring-[#496506] focus:bg-white transition-all outline-none"
+                        className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 px-6 text-gray-800 placeholder:text-gray-500 focus:ring-2 focus:ring-[#496506] focus:bg-white transition-all outline-none font-bold"
+                        required
                       />
                     </div>
                   </div>
@@ -206,8 +321,6 @@ export function Checkout() {
                 </div>
               </div>
 
-
-
             </div>
 
             {/* Right Column: Summary */}
@@ -229,7 +342,7 @@ export function Checkout() {
                         <p className="font-bold text-sm text-gray-800 leading-tight mb-1">{item.name}</p>
                         <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Qty: {item.qty || item.quantity}</p>
                       </div>
-                      <p className="font-bold text-sm text-gray-800 whitespace-nowrap">₹{(item.price * (item.qty || item.quantity)).toLocaleString()}</p>
+                      <p className="font-bold text-sm text-gray-800 whitespace-nowrap">₹{(getSafePrice(item.price) * (item.qty || item.quantity)).toLocaleString()}</p>
                     </div>
                   ))}
                 </div>
@@ -261,7 +374,10 @@ export function Checkout() {
                 </div>
 
                 {/* Desktop CTA */}
-                <button className="w-full py-4 bg-gradient-to-br from-[#496506] via-[#3d5405] to-[#496506] text-white rounded-lg transition-all duration-300 font-bold text-lg mb-6 shadow-lg shadow-[#496506]/20 hover:shadow-2xl hover:shadow-[#496506]/40 hover:-translate-y-1 active:scale-[0.98]">
+                <button 
+                  type="submit"
+                  className="w-full py-4 bg-gradient-to-br from-[#496506] via-[#3d5405] to-[#496506] text-white rounded-lg transition-all duration-300 font-bold text-lg mb-6 shadow-lg shadow-[#496506]/20 hover:shadow-2xl hover:shadow-[#496506]/40 hover:-translate-y-1 active:scale-[0.98]"
+                >
                   Proceed to Payment
                 </button>
               </div>
@@ -269,9 +385,7 @@ export function Checkout() {
 
           </div>
 
-
-
-        </div>
+        </form>
       </div>
     </div>
   );

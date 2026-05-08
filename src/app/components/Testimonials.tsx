@@ -6,6 +6,7 @@ import customer4 from "figma:asset/1fa2756015abbcf59afc6bed1f3343d4736390f4.png"
 import customer5 from "figma:asset/0a570498e9760a2a3019c472ebb83802808c529a.png";
 import customer6 from "figma:asset/537e0c80cb683c7e20f666033172b7ca5bea2fc7.png";
 import { Quote, Star } from 'lucide-react';
+import Image from "next/image";
 
 const customers = [customer1, customer2, customer3, customer4, customer5, customer6];
 
@@ -43,7 +44,7 @@ export function Testimonials() {
             <div className="relative z-20 group">
               <div className="absolute inset-0 bg-gradient-to-br from-[#496506]/20 to-[#D39B16]/20 rounded-full blur-2xl group-hover:blur-3xl transition-all"></div>
               <div className="relative w-36 h-36 md:w-48 md:h-48 lg:w-56 lg:h-56 rounded-full overflow-hidden border-8 border-white shadow-2xl group-hover:scale-110 transition-transform duration-500">
-                <img 
+                <Image
                   src={testimonialImage}
                   alt="Nadiya S."
                   className="w-full h-full object-cover"
@@ -72,7 +73,7 @@ export function Testimonials() {
                       animationDelay: `${index * 0.2}s`,
                     }}
                   >
-                    <img 
+                    <Image 
                       src={customer}
                       alt={`Customer ${index + 1}`}
                       className="w-full h-full object-cover"

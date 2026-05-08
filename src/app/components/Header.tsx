@@ -1,6 +1,7 @@
 import { Menu, Search, ShoppingBag, X } from 'lucide-react';
 import { useState } from 'react';
 import logoIcon from "figma:asset/4ad3b8a239befc4caeab434186a8daffd93b0422.png";
+import Image from 'next/image';
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -11,7 +12,7 @@ export function Header() {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <div className="flex items-center gap-3">
-            <img src={logoIcon} alt="Arabic Dry Fruits" className="h-10 lg:h-12 w-auto" />
+            <Image src={logoIcon} alt="Arabic Dry Fruits" className="h-10 lg:h-12 w-auto" />
             <div className="hidden md:block">
               <h1 className="text-lg font-bold text-[#496506]">Arabic Dry Fruits</h1>
               <p className="text-xs text-gray-600">Premium Quality</p>

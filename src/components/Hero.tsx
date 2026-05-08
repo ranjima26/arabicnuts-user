@@ -1,8 +1,17 @@
 "use client";
+import { useEffect, useState } from "react";
 import heroImage from "@/assets/07719174ecd19efeb79d22ddda1e5a4b50c21394.png";
 import { ChevronDown } from 'lucide-react';
 
 export function Hero() {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) return <section className="relative min-h-screen bg-[#fcfcfb]" id="home" />;
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden" id="home">
       {/* Background Image Container with fixed responsive framing */}

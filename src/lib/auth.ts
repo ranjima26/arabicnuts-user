@@ -44,6 +44,8 @@ export const authOptions: NextAuthOptions = {
           email: user.email,
           image: user.image,
           role: user.role,
+          phone: user.phone || "",
+          location: user.location || "",
         };
       },
     }),
@@ -65,17 +67,30 @@ export const authOptions: NextAuthOptions = {
       }
       return true;
     },
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger, session }) {
       if (user) {
         token.id = user.id;
         token.role = (user as any).role;
+        token.phone = (user as any).phone;
+        token.location = (user as any).location;
       }
+
+      // Handle session update
+      if (trigger === "update" && session?.user) {
+        token.name = session.user.name;
+        token.email = session.user.email;
+        token.phone = session.user.phone;
+        token.location = session.user.location;
+      }
+
       return token;
     },
     async session({ session, token }) {
       if (token) {
         (session.user as any).id = token.id;
         (session.user as any).role = token.role;
+        (session.user as any).phone = token.phone;
+        (session.user as any).location = token.location;
       }
       return session;
     },

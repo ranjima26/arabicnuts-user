@@ -8,12 +8,38 @@ interface CartItem {
   qty: number;
 }
 
+interface Order {
+  id: string;
+  date: string;
+  items: CartItem[];
+  total: number;
+  status: 'PROCESSING' | 'DELIVERED';
+  shippingAddress: {
+    name: string;
+    email: string;
+    phone: string;
+    address: string;
+    city: string;
+    state: string;
+    pinCode: string;
+  };
+}
+
 interface CartState {
   cartItems: CartItem[];
   shippingAddress: any;
   paymentMethod: string;
   buyNowItem: CartItem | null;
+  orders: Order[];
 }
+
+const getInitialOrders = () => {
+  if (typeof window !== 'undefined') {
+    const saved = localStorage.getItem('orders');
+    return saved ? JSON.parse(saved) : [];
+  }
+  return [];
+};
 
 const getInitialCartItems = () => {
   if (typeof window !== 'undefined') {
@@ -44,6 +70,7 @@ const initialState: CartState = {
   shippingAddress: getInitialShippingAddress(),
   paymentMethod: 'PayPal',
   buyNowItem: getInitialBuyNowItem(),
+  orders: getInitialOrders(),
 };
 
 const cartSlice = createSlice({
@@ -90,6 +117,16 @@ const cartSlice = createSlice({
       state.buyNowItem = null;
       localStorage.removeItem('buyNowItem');
     },
+    createOrder: (state, action: PayloadAction<Omit<Order, 'id' | 'date' | 'status'>>) => {
+      const newOrder: Order = {
+        ...action.payload,
+        id: `#ORD-${Math.floor(1000 + Math.random() * 9000)}`,
+        date: new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }),
+        status: 'PROCESSING'
+      };
+      state.orders = [newOrder, ...state.orders];
+      localStorage.setItem('orders', JSON.stringify(state.orders));
+    },
   },
 });
 
@@ -101,6 +138,7 @@ export const {
   clearCartItems,
   setBuyNowItem,
   clearBuyNowItem,
+  createOrder,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

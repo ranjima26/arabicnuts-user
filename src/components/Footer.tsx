@@ -4,7 +4,17 @@ import Link from 'next/link';
 import logoIcon from "@/assets/4ad3b8a239befc4caeab434186a8daffd93b0422.png";
 import svgPaths from "../imports/svg-1pjt8k5z2y";
 
+import { useEffect, useState } from 'react';
+
 export function Footer() {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) return <footer className="bg-[#496506] h-64 w-full" />;
+
   return (
     <footer className="bg-gradient-to-br from-[#496506] via-[#3d5405] to-[#496506] text-white pt-10 md:pt-14 lg:pt-16 pb-6 relative overflow-hidden">
       {/* Background Pattern */}

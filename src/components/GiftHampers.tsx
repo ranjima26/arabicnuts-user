@@ -1,9 +1,10 @@
 "use client";
-import { motion } from 'motion/react';
+import { motion } from "framer-motion";
 import svgPaths from "../imports/svg-80z9twyba4";
 import imgObject from "@/assets/aac24150bf0e4fe83a245fc50f804619dbda80f7.png";
 import imgChatGptImageFeb202026120533Pm1 from "@/assets/db3a77284adce3df82a8cd0d088a6e9a4b0cfa4f.png";
 import imgObject1 from "@/assets/4e138d87f88df0007c9807655df9185a27fcb39e.png";
+import Link from "next/link";
 
 const floatingNuts = [
   // Top left (outside banner)
@@ -31,10 +32,10 @@ const whiteDots = [
 export function GiftHampers() {
   return (
     <section className="relative w-full overflow-hidden bg-white py-24 md:py-32 px-4 md:px-8 font-sans" id="gift-hampers">
-      
+
       {/* Main Banner Container */}
       <div className="relative w-full max-w-[1400px] mx-auto bg-[#4b6a09] rounded-[24px] min-h-[450px] lg:h-[400px] flex flex-col lg:flex-row items-center justify-between overflow-visible shadow-xl">
-        
+
         {/* White Wave Background (Desktop Only) */}
         <div className="hidden lg:block absolute left-0 top-0 h-full pointer-events-none z-0">
           <svg className="block h-full w-auto min-w-[450px]" fill="none" preserveAspectRatio="xMinYMid slice" viewBox="0 0 479 361">
@@ -60,17 +61,17 @@ export function GiftHampers() {
 
         {/* Left Side: Product Image */}
         <div className="relative w-full lg:w-1/2 flex flex-col justify-center items-center h-full z-20 pt-10 lg:pt-0 pb-0 px-4 lg:pl-[8%] xl:pl-[10%]">
-          <motion.div 
+          <motion.div
             className="relative w-full max-w-[280px] sm:max-w-[380px] lg:max-w-none lg:w-[460px] drop-shadow-2xl flex justify-center items-center"
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
             viewport={{ once: true }}
           >
-            <img 
-              alt="Luxury Gift Hampers" 
-              className="w-full h-auto object-contain lg:scale-[1.15] lg:-translate-y-2 lg:translate-x-14" 
-              src={imgChatGptImageFeb202026120533Pm1.src} 
+            <img
+              alt="Luxury Gift Hampers"
+              className="w-full h-auto object-contain lg:scale-[1.15] lg:-translate-y-2 lg:translate-x-14"
+              src={imgChatGptImageFeb202026120533Pm1.src}
             />
           </motion.div>
         </div>
@@ -104,11 +105,14 @@ export function GiftHampers() {
               </button>
 
               {/* Bulk Enquiry Button */}
-              <button className="relative group overflow-hidden bg-[#9aab6f] hover:bg-[#8a9b5f] h-[45px] md:h-[48px] w-full sm:w-[220px] rounded-full transition-all duration-300 shadow-lg">
-                <span className="relative z-10 font-bold text-[14px] md:text-[15px] text-[#334208] tracking-wide">
-                  Bulk Enquiry
-                </span>
-              </button>
+              <Link href="/contact">
+                <button className="relative group overflow-hidden bg-[#9aab6f] hover:bg-[#8a9b5f] h-[45px] md:h-[48px] w-full sm:w-[220px] rounded-full transition-all duration-300 shadow-lg">
+                  <span className="relative z-10 font-bold text-[14px] md:text-[15px] text-[#334208] tracking-wide">
+                    Bulk Enquiry
+                  </span>
+                </button>
+              </Link>
+
             </div>
           </motion.div>
         </div>
@@ -117,10 +121,10 @@ export function GiftHampers() {
         {floatingNuts.map((nut, i) => (
           <motion.img
             key={i}
-            src={nut.src}
+            src={nut.src.src}
             alt=""
             className={`absolute pointer-events-none drop-shadow-xl ${nut.className}`}
-            animate={{ 
+            animate={{
               y: ["-8px", "8px", "-8px"]
             }}
             transition={{ duration: 4 + i * 0.5, repeat: Infinity, ease: "easeInOut", delay: nut.delay }}

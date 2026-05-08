@@ -2,6 +2,7 @@ import jarImage1 from "figma:asset/0d50403659dbeb714860454d0322380314619c03.png"
 import jarImage2 from "figma:asset/e532d51a5ba627aaa554d0454c4e4a1e20c1780c.png";
 import jarImage3 from "figma:asset/bafcbb36618376f2be6baa21a502e6dde5d503ce.png";
 import { Star, ShoppingCart, Heart } from 'lucide-react';
+import Image from "next/image";
 
 const bestSellers = [
   {
@@ -102,7 +103,7 @@ export function BestSellers() {
             >
               {/* Product Image */}
               <div className="relative h-64 md:h-72 lg:h-80 overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100">
-                <img 
+                <Image
                   src={product.image}
                   alt={product.name}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"

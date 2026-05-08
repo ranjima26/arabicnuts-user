@@ -1,4 +1,4 @@
-import svgPaths from "./svg-726duzcga2";
+import svgPaths from "./svg-726duzcga2"
 import imgChatGptImageMar162026112108Am1 from "@/assets/07719174ecd19efeb79d22ddda1e5a4b50c21394.png";
 import imgChatGptImageFeb172026010301Pm1 from "@/assets/0d50403659dbeb714860454d0322380314619c03.png";
 import imgChatGptImageFeb172026010301Pm2 from "@/assets/e532d51a5ba627aaa554d0454c4e4a1e20c1780c.png";
@@ -21,13 +21,14 @@ import imgObject3 from "@/assets/c344b3da9eeb6df01d966269130958792e0fb116.png";
 import imgChatGptImageFeb202026120533Pm1 from "@/assets/db3a77284adce3df82a8cd0d088a6e9a4b0cfa4f.png";
 import imgFrame8 from "@/assets/b62d98777bde6fa4c9383bcbe46df6681961a15e.png";
 import imgFrame9 from "@/assets/5e72bbb9a47ea7e8217a8f2a210b8120d125dbfc.png";
+import Image from "next/image";
 
 function Group3() {
   return (
     <div className="absolute contents left-0 top-0">
       <div className="absolute h-[229.087px] left-0 top-0 w-[240.092px]" data-name="ChatGPT Image Feb 17, 2026, 01_03_01 PM 1">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <img alt="" className="absolute h-[157.21%] left-0 max-w-none top-[-29.26%] w-full" src={imgChatGptImageFeb172026010301Pm1} />
+          <Image alt="" className="absolute h-[157.21%] left-0 max-w-none top-[-29.26%] w-full" src={imgChatGptImageFeb172026010301Pm1.src} />
         </div>
       </div>
     </div>
@@ -61,7 +62,7 @@ function Group4() {
     <div className="grid-cols-[max-content] grid-rows-[max-content] inline-grid leading-[0] place-items-start relative shrink-0">
       <div className="col-1 h-[229.087px] ml-0 mt-0 relative row-1 w-[240.092px]" data-name="ChatGPT Image Feb 17, 2026, 01_03_01 PM 2">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <img alt="" className="absolute h-[156.71%] left-[-0.16%] max-w-none top-[-29.06%] w-[100.32%]" src={imgChatGptImageFeb172026010301Pm2} />
+          <Image alt="" className="absolute h-[156.71%] left-[-0.16%] max-w-none top-[-29.06%] w-[100.32%]" src={imgChatGptImageFeb172026010301Pm2} />
         </div>
       </div>
     </div>
@@ -95,7 +96,7 @@ function Group15() {
     <div className="grid-cols-[max-content] grid-rows-[max-content] inline-grid leading-[0] place-items-start relative shrink-0">
       <div className="col-1 h-[229.087px] ml-0 mt-0 relative row-1 w-[240.092px]" data-name="ChatGPT Image Feb 17, 2026, 01_03_01 PM 2">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <img alt="" className="absolute h-[157.21%] left-0 max-w-none top-[-29.26%] w-full" src={imgChatGptImageFeb172026010301Pm3} />
+          <Image alt="" className="absolute h-[157.21%] left-0 max-w-none top-[-29.26%] w-full" src={imgChatGptImageFeb172026010301Pm3.src} />
         </div>
       </div>
     </div>
@@ -129,7 +130,7 @@ function Group5() {
     <div className="grid-cols-[max-content] grid-rows-[max-content] inline-grid leading-[0] place-items-start relative shrink-0">
       <div className="col-1 h-[229.087px] ml-0 mt-0 relative row-1 w-[240.092px]" data-name="ChatGPT Image Feb 17, 2026, 01_03_01 PM 2">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <img alt="" className="absolute h-[156.71%] left-[-0.16%] max-w-none top-[-29.06%] w-[100.32%]" src={imgChatGptImageFeb172026010301Pm2} />
+          <img alt="" className="absolute h-[156.71%] left-[-0.16%] max-w-none top-[-29.06%] w-[100.32%]" src={imgChatGptImageFeb172026010301Pm2.src} />
         </div>
       </div>
     </div>
@@ -165,7 +166,7 @@ function Group6() {
         <div className="-scale-y-100 flex-none rotate-180">
           <div className="h-[229.087px] relative w-[240.092px]" data-name="ChatGPT Image Feb 17, 2026, 01_03_01 PM 2">
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <img alt="" className="absolute h-[156.22%] left-[-0.31%] max-w-none top-[-28.87%] w-[100.63%]" src={imgChatGptImageFeb172026010301Pm4} />
+              <Image alt="" className="absolute h-[156.22%] left-[-0.31%] max-w-none top-[-28.87%] w-[100.63%]" src={imgChatGptImageFeb172026010301Pm4.src} />
             </div>
           </div>
         </div>
@@ -224,7 +225,7 @@ function Frame8() {
         <div className="-scale-y-100 flex-none rotate-180 w-full">
           <div className="aspect-[240/229] relative size-full" data-name="ChatGPT Image Feb 17, 2026, 01_03_01 PM 2">
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <img alt="" className="absolute h-[157.21%] left-0 max-w-none top-[-29.26%] w-full" src={imgChatGptImageFeb172026010301Pm3} />
+              <Image alt="" className="absolute h-[157.21%] left-0 max-w-none top-[-29.26%] w-full" src={imgChatGptImageFeb172026010301Pm3} />
             </div>
           </div>
         </div>
@@ -254,7 +255,7 @@ function Frame9() {
         <div className="-scale-y-100 flex-none rotate-180 w-full">
           <div className="aspect-[240/229] relative size-full" data-name="ChatGPT Image Feb 17, 2026, 01_03_01 PM 2">
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <img alt="" className="absolute h-[156.71%] left-[-0.16%] max-w-none top-[-29.06%] w-[100.32%]" src={imgChatGptImageFeb172026010301Pm2} />
+              <Image alt="" className="absolute h-[156.71%] left-[-0.16%] max-w-none top-[-29.06%] w-[100.32%]" src={imgChatGptImageFeb172026010301Pm2} />
             </div>
           </div>
         </div>
@@ -284,7 +285,7 @@ function Frame15() {
         <div className="-scale-y-100 flex-none rotate-180 w-full">
           <div className="aspect-[240/229] relative size-full" data-name="ChatGPT Image Feb 17, 2026, 01_03_01 PM 1">
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <img alt="" className="absolute h-[156.71%] left-[-0.16%] max-w-none top-[-29.06%] w-[100.32%]" src={imgChatGptImageFeb172026010301Pm5} />
+              <Image alt="" className="absolute h-[156.71%] left-[-0.16%] max-w-none top-[-29.06%] w-[100.32%]" src={imgChatGptImageFeb172026010301Pm5} />
             </div>
           </div>
         </div>
@@ -321,13 +322,13 @@ function Group27() {
   return (
     <div className="-translate-x-1/2 absolute contents left-[calc(50%+431px)] top-[5413px]">
       <div className="-translate-x-1/2 absolute left-[calc(50%+246px)] opacity-75 size-[90px] top-[5547px]">
-        <img alt="" className="absolute block max-w-none size-full" height="90" src={imgEllipse4} width="90" />
+        <Image alt="" className="absolute block max-w-none size-full" height="90" src={imgEllipse4} width="90" />
       </div>
       <div className="-translate-x-1/2 absolute left-[calc(50%+368px)] opacity-75 size-[90px] top-[5413px]">
-        <img alt="" className="absolute block max-w-none size-full" height="90" src={imgEllipse5} width="90" />
+        <Image alt="" className="absolute block max-w-none size-full" height="90" src={imgEllipse5} width="90" />
       </div>
       <div className="-translate-x-1/2 absolute left-[calc(50%+484px)] opacity-75 size-[90px] top-[5606px]">
-        <img alt="" className="absolute block max-w-none size-full" height="90" src={imgEllipse6} width="90" />
+        <Image alt="" className="absolute block max-w-none size-full" height="90" src={imgEllipse6} width="90" />
       </div>
       <div className="-translate-x-1/2 absolute left-[calc(50%+505.5px)] size-[45px] top-[5458px]">
         <svg className="absolute block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 45 45">
@@ -404,21 +405,21 @@ function Group28() {
       <div className="-translate-x-1/2 absolute flex items-center justify-center left-[calc(50%-241px)] size-[90px] top-[5538px]">
         <div className="-scale-y-100 flex-none rotate-180">
           <div className="opacity-75 relative size-[90px]">
-            <img alt="" className="absolute block max-w-none size-full" height="90" src={imgEllipse7} width="90" />
+            <Image alt="" className="absolute block max-w-none size-full" height="90" src={imgEllipse7} width="90" />
           </div>
         </div>
       </div>
       <div className="-translate-x-1/2 absolute flex items-center justify-center left-[calc(50%-363px)] size-[90px] top-[5404px]">
         <div className="-scale-y-100 flex-none rotate-180">
           <div className="opacity-75 relative size-[90px]">
-            <img alt="" className="absolute block max-w-none size-full" height="90" src={imgEllipse8} width="90" />
+            <Image alt="" className="absolute block max-w-none size-full" height="90" src={imgEllipse8} width="90" />
           </div>
         </div>
       </div>
       <div className="-translate-x-1/2 absolute flex items-center justify-center left-[calc(50%-479px)] size-[90px] top-[5597px]">
         <div className="-scale-y-100 flex-none rotate-180">
           <div className="opacity-75 relative size-[90px]">
-            <img alt="" className="absolute block max-w-none size-full" height="90" src={imgEllipse9} width="90" />
+            <Image alt="" className="absolute block max-w-none size-full" height="90" src={imgEllipse9} width="90" />
           </div>
         </div>
       </div>
@@ -529,7 +530,7 @@ function Group46() {
         Nadiya S., Bengaluru
       </p>
       <div className="-translate-x-1/2 absolute left-[calc(50%+21px)] size-[150px] top-[5458px]">
-        <img alt="" className="absolute block max-w-none size-full" height="150" src={imgEllipse3} width="150" />
+        <Image alt="" className="absolute block max-w-none size-full" height="150" src={imgEllipse3} width="150" />
       </div>
       <Group27 />
       <Group28 />
@@ -542,12 +543,12 @@ function Group29() {
     <div className="absolute contents left-[175px] top-[6008px]">
       <div className="absolute h-[46px] left-[175px] top-[6008px] w-[49.016px]" data-name="arabic nuts logo_png 1">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <img alt="" className="absolute h-[445.9%] left-[-158.46%] max-w-none top-[-135.9%] w-[418.46%]" src={imgArabicNutsLogoPng1} />
+          <Image alt="" className="absolute h-[445.9%] left-[-158.46%] max-w-none top-[-135.9%] w-[418.46%]" src={imgArabicNutsLogoPng1} />
         </div>
       </div>
       <div className="absolute h-[39.989px] left-[218.61px] top-[6014px] w-[132.648px]" data-name="arabic nuts logo_png 2">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <img alt="" className="absolute h-[663.41%] left-[-48.53%] max-w-none top-[-350.97%] w-[200%]" src={imgArabicNutsLogoPng1} />
+          <Image alt="" className="absolute h-[663.41%] left-[-48.53%] max-w-none top-[-350.97%] w-[200%]" src={imgArabicNutsLogoPng1} />
         </div>
       </div>
     </div>
@@ -618,7 +619,8 @@ function Group() {
       <svg className="absolute block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 36 41.628">
         <g id="Group">
           <g id="Vector" />
-          <path d={svgPaths.p16bcd900} fill="var(--fill-0, white)" id="Vector_2" />
+          {/* <path d={svgPaths.p16bcd900} fill="var(--fill-0, white)" id="Vector_2" /> */}
+          <svg />
         </g>
       </svg>
     </div>
@@ -795,14 +797,14 @@ function Group43() {
     <div className="absolute contents left-[-464px] top-[1036.02px]">
       <div className="-translate-x-1/2 absolute h-[749px] left-[calc(50%+1.5px)] opacity-20 top-[2877px] w-[711px]" data-name="arabic nuts logo_png 3">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <img alt="" className="absolute h-[169.94%] left-[-39.75%] max-w-none top-[-34.65%] w-[179.24%]" src={imgArabicNutsLogoPng3} />
+          <Image alt="" className="absolute h-[169.94%] left-[-39.75%] max-w-none top-[-34.65%] w-[179.24%]" src={imgArabicNutsLogoPng3} />
         </div>
       </div>
       <div className="absolute flex inset-[44.57%_14.5%_53.69%_76.85%] items-center justify-center">
         <div className="flex-none h-[103.741px] rotate-[61.74deg] skew-x-[-2.88deg] w-[78.073px]">
           <div className="relative shadow-[-50px_25px_16px_0px_rgba(0,0,0,0),-32px_16px_14px_0px_rgba(0,0,0,0.01),-18px_9px_12px_0px_rgba(0,0,0,0.05),-8px_4px_9px_0px_rgba(0,0,0,0.09),-2px_1px_5px_0px_rgba(0,0,0,0.1)] size-full" data-name="Object">
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <img alt="" className="absolute left-0 max-w-none size-full top-0" src={imgObject} />
+              <Image alt="" className="absolute left-0 max-w-none size-full top-0" src={imgObject} />
             </div>
           </div>
         </div>
@@ -819,7 +821,7 @@ function Group43() {
         <div className="flex-none h-[491.102px] rotate-[12.16deg] skew-x-[-1.56deg] w-[432.726px]">
           <div className="relative shadow-[-465px_-61px_131px_0px_rgba(0,0,0,0),-298px_-39px_120px_0px_rgba(0,0,0,0.01),-168px_-22px_101px_0px_rgba(0,0,0,0.05),-74px_-10px_75px_0px_rgba(0,0,0,0.09),-19px_-2px_41px_0px_rgba(0,0,0,0.1)] size-full" data-name="Object">
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <img alt="" className="absolute left-0 max-w-none size-full top-0" src={imgObject1} />
+              <Image alt="" className="absolute left-0 max-w-none size-full top-0" src={imgObject1} />
             </div>
           </div>
         </div>
@@ -828,7 +830,7 @@ function Group43() {
         <div className="flex-none h-[100.595px] rotate-[31.59deg] skew-x-[-3.28deg] w-[80.544px]">
           <div className="relative shadow-[-50px_25px_16px_0px_rgba(0,0,0,0),-32px_16px_14px_0px_rgba(0,0,0,0.01),-18px_9px_12px_0px_rgba(0,0,0,0.05),-8px_4px_9px_0px_rgba(0,0,0,0.09),-2px_1px_5px_0px_rgba(0,0,0,0.1)] size-full" data-name="Object">
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <img alt="" className="absolute left-0 max-w-none size-full top-0" src={imgObject} />
+              <Image alt="" className="absolute left-0 max-w-none size-full top-0" src={imgObject} />
             </div>
           </div>
         </div>
@@ -837,7 +839,7 @@ function Group43() {
         <div className="flex-none h-[100.595px] rotate-[31.59deg] skew-x-[-3.28deg] w-[80.544px]">
           <div className="relative shadow-[-50px_25px_16px_0px_rgba(0,0,0,0),-32px_16px_14px_0px_rgba(0,0,0,0.01),-18px_9px_12px_0px_rgba(0,0,0,0.05),-8px_4px_9px_0px_rgba(0,0,0,0.09),-2px_1px_5px_0px_rgba(0,0,0,0.1)] size-full" data-name="Object">
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <img alt="" className="absolute left-0 max-w-none size-full top-0" src={imgObject} />
+              <Image alt="" className="absolute left-0 max-w-none size-full top-0" src={imgObject} />
             </div>
           </div>
         </div>
@@ -846,7 +848,7 @@ function Group43() {
         <div className="flex-none h-[104.991px] rotate-[87.63deg] skew-x-[-0.28deg] w-[77.047px]">
           <div className="relative shadow-[-50px_25px_16px_0px_rgba(0,0,0,0),-32px_16px_14px_0px_rgba(0,0,0,0.01),-18px_9px_12px_0px_rgba(0,0,0,0.05),-8px_4px_9px_0px_rgba(0,0,0,0.09),-2px_1px_5px_0px_rgba(0,0,0,0.1)] size-full" data-name="Object">
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <img alt="" className="absolute left-0 max-w-none size-full top-0" src={imgObject} />
+              <Image alt="" className="absolute left-0 max-w-none size-full top-0" src={imgObject} />
             </div>
           </div>
         </div>
@@ -855,7 +857,7 @@ function Group43() {
         <div className="flex-none h-[104.991px] rotate-[87.63deg] skew-x-[-0.28deg] w-[77.047px]">
           <div className="relative shadow-[-50px_25px_16px_0px_rgba(0,0,0,0),-32px_16px_14px_0px_rgba(0,0,0,0.01),-18px_9px_12px_0px_rgba(0,0,0,0.05),-8px_4px_9px_0px_rgba(0,0,0,0.09),-2px_1px_5px_0px_rgba(0,0,0,0.1)] size-full" data-name="Object">
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <img alt="" className="absolute left-0 max-w-none size-full top-0" src={imgObject} />
+              <Image alt="" className="absolute left-0 max-w-none size-full top-0" src={imgObject} />
             </div>
           </div>
         </div>
@@ -864,7 +866,7 @@ function Group43() {
         <div className="flex-none h-[104.991px] rotate-[156.98deg] skew-x-[-0.28deg] w-[77.047px]">
           <div className="relative shadow-[-50px_25px_16px_0px_rgba(0,0,0,0),-32px_16px_14px_0px_rgba(0,0,0,0.01),-18px_9px_12px_0px_rgba(0,0,0,0.05),-8px_4px_9px_0px_rgba(0,0,0,0.09),-2px_1px_5px_0px_rgba(0,0,0,0.1)] size-full" data-name="Object">
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <img alt="" className="absolute left-0 max-w-none size-full top-0" src={imgObject} />
+              <Image alt="" className="absolute left-0 max-w-none size-full top-0" src={imgObject} />
             </div>
           </div>
         </div>
@@ -873,7 +875,7 @@ function Group43() {
         <div className="flex-none h-[104.991px] rotate-[87.63deg] skew-x-[-0.28deg] w-[77.047px]">
           <div className="relative shadow-[-50px_25px_16px_0px_rgba(0,0,0,0),-32px_16px_14px_0px_rgba(0,0,0,0.01),-18px_9px_12px_0px_rgba(0,0,0,0.05),-8px_4px_9px_0px_rgba(0,0,0,0.09),-2px_1px_5px_0px_rgba(0,0,0,0.1)] size-full" data-name="Object">
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <img alt="" className="absolute left-0 max-w-none size-full top-0" src={imgObject} />
+              <Image alt="" className="absolute left-0 max-w-none size-full top-0" src={imgObject} />
             </div>
           </div>
         </div>
@@ -882,7 +884,7 @@ function Group43() {
         <div className="flex-none h-[114.046px] rotate-[65.09deg] skew-x-[-2.62deg] w-[85.366px]">
           <div className="relative shadow-[-50px_25px_16px_0px_rgba(0,0,0,0),-32px_16px_14px_0px_rgba(0,0,0,0.01),-18px_9px_12px_0px_rgba(0,0,0,0.05),-8px_4px_9px_0px_rgba(0,0,0,0.09),-2px_1px_5px_0px_rgba(0,0,0,0.1)] size-full" data-name="Object">
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <img alt="" className="absolute h-[100.01%] left-0 max-w-none top-0 w-[99.99%]" src={imgObject2} />
+              <Image alt="" className="absolute h-[100.01%] left-0 max-w-none top-0 w-[99.99%]" src={imgObject2} />
             </div>
           </div>
         </div>
@@ -891,7 +893,7 @@ function Group43() {
         <div className="flex-none h-[114.366px] rotate-[-69.2deg] skew-x-[2.26deg] w-[85.105px]">
           <div className="relative shadow-[-50px_25px_16px_0px_rgba(0,0,0,0),-32px_16px_14px_0px_rgba(0,0,0,0.01),-18px_9px_12px_0px_rgba(0,0,0,0.05),-8px_4px_9px_0px_rgba(0,0,0,0.09),-2px_1px_5px_0px_rgba(0,0,0,0.1)] size-full" data-name="Object">
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <img alt="" className="absolute h-[100.01%] left-0 max-w-none top-0 w-[99.99%]" src={imgObject2} />
+              <Image alt="" className="absolute h-[100.01%] left-0 max-w-none top-0 w-[99.99%]" src={imgObject2} />
             </div>
           </div>
         </div>
@@ -900,7 +902,7 @@ function Group43() {
         <div className="flex-none h-[117.864px] rotate-[-69.2deg] skew-x-[2.26deg] w-[92.046px]">
           <div className="relative shadow-[-50px_25px_16px_0px_rgba(0,0,0,0),-32px_16px_14px_0px_rgba(0,0,0,0.01),-18px_9px_12px_0px_rgba(0,0,0,0.05),-8px_4px_9px_0px_rgba(0,0,0,0.09),-2px_1px_5px_0px_rgba(0,0,0,0.1)] size-full" data-name="Object">
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <img alt="" className="absolute h-[100.01%] left-0 max-w-none top-0 w-[99.99%]" src={imgObject2} />
+              <Image alt="" className="absolute h-[100.01%] left-0 max-w-none top-0 w-[99.99%]" src={imgObject2} />
             </div>
           </div>
         </div>
@@ -909,7 +911,7 @@ function Group43() {
         <div className="flex-none h-[117.864px] rotate-[-104.73deg] skew-x-[2.26deg] w-[92.046px]">
           <div className="relative shadow-[-50px_25px_16px_0px_rgba(0,0,0,0),-32px_16px_14px_0px_rgba(0,0,0,0.01),-18px_9px_12px_0px_rgba(0,0,0,0.05),-8px_4px_9px_0px_rgba(0,0,0,0.09),-2px_1px_5px_0px_rgba(0,0,0,0.1)] size-full" data-name="Object">
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <img alt="" className="absolute h-[100.01%] left-0 max-w-none top-0 w-[99.99%]" src={imgObject2} />
+              <Image alt="" className="absolute h-[100.01%] left-0 max-w-none top-0 w-[99.99%]" src={imgObject2} />
             </div>
           </div>
         </div>
@@ -918,7 +920,7 @@ function Group43() {
         <div className="flex-none h-[117.864px] rotate-[18.63deg] skew-x-[2.26deg] w-[92.046px]">
           <div className="relative shadow-[-50px_25px_16px_0px_rgba(0,0,0,0),-32px_16px_14px_0px_rgba(0,0,0,0.01),-18px_9px_12px_0px_rgba(0,0,0,0.05),-8px_4px_9px_0px_rgba(0,0,0,0.09),-2px_1px_5px_0px_rgba(0,0,0,0.1)] size-full" data-name="Object">
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <img alt="" className="absolute h-[100.01%] left-0 max-w-none top-0 w-[99.99%]" src={imgObject2} />
+              <Image alt="" className="absolute h-[100.01%] left-0 max-w-none top-0 w-[99.99%]" src={imgObject2} />
             </div>
           </div>
         </div>
@@ -927,7 +929,7 @@ function Group43() {
         <div className="flex-none h-[109.606px] rotate-[-154.73deg] skew-x-[-2.87deg] w-[88.842px]">
           <div className="relative shadow-[-50px_25px_16px_0px_rgba(0,0,0,0),-32px_16px_14px_0px_rgba(0,0,0,0.01),-18px_9px_12px_0px_rgba(0,0,0,0.05),-8px_4px_9px_0px_rgba(0,0,0,0.09),-2px_1px_5px_0px_rgba(0,0,0,0.1)] size-full" data-name="Object">
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <img alt="" className="absolute h-[100.01%] left-0 max-w-none top-0 w-[99.99%]" src={imgObject2} />
+              <Image alt="" className="absolute h-[100.01%] left-0 max-w-none top-0 w-[99.99%]" src={imgObject2} />
             </div>
           </div>
         </div>
@@ -936,7 +938,7 @@ function Group43() {
         <div className="flex-none h-[102.807px] rotate-[128.13deg] skew-x-[3.41deg] w-[78.822px]">
           <div className="relative shadow-[-50px_25px_16px_0px_rgba(0,0,0,0),-32px_16px_14px_0px_rgba(0,0,0,0.01),-18px_9px_12px_0px_rgba(0,0,0,0.05),-8px_4px_9px_0px_rgba(0,0,0,0.09),-2px_1px_5px_0px_rgba(0,0,0,0.1)] size-full" data-name="Object">
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <img alt="" className="absolute left-0 max-w-none size-full top-0" src={imgObject} />
+              <Image alt="" className="absolute left-0 max-w-none size-full top-0" src={imgObject} />
             </div>
           </div>
         </div>
@@ -945,7 +947,7 @@ function Group43() {
         <div className="flex-none h-[699.55px] rotate-[-53.81deg] w-[518px]">
           <div className="relative shadow-[-149px_199px_70px_0px_rgba(0,0,0,0),-95px_127px_64px_0px_rgba(0,0,0,0.01),-54px_72px_54px_0px_rgba(0,0,0,0.05),-24px_32px_40px_0px_rgba(0,0,0,0.09),-6px_8px_22px_0px_rgba(0,0,0,0.1)] size-full" data-name="Object">
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <img alt="" className="absolute h-[67.19%] left-0 max-w-none top-[32.81%] w-full" src={imgObject3} />
+              <Image alt="" className="absolute h-[67.19%] left-0 max-w-none top-[32.81%] w-full" src={imgObject3} />
             </div>
           </div>
         </div>
@@ -1043,7 +1045,7 @@ function Group2() {
     <div className="absolute contents left-[114px] top-[4085px]">
       <div className="absolute h-[190px] left-[114px] top-[4085px] w-[199.127px]" data-name="ChatGPT Image Feb 17, 2026, 01_03_01 PM 1">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <img alt="" className="absolute h-[157.21%] left-0 max-w-none top-[-29.26%] w-full" src={imgChatGptImageFeb172026010301Pm1} />
+          <Image alt="" className="absolute h-[157.21%] left-0 max-w-none top-[-29.26%] w-full" src={imgChatGptImageFeb172026010301Pm1} />
         </div>
       </div>
     </div>
@@ -1127,7 +1129,7 @@ function Group7() {
     <div className="absolute contents left-[114px] top-[4355px]">
       <div className="absolute h-[190px] left-[114px] top-[4355px] w-[199.127px]" data-name="ChatGPT Image Feb 17, 2026, 01_03_01 PM 1">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <img alt="" className="absolute h-[157.21%] left-0 max-w-none top-[-29.26%] w-full" src={imgChatGptImageFeb172026010301Pm1} />
+          <Image alt="" className="absolute h-[157.21%] left-0 max-w-none top-[-29.26%] w-full" src={imgChatGptImageFeb172026010301Pm1} />
         </div>
       </div>
     </div>
@@ -1211,7 +1213,7 @@ function Group9() {
     <div className="absolute contents left-[560px] top-[4085px]">
       <div className="absolute h-[190px] left-[560px] top-[4085px] w-[199.127px]" data-name="ChatGPT Image Feb 17, 2026, 01_03_01 PM 1">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <img alt="" className="absolute h-[157.21%] left-0 max-w-none top-[-29.26%] w-full" src={imgChatGptImageFeb172026010301Pm1} />
+          <Image alt="" className="absolute h-[157.21%] left-0 max-w-none top-[-29.26%] w-full" src={imgChatGptImageFeb172026010301Pm1} />
         </div>
       </div>
     </div>
@@ -1295,7 +1297,7 @@ function Group10() {
     <div className="absolute contents left-[560px] top-[4355px]">
       <div className="absolute h-[190px] left-[560px] top-[4355px] w-[199.127px]" data-name="ChatGPT Image Feb 17, 2026, 01_03_01 PM 1">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <img alt="" className="absolute h-[157.21%] left-0 max-w-none top-[-29.26%] w-full" src={imgChatGptImageFeb172026010301Pm1} />
+          <Image alt="" className="absolute h-[157.21%] left-0 max-w-none top-[-29.26%] w-full" src={imgChatGptImageFeb172026010301Pm1} />
         </div>
       </div>
     </div>
@@ -1379,7 +1381,7 @@ function Group13() {
     <div className="absolute contents left-[1006px] top-[4085px]">
       <div className="absolute h-[190px] left-[1006px] top-[4085px] w-[199.127px]" data-name="ChatGPT Image Feb 17, 2026, 01_03_01 PM 1">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <img alt="" className="absolute h-[157.21%] left-0 max-w-none top-[-29.26%] w-full" src={imgChatGptImageFeb172026010301Pm1} />
+          <Image alt="" className="absolute h-[157.21%] left-0 max-w-none top-[-29.26%] w-full" src={imgChatGptImageFeb172026010301Pm1} />
         </div>
       </div>
     </div>
@@ -1463,7 +1465,7 @@ function Group16() {
     <div className="absolute contents left-[1006px] top-[4355px]">
       <div className="absolute h-[190px] left-[1006px] top-[4355px] w-[199.127px]" data-name="ChatGPT Image Feb 17, 2026, 01_03_01 PM 1">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <img alt="" className="absolute h-[157.21%] left-0 max-w-none top-[-29.26%] w-full" src={imgChatGptImageFeb172026010301Pm1} />
+          <Image alt="" className="absolute h-[157.21%] left-0 max-w-none top-[-29.26%] w-full" src={imgChatGptImageFeb172026010301Pm1} />
         </div>
       </div>
     </div>
@@ -1619,14 +1621,14 @@ function Group58() {
         <div className="flex-none h-[148.575px] rotate-[114.81deg] skew-x-[2.61deg] w-[111.194px]">
           <div className="relative shadow-[-50px_25px_16px_0px_rgba(0,0,0,0),-32px_16px_14px_0px_rgba(0,0,0,0.01),-18px_9px_12px_0px_rgba(0,0,0,0.05),-8px_4px_9px_0px_rgba(0,0,0,0.09),-2px_1px_5px_0px_rgba(0,0,0,0.1)] size-full" data-name="Object">
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <img alt="" className="absolute h-[100.01%] left-0 max-w-none top-0 w-[99.99%]" src={imgObject2} />
+              <Image alt="" className="absolute h-[100.01%] left-0 max-w-none top-0 w-[99.99%]" src={imgObject2} />
             </div>
           </div>
         </div>
       </div>
       <div className="absolute h-[366px] left-[154px] shadow-[-20px_0px_6px_0px_rgba(0,0,0,0),-13px_0px_5px_0px_rgba(0,0,0,0.01),-7px_0px_4px_0px_rgba(0,0,0,0.05),-3px_0px_3px_0px_rgba(0,0,0,0.09),-1px_0px_2px_0px_rgba(0,0,0,0.1)] top-[4740px] w-[321px]" data-name="ChatGPT Image Feb 20, 2026, 12_05_33 PM 1">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <img alt="" className="absolute h-[110.22%] left-[0.07%] max-w-none top-[-4.65%] w-[187.07%]" src={imgChatGptImageFeb202026120533Pm1} />
+          <Image alt="" className="absolute h-[110.22%] left-[0.07%] max-w-none top-[-4.65%] w-[187.07%]" src={imgChatGptImageFeb202026120533Pm1} />
         </div>
       </div>
       <p className="-translate-x-1/2 absolute capitalize font-['Roboto:Regular',sans-serif] font-normal h-[43px] leading-[25px] left-[964.5px] text-[20px] text-center text-white top-[4904px] w-[409px]" style={{ fontVariationSettings: "'wdth' 100" }}>{`Perfect for weddings, corporate gifting & festive celebrations.`}</p>
@@ -1634,7 +1636,7 @@ function Group58() {
         <div className="flex-none h-[104.991px] rotate-[92.31deg] skew-x-[0.27deg] w-[77.046px]">
           <div className="relative shadow-[-50px_25px_16px_0px_rgba(0,0,0,0),-32px_16px_14px_0px_rgba(0,0,0,0.01),-18px_9px_12px_0px_rgba(0,0,0,0.05),-8px_4px_9px_0px_rgba(0,0,0,0.09),-2px_1px_5px_0px_rgba(0,0,0,0.1)] size-full" data-name="Object">
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <img alt="" className="absolute left-0 max-w-none size-full top-0" src={imgObject} />
+              <Image alt="" className="absolute left-0 max-w-none size-full top-0" src={imgObject} />
             </div>
           </div>
         </div>
@@ -1643,7 +1645,7 @@ function Group58() {
         <div className="flex-none h-[100.66px] rotate-[32.21deg] skew-x-[-3.31deg] w-[80.494px]">
           <div className="relative shadow-[-50px_25px_16px_0px_rgba(0,0,0,0),-32px_16px_14px_0px_rgba(0,0,0,0.01),-18px_9px_12px_0px_rgba(0,0,0,0.05),-8px_4px_9px_0px_rgba(0,0,0,0.09),-2px_1px_5px_0px_rgba(0,0,0,0.1)] size-full" data-name="Object">
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <img alt="" className="absolute left-0 max-w-none size-full top-0" src={imgObject} />
+              <Image alt="" className="absolute left-0 max-w-none size-full top-0" src={imgObject} />
             </div>
           </div>
         </div>
@@ -1652,7 +1654,7 @@ function Group58() {
         <div className="flex-none h-[148.564px] rotate-[65.09deg] skew-x-[-2.62deg] w-[111.203px]">
           <div className="relative shadow-[-50px_25px_16px_0px_rgba(0,0,0,0),-32px_16px_14px_0px_rgba(0,0,0,0.01),-18px_9px_12px_0px_rgba(0,0,0,0.05),-8px_4px_9px_0px_rgba(0,0,0,0.09),-2px_1px_5px_0px_rgba(0,0,0,0.1)] size-full" data-name="Object">
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <img alt="" className="absolute h-[100.01%] left-0 max-w-none top-0 w-[99.99%]" src={imgObject2} />
+              <Image alt="" className="absolute h-[100.01%] left-0 max-w-none top-0 w-[99.99%]" src={imgObject2} />
             </div>
           </div>
         </div>
@@ -1715,7 +1717,7 @@ export default function Home() {
   return (
     <div className="bg-white relative size-full" data-name="home">
       <div className="-translate-x-1/2 absolute h-[993px] left-1/2 rounded-[25px] top-[11px] w-[1490px]" data-name="ChatGPT Image Mar 16, 2026, 11_21_08 AM 1">
-        <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none rounded-[25px] size-full" src={imgChatGptImageMar162026112108Am1} />
+        <Image alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none rounded-[25px] size-full" src={imgChatGptImageMar162026112108Am1} />
       </div>
       <Group42 />
       <Group46 />
@@ -1730,7 +1732,7 @@ export default function Home() {
           <div className="flex-none rotate-[-50.22deg]">
             <div className="h-[766.245px] relative w-[767.583px]">
               <div className="absolute inset-[-19.58%_-19.54%]">
-                <img alt="" className="block max-w-none size-full" height="1066.248" src={imgFrame8} width="1067.586" />
+                <Image alt="" className="block max-w-none size-full" height="1066.248" src={imgFrame8} width="1067.586" />
               </div>
             </div>
           </div>
@@ -1739,7 +1741,7 @@ export default function Home() {
         <div className="absolute contents left-[263px] top-[639px]">
           <div className="absolute h-[108px] left-[263px] shadow-[36px_0px_10px_0px_rgba(0,0,0,0),23px_0px_9px_0px_rgba(0,0,0,0.01),13px_0px_8px_0px_rgba(0,0,0,0.05),6px_0px_6px_0px_rgba(0,0,0,0.09),1px_0px_3px_0px_rgba(0,0,0,0.1)] top-[639px] w-[100px]" data-name="variety-nuts-bowls 1">
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <img alt="" className="absolute h-[347.47%] left-[0.07%] max-w-none top-[-5.05%] w-[296.59%]" src={imgFrame9} />
+              <Image alt="" className="absolute h-[347.47%] left-[0.07%] max-w-none top-[-5.05%] w-[296.59%]" src={imgFrame9} />
             </div>
           </div>
           <p className="-translate-x-1/2 absolute capitalize font-['Roboto:Medium',sans-serif] font-medium leading-[17px] left-[312.5px] text-[#373737] text-[16px] text-center top-[751px] w-[81px]" style={{ fontVariationSettings: "'wdth' 100" }}>
@@ -1749,7 +1751,7 @@ export default function Home() {
         <button className="absolute contents cursor-pointer left-[393px] top-[639px]">
           <div className="absolute h-[108px] left-[393px] shadow-[36px_0px_10px_0px_rgba(0,0,0,0),23px_0px_9px_0px_rgba(0,0,0,0.01),13px_0px_8px_0px_rgba(0,0,0,0.05),6px_0px_6px_0px_rgba(0,0,0,0.09),1px_0px_3px_0px_rgba(0,0,0,0.1)] top-[639px] w-[100px]" data-name="variety-nuts-bowls 1">
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <img alt="" className="absolute h-[347.47%] left-[-99.93%] max-w-none top-[-5.05%] w-[296.59%]" src={imgFrame9} />
+              <Image alt="" className="absolute h-[347.47%] left-[-99.93%] max-w-none top-[-5.05%] w-[296.59%]" src={imgFrame9} />
             </div>
           </div>
           <p className="-translate-x-1/2 absolute capitalize font-['Roboto:Medium',sans-serif] font-medium leading-[17px] left-[442.5px] text-[#373737] text-[16px] text-center top-[751px] w-[81px]" style={{ fontVariationSettings: "'wdth' 100" }}>
@@ -1759,7 +1761,7 @@ export default function Home() {
         <button className="absolute contents cursor-pointer left-[523px] top-[639px]">
           <div className="absolute h-[108px] left-[523px] shadow-[36px_0px_10px_0px_rgba(0,0,0,0),23px_0px_9px_0px_rgba(0,0,0,0.01),13px_0px_8px_0px_rgba(0,0,0,0.05),6px_0px_6px_0px_rgba(0,0,0,0.09),1px_0px_3px_0px_rgba(0,0,0,0.1)] top-[639px] w-[100px]" data-name="variety-nuts-bowls 1">
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <img alt="" className="absolute h-[347.47%] left-[-196.93%] max-w-none top-[-116.16%] w-[296.59%]" src={imgFrame9} />
+              <Image alt="" className="absolute h-[347.47%] left-[-196.93%] max-w-none top-[-116.16%] w-[296.59%]" src={imgFrame9} />
             </div>
           </div>
           <p className="-translate-x-1/2 absolute capitalize font-['Roboto:Medium',sans-serif] font-medium leading-[17px] left-[572.5px] text-[#373737] text-[16px] text-center top-[751px] w-[81px]" style={{ fontVariationSettings: "'wdth' 100" }}>
@@ -1769,7 +1771,7 @@ export default function Home() {
         <button className="absolute contents cursor-pointer left-[653px] top-[636px]">
           <div className="absolute h-[108px] left-[653px] shadow-[36px_0px_10px_0px_rgba(0,0,0,0),23px_0px_9px_0px_rgba(0,0,0,0.01),13px_0px_8px_0px_rgba(0,0,0,0.05),6px_0px_6px_0px_rgba(0,0,0,0.09),1px_0px_3px_0px_rgba(0,0,0,0.1)] top-[636px] w-[100px]" data-name="variety-nuts-bowls 1">
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <img alt="" className="absolute h-[347.47%] left-[-97.93%] max-w-none top-[-116.16%] w-[296.59%]" src={imgFrame9} />
+              <Image alt="" className="absolute h-[347.47%] left-[-97.93%] max-w-none top-[-116.16%] w-[296.59%]" src={imgFrame9} />
             </div>
           </div>
           <p className="-translate-x-1/2 absolute capitalize font-['Roboto:Medium',sans-serif] font-medium leading-[17px] left-[702.5px] text-[#373737] text-[16px] text-center top-[748px] w-[81px]" style={{ fontVariationSettings: "'wdth' 100" }}>
@@ -1779,7 +1781,7 @@ export default function Home() {
         <button className="absolute contents cursor-pointer left-[783px] top-[636px]">
           <div className="absolute h-[108px] left-[783px] shadow-[36px_0px_10px_0px_rgba(0,0,0,0),23px_0px_9px_0px_rgba(0,0,0,0.01),13px_0px_8px_0px_rgba(0,0,0,0.05),6px_0px_6px_0px_rgba(0,0,0,0.09),1px_0px_3px_0px_rgba(0,0,0,0.1)] top-[636px] w-[100px]" data-name="variety-nuts-bowls 1">
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <img alt="" className="absolute h-[347.47%] left-[-0.93%] max-w-none top-[-116.16%] w-[296.59%]" src={imgFrame9} />
+              <Image alt="" className="absolute h-[347.47%] left-[-0.93%] max-w-none top-[-116.16%] w-[296.59%]" src={imgFrame9} />
             </div>
           </div>
           <p className="-translate-x-1/2 absolute capitalize font-['Roboto:Medium',sans-serif] font-medium leading-[17px] left-[832.5px] text-[#373737] text-[16px] text-center top-[748px] w-[81px]" style={{ fontVariationSettings: "'wdth' 100" }}>
@@ -1789,7 +1791,7 @@ export default function Home() {
         <button className="absolute contents cursor-pointer left-[913px] top-[639px]">
           <div className="absolute h-[108px] left-[913px] shadow-[36px_0px_10px_0px_rgba(0,0,0,0),23px_0px_9px_0px_rgba(0,0,0,0.01),13px_0px_8px_0px_rgba(0,0,0,0.05),6px_0px_6px_0px_rgba(0,0,0,0.09),1px_0px_3px_0px_rgba(0,0,0,0.1)] top-[639px] w-[100px]" data-name="variety-nuts-bowls 1">
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <img alt="" className="absolute h-[347.47%] left-[0.07%] max-w-none top-[-234.68%] w-[296.59%]" src={imgFrame9} />
+              <Image alt="" className="absolute h-[347.47%] left-[0.07%] max-w-none top-[-234.68%] w-[296.59%]" src={imgFrame9} />
             </div>
           </div>
           <p className="-translate-x-1/2 absolute capitalize font-['Roboto:Medium',sans-serif] font-medium leading-[17px] left-[962.5px] text-[#373737] text-[16px] text-center top-[751px] w-[81px]" style={{ fontVariationSettings: "'wdth' 100" }}>
@@ -1976,32 +1978,32 @@ export default function Home() {
         <div className="absolute h-[512px] left-[160px] overflow-clip top-0 w-[576px]">
           <div className="absolute h-[402px] left-[147px] shadow-[182px_72px_55px_0px_rgba(0,0,0,0),116px_46px_50px_0px_rgba(0,0,0,0.01),65px_26px_42px_0px_rgba(0,0,0,0.05),29px_11px_31px_0px_rgba(0,0,0,0.09),7px_3px_17px_0px_rgba(0,0,0,0.1)] top-[110px] w-[374px]" data-name="2">
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <img alt="" className="absolute h-[347.47%] left-[0.07%] max-w-none top-[-5.05%] w-[296.59%]" src={imgFrame9} />
+              <Image alt="" className="absolute h-[347.47%] left-[0.07%] max-w-none top-[-5.05%] w-[296.59%]" src={imgFrame9} />
             </div>
           </div>
           <div className="absolute h-[402px] left-[521px] shadow-[182px_72px_55px_0px_rgba(0,0,0,0),116px_46px_50px_0px_rgba(0,0,0,0.01),65px_26px_42px_0px_rgba(0,0,0,0.05),29px_11px_31px_0px_rgba(0,0,0,0.09),7px_3px_17px_0px_rgba(0,0,0,0.1)] top-[-312px] w-[374px]" data-name="3">
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <img alt="" className="absolute h-[347.47%] left-[-98.86%] max-w-none top-[-5.05%] w-[296.59%]" src={imgFrame9} />
+              <Image alt="" className="absolute h-[347.47%] left-[-98.86%] max-w-none top-[-5.05%] w-[296.59%]" src={imgFrame9} />
             </div>
           </div>
           <div className="absolute h-[402px] left-[895px] shadow-[182px_72px_55px_0px_rgba(0,0,0,0),116px_46px_50px_0px_rgba(0,0,0,0.01),65px_26px_42px_0px_rgba(0,0,0,0.05),29px_11px_31px_0px_rgba(0,0,0,0.09),7px_3px_17px_0px_rgba(0,0,0,0.1)] top-[-694px] w-[374px]" data-name="4">
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <img alt="" className="absolute h-[347.47%] left-[-195.11%] max-w-none top-[-116.99%] w-[296.59%]" src={imgFrame9} />
+              <Image alt="" className="absolute h-[347.47%] left-[-195.11%] max-w-none top-[-116.99%] w-[296.59%]" src={imgFrame9} />
             </div>
           </div>
           <div className="absolute h-[402px] left-[1269px] shadow-[182px_72px_55px_0px_rgba(0,0,0,0),116px_46px_50px_0px_rgba(0,0,0,0.01),65px_26px_42px_0px_rgba(0,0,0,0.05),29px_11px_31px_0px_rgba(0,0,0,0.09),7px_3px_17px_0px_rgba(0,0,0,0.1)] top-[-1085px] w-[374px]" data-name="5">
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <img alt="" className="absolute h-[347.47%] left-[-98.06%] max-w-none top-[-116.99%] w-[296.59%]" src={imgFrame9} />
+              <Image alt="" className="absolute h-[347.47%] left-[-98.06%] max-w-none top-[-116.99%] w-[296.59%]" src={imgFrame9} />
             </div>
           </div>
           <div className="absolute h-[402px] left-[1643px] shadow-[182px_72px_55px_0px_rgba(0,0,0,0),116px_46px_50px_0px_rgba(0,0,0,0.01),65px_26px_42px_0px_rgba(0,0,0,0.05),29px_11px_31px_0px_rgba(0,0,0,0.09),7px_3px_17px_0px_rgba(0,0,0,0.1)] top-[-1487px] w-[374px]" data-name="6">
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <img alt="" className="absolute h-[347.47%] left-[-0.19%] max-w-none top-[-116.99%] w-[296.59%]" src={imgFrame9} />
+              <Image alt="" className="absolute h-[347.47%] left-[-0.19%] max-w-none top-[-116.99%] w-[296.59%]" src={imgFrame9} />
             </div>
           </div>
           <div className="absolute h-[402px] left-[2017px] shadow-[182px_72px_55px_0px_rgba(0,0,0,0),116px_46px_50px_0px_rgba(0,0,0,0.01),65px_26px_42px_0px_rgba(0,0,0,0.05),29px_11px_31px_0px_rgba(0,0,0,0.09),7px_3px_17px_0px_rgba(0,0,0,0.1)] top-[-1889px] w-[374px]" data-name="7">
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <img alt="" className="absolute h-[347.47%] left-[-0.19%] max-w-none top-[-232.41%] w-[296.59%]" src={imgFrame9} />
+              <Image alt="" className="absolute h-[347.47%] left-[-0.19%] max-w-none top-[-232.41%] w-[296.59%]" src={imgFrame9} />
             </div>
           </div>
         </div>
