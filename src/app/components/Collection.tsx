@@ -50,7 +50,7 @@ export function Collection() {
                 {/* Product Image */}
                 <div className="relative w-full aspect-[240/229] overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100">
                   <img 
-                    src={product.image}
+                    src={product.image.src}
                     alt={product.name}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                   />

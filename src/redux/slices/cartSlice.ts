@@ -2,10 +2,12 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface CartItem {
   _id: string;
+  productId?: string;
   name: string;
   image: string;
   price: number;
   qty: number;
+  variant?: any;
 }
 
 interface CartState {
@@ -52,14 +54,22 @@ const cartSlice = createSlice({
   reducers: {
     addToCart: (state, action: PayloadAction<CartItem>) => {
       const item = action.payload;
-      const existItem = state.cartItems.find((x) => x._id === item._id);
+      
+      // Create a unique cart item ID based on product ID and variant size
+      const uniqueId = item.productId 
+        ? item._id 
+        : `${item._id}${item.variant?.size ? '-' + item.variant.size : ''}`;
+      
+      const itemWithUniqueId = { ...item, _id: uniqueId, productId: item.productId || item._id };
+      
+      const existItem = state.cartItems.find((x) => x._id === uniqueId);
 
       if (existItem) {
         state.cartItems = state.cartItems.map((x) =>
-          x._id === existItem._id ? item : x
+          x._id === existItem._id ? itemWithUniqueId : x
         );
       } else {
-        state.cartItems.push(item);
+        state.cartItems.push(itemWithUniqueId);
       }
       localStorage.setItem('cartItems', JSON.stringify(state.cartItems));
     },

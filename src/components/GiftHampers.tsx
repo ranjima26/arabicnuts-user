@@ -117,7 +117,7 @@ export function GiftHampers() {
         {floatingNuts.map((nut, i) => (
           <motion.img
             key={i}
-            src={nut.src}
+            src={nut.src.src}
             alt=""
             className={`absolute pointer-events-none drop-shadow-xl ${nut.className}`}
             animate={{ 

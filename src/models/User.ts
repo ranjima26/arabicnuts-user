@@ -1,49 +1,93 @@
-import mongoose, { Schema, model, models } from 'mongoose';
+import mongoose, { Schema, model, models } from "mongoose";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import crypto from "crypto";
 
-const UserSchema = new Schema(
+const userSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: [true, 'Name is required'],
+      required: [false, "Please enter your name"],
+      maxlength: [50, "Your name cannot exceed 50 characters"],
     },
     email: {
       type: String,
       unique: true,
-      required: [true, 'Email is required'],
-      match: [
-        /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
-        'Please indicate a valid email address',
-      ],
-    },
-    password: {
-      type: String,
-      required: false, // Optional for Google sign-in
-    },
-    image: {
-      type: String,
-      default: '',
+      sparse: true,
+      validate: {
+        validator: function (this: any, value: string) {
+          return !this.phone || !!value;
+        },
+        message: "Email or phone is required",
+      },
     },
     phone: {
       type: String,
-      default: '',
+      unique: true,
+      sparse: true,
+      validate: {
+        validator: function (this: any, value: string) {
+          return !this.email || !!value;
+        },
+        message: "Email or phone is required",
+      },
     },
-    location: {
+    password: {
       type: String,
-      default: '',
+      required: [false, "Please enter your password"],
+      minlength: [6, "Your password must be longer than 6 characters"],
+      select: false,
+    },
+    avatar: {
+      public_id: String,
+      url: String,
     },
     role: {
       type: String,
-      enum: ['user', 'admin'],
-      default: 'user',
+      default: "user",
     },
-    provider: {
+    resetPasswordToken: String,
+    resetPasswordExpire: Date,
+    signupMethod: {
       type: String,
-      default: 'credentials',
+      enum: ["OTP", "Email/Password", "OAuth"],
+      default: "Email/Password",
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
-const User = models.User || model('User', UserSchema);
+userSchema.pre("save", async function () {
+  if (!this.isModified("password")) {
+    return;
+  } else if (this.password) {
+    this.password = await bcrypt.hash(this.password, 10);
+  }
+});
+
+userSchema.methods.getJwtToken = function () {
+  return jwt.sign({ id: this._id }, process.env.JWT_SECRET as string, {
+    expiresIn: process.env.JWT_EXPIRES_TIME as any,
+  });
+};
+
+userSchema.methods.comparePassword = async function (enteredPassword: string) {
+  if (!this.password) return false;
+  return await bcrypt.compare(enteredPassword, this.password);
+};
+
+userSchema.methods.getResetPasswordToken = function () {
+  const resetToken = crypto.randomBytes(20).toString("hex");
+
+  this.resetPasswordToken = crypto
+    .createHash("sha256")
+    .update(resetToken)
+    .digest("hex");
+
+  this.resetPasswordExpire = new Date(Date.now() + 30 * 60 * 1000);
+  return resetToken;
+};
+
+const User = models.User || model("User", userSchema);
 
 export default User;

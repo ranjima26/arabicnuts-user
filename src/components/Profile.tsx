@@ -2,7 +2,9 @@
 
 import React, { useState } from 'react';
 import { User, ShoppingBag, LogOut, ChevronRight, MapPin, Phone, Mail, Edit2, Shield } from 'lucide-react';
-import { useSession, signOut } from "next-auth/react";
+import { useAuth } from '@/hooks/useAuth';
+import { signOut } from 'firebase/auth';
+import { auth } from '@/lib/firebase';
 import { useUpdateProfileMutation } from '@/redux/api/userApi';
 import { toast } from 'react-toastify';
 
@@ -21,28 +23,27 @@ const orders: Order[] = [
 ];
 
 export default function Profile() {
-  const { data: session, update: updateSession } = useSession();
+  const { user: authUser } = useAuth();
   const [updateProfile, { isLoading: isUpdating }] = useUpdateProfileMutation();
   const [activeTab, setActiveTab] = useState<'details' | 'orders'>('details');
 
   const [formData, setFormData] = useState({
-    name: session?.user?.name || "",
-    email: session?.user?.email || "",
-    phone: "+91 00 00 00 00 00", // Mock for now or from DB if available
-    location: "Kochi, Kerala, India" // Mock for now
+    name: authUser?.name || "",
+    email: authUser?.email || "",
+    phone: "+91 00 00 00 00 00",
+    location: "Kochi, Kerala, India"
   });
 
   // Sync with session data when it loads
   React.useEffect(() => {
-    const user = session?.user;
-    if (user) {
+    if (authUser) {
       setFormData(prev => ({
         ...prev,
-        name: user.name || prev.name,
-        email: user.email || prev.email
+        name: authUser.name || prev.name,
+        email: authUser.email || prev.email
       }));
     }
-  }, [session]);
+  }, [authUser]);
 
   const userName = formData.name || "User";
   const userEmail = formData.email || "user@example.com";
@@ -59,16 +60,6 @@ export default function Profile() {
         email: formData.email,
         // Add other fields if your backend supports them
       }).unwrap();
-
-      // Optionally update NextAuth session
-      await updateSession({
-        ...session,
-        user: {
-          ...session?.user,
-          name: formData.name,
-          email: formData.email
-        }
-      });
 
       toast.success("Profile updated successfully!");
     } catch (error: any) {
@@ -168,7 +159,7 @@ export default function Profile() {
                 <div className="h-[1px] bg-gray-100 my-4 mx-4"></div>
                 
                 <button 
-                  onClick={() => signOut()}
+                  onClick={() => signOut(auth)}
                   className="w-full flex items-center gap-4 p-4 rounded-2xl text-red-500 hover:bg-red-50 transition-all font-bold"
                 >
                   <LogOut className="w-5 h-5" />

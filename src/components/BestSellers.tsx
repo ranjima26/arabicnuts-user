@@ -6,37 +6,29 @@ import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { addToCart } from "@/redux/slices/cartSlice";
 
-const allProducts = [
-  // Dates
-  { id: 1, category: 'Dates', name: 'Premium', subName: 'Dates', description: 'Top-Quality Dates, Naturally Sweet And Rich In Fiber.', weight: '500g', price: '₹ 899', image: jarImage1.src },
-  { id: 2, category: 'Dates', name: 'Premium', subName: 'Dates', description: 'Top-Quality Dates, Naturally Sweet And Rich In Fiber.', weight: '500g', price: '₹ 899', image: jarImage1.src },
-  // Nuts
-  { id: 3, category: 'Nuts', name: 'Premium', subName: 'Almonds', description: 'Top-Quality California Almonds, Naturally Rich In Nutrients.', weight: '500g', price: '₹ 899', image: jarImage1.src },
-  { id: 4, category: 'Nuts', name: 'Premium', subName: 'Almonds', description: 'Top-Quality California Almonds, Naturally Rich In Nutrients.', weight: '500g', price: '₹ 899', image: jarImage1.src },
-  // Spices
-  { id: 5, category: 'Spices', name: 'Premium', subName: 'Saffron', description: 'Pure Grade-A Saffron, Handpicked For Maximum Aroma.', weight: '10g', price: '₹ 1299', image: jarImage1.src },
-  { id: 6, category: 'Spices', name: 'Premium', subName: 'Cardamom', description: 'Aromatic Green Cardamom, Freshly Harvested And Packed.', weight: '250g', price: '₹ 749', image: jarImage1.src },
-];
+import { useGetProductsQuery } from "@/redux/api/productApi";
 
-const tabs = ['All', 'Dates', 'Nuts', 'Spices'];
+const tabs = ['All', 'Dry Fruits', 'Almonds', 'Pistachios', 'Cashews', 'Figs', 'Chocolates', 'Dates', 'Spices'];
 
 export function BestSellers() {
   const router = useRouter();
   const dispatch = useDispatch();
   const [activeTab, setActiveTab] = useState('All');
+  
+  const { data, isLoading } = useGetProductsQuery({ limit: 12 });
+  const allProducts = data?.allProducts || [];
 
   const handleAddToCart = (product: any) => {
-    // Parse price string like "₹ 899" to number 899
-    const priceValue = typeof product.price === 'string' 
-      ? Number(product.price.replace(/[^\d]/g, '')) 
-      : product.price;
+    const priceValue = product.variants?.[0]?.price || product.price;
+    const selectedVariant = product.variants?.[0] || null;
 
     dispatch(addToCart({
-      _id: String(product.id),
-      name: `${product.name} ${product.subName}`,
-      image: product.image,
+      _id: String(product._id),
+      name: product.name,
+      image: product.mainImage || product.images?.[0]?.url || jarImage1.src,
       price: priceValue,
-      qty: 1
+      qty: 1,
+      variant: selectedVariant
     }));
     
     router.push("/cart");
@@ -44,7 +36,7 @@ export function BestSellers() {
 
   const filteredProducts = activeTab === 'All' 
     ? allProducts 
-    : allProducts.filter(p => p.category === activeTab);
+    : allProducts.filter((p: any) => p.category === activeTab);
 
   return (
     <section className="py-16 md:py-24 lg:py-32 bg-white relative font-sans" id="best-sellers">
@@ -80,38 +72,43 @@ export function BestSellers() {
 
         {/* Products Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6 min-h-[400px]">
-          {filteredProducts.map((product) => (
+          {isLoading ? (
+            <div className="col-span-full text-center py-12 text-gray-500">Loading products...</div>
+          ) : filteredProducts.length === 0 ? (
+            <div className="col-span-full text-center py-12 text-gray-500">No products found in this category.</div>
+          ) : filteredProducts.map((product: any) => (
             <div 
-              key={product.id}
+              key={product._id}
               className="bg-[#f8faeb] border border-[#e6eed4] rounded-[24px] flex p-3 md:p-4 hover:shadow-lg hover:-translate-y-1 active:scale-[0.98] active:shadow-md active:-translate-y-0.5 transition-all duration-300 cursor-pointer animate-in fade-in zoom-in duration-300"
             >
               {/* Image side */}
-              <div className="w-[45%] flex items-center justify-center p-1 md:p-2">
+              <Link href={`/product/${product._id}`} className="w-[45%] flex items-center justify-center p-1 md:p-2">
                 <img 
-                  src={product.image}
-                  alt={product.subName}
-                  className="w-full h-auto object-contain drop-shadow-md"
+                  src={product.mainImage || product.images?.[0]?.url || jarImage1.src}
+                  alt={product.name}
+                  className="w-full h-auto object-contain drop-shadow-md rounded-xl"
                 />
-              </div>
+              </Link>
 
               {/* Info side */}
               <div className="w-[55%] flex flex-col justify-center py-1 pl-1 pr-1 md:pr-2">
-                <h4 className="text-[20px] md:text-[22px] font-extrabold text-[#3a3a3a] leading-[1.1] mb-2 tracking-tight">
-                  <span className="block">{product.name}</span>
-                  <span className="block">{product.subName}</span>
-                </h4>
+                <Link href={`/product/${product._id}`}>
+                  <h4 className="text-[20px] md:text-[22px] font-extrabold text-[#3a3a3a] leading-[1.1] mb-2 tracking-tight line-clamp-2 hover:text-[#dea424] transition-colors">
+                    {product.name}
+                  </h4>
+                </Link>
                 
-                <p className="text-[10px] md:text-[11px] text-[#6b6b6b] leading-tight mb-2 pr-2 font-medium">
-                  {product.description}
+                <p className="text-[10px] md:text-[11px] text-[#6b6b6b] leading-tight mb-2 pr-2 font-medium line-clamp-2">
+                  {product.shortDescription || product.description}
                 </p>
                 
                 <span className="text-[11px] md:text-xs font-bold text-[#555555] mb-3 md:mb-4">
-                  {product.weight}
+                  {product.variants?.[0]?.size || "Standard"}
                 </span>
 
                 <div className="flex items-center gap-3">
                   <div className="bg-[#dea424] text-white px-3 py-1 rounded-full text-[13px] md:text-sm font-bold shadow-sm inline-flex items-center justify-center">
-                    {product.price}
+                    ₹ {product.variants?.[0]?.price || product.price}
                   </div>
                   <button 
                     onClick={() => handleAddToCart(product)}

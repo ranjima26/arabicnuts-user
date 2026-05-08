@@ -5,23 +5,7 @@ import imgObject1 from "figma:asset/4e092aad07eae5043c54b22342da629da2582b12.png
 import imgObject2 from "figma:asset/aac24150bf0e4fe83a245fc50f804619dbda80f7.png";
 import imgObject3 from "figma:asset/c344b3da9eeb6df01d966269130958792e0fb116.png";
 
-const floatingAnimation = {
-  y: ["-15px", "15px", "-15px"],
-  transition: {
-    duration: 5,
-    repeat: Infinity,
-    ease: "easeInOut"
-  }
-};
 
-const floatingAnimationReverse = {
-  y: ["15px", "-15px", "15px"],
-  transition: {
-    duration: 6,
-    repeat: Infinity,
-    ease: "easeInOut"
-  }
-};
 
 const floatingNuts = [
   { src: imgObject, className: "w-16 md:w-20 top-[15%] left-[20%] rotate-[60deg]", delay: 0 },
@@ -62,62 +46,67 @@ const features = [
 export function WhyArabic() {
   return (
     <section className="relative w-full min-h-[900px] lg:h-[1000px] bg-[#fafafa] overflow-hidden py-20 flex items-center justify-center font-['Roboto',sans-serif]">
-      
+
       {/* Background Palm Logo */}
       <div className="absolute inset-0 flex items-center justify-center opacity-[0.15] pointer-events-none z-0">
-        <motion.img 
+        <motion.img
           initial={{ opacity: 0, scale: 0.8 }}
           whileInView={{ opacity: 0.15, scale: 1 }}
           transition={{ duration: 1.5 }}
           viewport={{ once: true }}
-          src={imgArabicNutsLogoPng3} 
-          alt="Palm tree background" 
-          className="w-[90%] md:w-[70%] lg:w-[800px] object-contain" 
+          src={imgArabicNutsLogoPng3.src}
+          alt="Palm tree background"
+          className="w-[90%] md:w-[70%] lg:w-[800px] object-contain"
         />
       </div>
 
       {/* Decorative Left Bowl */}
-      <motion.div 
+      <motion.div
         initial={{ x: -100, opacity: 0 }}
         whileInView={{ x: 0, opacity: 1 }}
         transition={{ duration: 1, ease: "easeOut" }}
         viewport={{ once: true }}
         className="absolute left-[-20%] md:left-[-15%] lg:left-[-5%] top-1/2 -translate-y-1/2 z-10 w-[250px] md:w-[350px] lg:w-[500px] drop-shadow-2xl pointer-events-none"
       >
-        <img src={imgObject3} alt="Bowl of nuts" className="w-full h-auto" />
+        <img src={imgObject3.src} alt="Bowl of nuts" className="w-full h-auto" />
       </motion.div>
 
       {/* Decorative Right Bowl */}
-      <motion.div 
+      <motion.div
         initial={{ x: 100, opacity: 0 }}
         whileInView={{ x: 0, opacity: 1 }}
         transition={{ duration: 1, ease: "easeOut" }}
         viewport={{ once: true }}
         className="absolute right-[-15%] md:right-[-10%] lg:right-[-5%] top-[60%] -translate-y-1/2 z-10 w-[220px] md:w-[300px] lg:w-[450px] drop-shadow-2xl pointer-events-none"
       >
-        <img src={imgObject1} alt="Bowl of nuts" className="w-full h-auto" />
+        <img src={imgObject1.src} alt="Bowl of nuts" className="w-full h-auto" />
       </motion.div>
 
       {/* Floating Individual Nuts */}
       {floatingNuts.map((nut, index) => (
         <motion.img
           key={index}
-          src={nut.src}
+          src={nut.src.src}
           alt=""
           className={`absolute z-10 drop-shadow-xl pointer-events-none ${nut.className}`}
-          animate={index % 2 === 0 ? floatingAnimation : floatingAnimationReverse}
+          animate={{
+            y: index % 2 === 0 ? [-15, 15, -15] : [15, -15, 15],
+          }}
+          transition={{
+            duration: index % 2 === 0 ? 5 : 6,
+            repeat: Infinity,
+          }}
           initial={{ opacity: 0, scale: 0 }}
           whileInView={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6, delay: nut.delay * 0.2 }}
           viewport={{ once: true }}
         />
       ))}
 
       {/* Content Container */}
       <div className="container mx-auto px-4 z-20 relative h-full flex flex-col items-center">
-        
+
         {/* Title (Mobile & Desktop) */}
-        <motion.div 
+        <motion.div
           initial={{ y: -30, opacity: 0 }}
           whileInView={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.8 }}

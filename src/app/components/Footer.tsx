@@ -19,7 +19,7 @@ export function Footer() {
           {/* Logo & Contact */}
           <div>
             <div className="flex items-center gap-3 mb-6">
-              <img src={logoIcon} alt="Arabic Dry Fruits" className="h-12 w-auto brightness-0 invert" />
+              <img src={logoIcon.src} alt="Arabic Dry Fruits" className="h-12 w-auto brightness-0 invert" />
             </div>
             <p className="text-white/80 mb-6 leading-relaxed">
               Premium quality dry fruits and nuts delivered fresh to your doorstep. Your trusted source for healthy snacking.

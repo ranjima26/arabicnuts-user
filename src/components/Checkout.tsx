@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import {
   Truck,
@@ -15,14 +15,35 @@ import {
   CheckCircle2
 } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useRouter } from 'next/navigation';
 import { useSelector, useDispatch } from 'react-redux';
-import { clearBuyNowItem } from '@/redux/slices/cartSlice';
+import { useAuth } from '@/hooks/useAuth';
+import { clearBuyNowItem, clearCartItems } from '@/redux/slices/cartSlice';
+import { useCreateNewOrderMutation } from '@/redux/api/orderApi';
+import { AuthModal } from './AuthModal';
+import { toast } from 'react-toastify';
 import jarImage from '@/assets/0d50403659dbeb714860454d0322380314619c03.png';
 
 export function Checkout() {
+  const router = useRouter();
   const dispatch = useDispatch();
-  const [paymentMethod, setPaymentMethod] = useState<'cod' | 'online'>('online');
+  const { user } = useAuth();
   
+  const [paymentMethod, setPaymentMethod] = useState<'cod' | 'online'>('cod');
+  const [mounted, setMounted] = useState(false);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  
+  const [formData, setFormData] = useState({
+    fullName: '',
+    email: '',
+    phone: '',
+    address: '',
+    city: '',
+    state: '',
+    pinCode: '',
+  });
+
+  const [createNewOrder, { isLoading }] = useCreateNewOrderMutation();
   const { cartItems, buyNowItem } = useSelector((state: any) => state.cart);
 
   // If buyNowItem exists, only show that. Otherwise, show all cart items.
@@ -31,6 +52,61 @@ export function Checkout() {
   const subtotal = items.reduce((acc: number, item: any) => acc + (item.price * (item.qty || item.quantity || 1)), 0);
   const shipping = 0;
   const total = subtotal + shipping;
+
+  useEffect(() => {
+    setMounted(true);
+    if (mounted && items.length === 0) {
+      router.push('/cart');
+    }
+  }, [mounted, items.length, router]);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handlePayment = async () => {
+    if (!user) {
+      setIsAuthModalOpen(true);
+      return;
+    }
+
+    const { fullName, email, phone, address, city, state, pinCode } = formData;
+    if (!fullName || !email || !phone || !address || !city || !state || !pinCode) {
+      toast.error('Please fill in all shipping information');
+      return;
+    }
+
+    try {
+      const orderData = {
+        orderItems: items,
+        shippingAddress: {
+          ...formData,
+          country: 'India',
+        },
+        paymentMethod,
+        itemsPrice: subtotal,
+        taxPrice: 0,
+        shippingPrice: shipping,
+        totalPrice: total,
+      };
+
+      const res = await createNewOrder(orderData).unwrap();
+      
+      if (res.success) {
+        toast.success('Order placed successfully!');
+        dispatch(clearCartItems());
+        dispatch(clearBuyNowItem());
+        router.push('/profile');
+      }
+    } catch (err: any) {
+      toast.error(err?.data?.message || 'Failed to place order');
+    }
+  };
+
+  if (!mounted) {
+    return <div className="min-h-screen bg-[#F8F9FA] pt-32 pb-20 flex items-center justify-center">Loading checkout...</div>;
+  }
 
   return (
     <div className="min-h-screen bg-[#F8F9FA] pt-32 pb-20">
@@ -69,6 +145,9 @@ export function Checkout() {
                       <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                       <input
                         type="text"
+                        name="fullName"
+                        value={formData.fullName}
+                        onChange={handleInputChange}
                         placeholder="John Doe"
                         className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 pl-12 pr-4 text-gray-800 placeholder:text-gray-500 focus:ring-2 focus:ring-[#496506] focus:bg-white transition-all outline-none"
                       />
@@ -82,6 +161,9 @@ export function Checkout() {
                       <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                       <input
                         type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleInputChange}
                         placeholder="john@example.com"
                         className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 pl-12 pr-4 text-gray-800 placeholder:text-gray-500 focus:ring-2 focus:ring-[#496506] focus:bg-white transition-all outline-none"
                       />
@@ -95,6 +177,9 @@ export function Checkout() {
                       <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                       <input
                         type="tel"
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleInputChange}
                         placeholder="10 digit mobile number"
                         className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 pl-12 pr-4 text-gray-800 placeholder:text-gray-500 focus:ring-2 focus:ring-[#496506] focus:bg-white transition-all outline-none"
                       />
@@ -108,6 +193,9 @@ export function Checkout() {
                       <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                       <input
                         type="text"
+                        name="address"
+                        value={formData.address}
+                        onChange={handleInputChange}
                         placeholder="House no, Building, Street name"
                         className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 pl-12 pr-4 text-gray-800 placeholder:text-gray-500 focus:ring-2 focus:ring-[#496506] focus:bg-white transition-all outline-none"
                       />
@@ -119,6 +207,9 @@ export function Checkout() {
                     <label className="text-xs font-bold text-gray-600 uppercase tracking-wider ml-1">City</label>
                     <input
                       type="text"
+                      name="city"
+                      value={formData.city}
+                      onChange={handleInputChange}
                       placeholder="e.g. Kochi"
                       className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 px-6 text-gray-800 placeholder:text-gray-500 focus:ring-2 focus:ring-[#496506] focus:bg-white transition-all outline-none"
                     />
@@ -128,6 +219,9 @@ export function Checkout() {
                       <label className="text-xs font-bold text-gray-600 uppercase tracking-wider ml-1">State</label>
                       <input
                         type="text"
+                        name="state"
+                        value={formData.state}
+                        onChange={handleInputChange}
                         placeholder="e.g. Kerala"
                         className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 px-6 text-gray-800 placeholder:text-gray-500 focus:ring-2 focus:ring-[#496506] focus:bg-white transition-all outline-none"
                       />
@@ -136,6 +230,9 @@ export function Checkout() {
                       <label className="text-xs font-bold text-gray-600 uppercase tracking-wider ml-1">Pin Code</label>
                       <input
                         type="text"
+                        name="pinCode"
+                        value={formData.pinCode}
+                        onChange={handleInputChange}
                         placeholder="######"
                         className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 px-6 text-gray-800 placeholder:text-gray-500 focus:ring-2 focus:ring-[#496506] focus:bg-white transition-all outline-none"
                       />
@@ -261,18 +358,21 @@ export function Checkout() {
                 </div>
 
                 {/* Desktop CTA */}
-                <button className="w-full py-4 bg-gradient-to-br from-[#496506] via-[#3d5405] to-[#496506] text-white rounded-lg transition-all duration-300 font-bold text-lg mb-6 shadow-lg shadow-[#496506]/20 hover:shadow-2xl hover:shadow-[#496506]/40 hover:-translate-y-1 active:scale-[0.98]">
-                  Proceed to Payment
+                <button 
+                  onClick={handlePayment}
+                  disabled={isLoading}
+                  className="w-full py-4 bg-gradient-to-br from-[#496506] via-[#3d5405] to-[#496506] text-white rounded-lg transition-all duration-300 font-bold text-lg mb-6 shadow-lg shadow-[#496506]/20 hover:shadow-2xl hover:shadow-[#496506]/40 hover:-translate-y-1 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isLoading ? 'Processing...' : 'Proceed to Payment'}
                 </button>
               </div>
             </div>
 
           </div>
 
-
-
         </div>
       </div>
+      <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} />
     </div>
   );
 }

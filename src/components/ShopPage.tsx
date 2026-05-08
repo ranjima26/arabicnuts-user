@@ -15,6 +15,8 @@ import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { addToCart } from "@/redux/slices/cartSlice";
 
+import { useGetProductsQuery } from "@/redux/api/productApi";
+
 const bentoItems = [
   { name: "Almonds", img: imgAlmonds },
   { name: "Pistachios", img: imgPistachios },
@@ -24,32 +26,24 @@ const bentoItems = [
   { name: "Spices", img: imgSpices },
 ];
 
-const bestsellers = Array(8).fill({
-  name: "Roasted Pistachios",
-  desc: "Lightly salted pistachios",
-  price: "₹899",
-  oldPrice: "₹1,199",
-  discount: "25% OFF",
-  rating: 4.6,
-  img: imgJar
-});
-
 export function ShopPage() {
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const handleAddToCart = (product: any, id: number) => {
-    // Parse price string like "₹899" to number 899
-    const priceValue = typeof product.price === 'string' 
-      ? Number(product.price.replace(/[^\d]/g, '')) 
-      : product.price;
+  const { data, isLoading } = useGetProductsQuery({ limit: 8 });
+  const bestsellers = data?.allProducts || [];
+
+  const handleAddToCart = (product: any) => {
+    const priceValue = product.variants?.[0]?.price || product.price;
+    const selectedVariant = product.variants?.[0] || null;
 
     dispatch(addToCart({
-      _id: `shop-${id}`,
+      _id: String(product._id),
       name: product.name,
-      image: product.img.src,
+      image: product.mainImage || product.images?.[0]?.url || imgJar.src,
       price: priceValue,
-      qty: 1
+      qty: 1,
+      variant: selectedVariant
     }));
     
     router.push("/cart");
@@ -154,9 +148,13 @@ export function ShopPage() {
           </motion.div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
-            {bestsellers.map((item, idx) => (
+            {isLoading ? (
+              <div className="col-span-full text-center py-12 text-gray-500">Loading products...</div>
+            ) : bestsellers.length === 0 ? (
+              <div className="col-span-full text-center py-12 text-gray-500">No products found.</div>
+            ) : bestsellers.map((item: any, idx: number) => (
               <motion.div
-                key={idx}
+                key={item._id || idx}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
@@ -164,36 +162,40 @@ export function ShopPage() {
                 className="bg-white rounded-[24px] overflow-hidden shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] hover:shadow-xl transition-shadow group flex flex-col border border-gray-100"
               >
                 {/* Product Image */}
-                <Link href={`/product/${idx}`} className="relative h-[250px] w-full bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden flex items-center justify-center p-8 block">
-                  <div className="absolute top-4 left-4 z-10 bg-gradient-to-r from-[#fb2c36] to-[#e7000b] text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-md">
-                    {item.discount}
-                  </div>
-                  <img src={item.img.src} alt={item.name} className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500 drop-shadow-2xl" />
+                <Link href={`/product/${item._id}`} className="relative h-[250px] w-full bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden flex items-center justify-center p-8 block">
+                  {(item.discountPrice || item.variants?.[0]?.discountPrice) && (
+                    <div className="absolute top-4 left-4 z-10 bg-gradient-to-r from-[#fb2c36] to-[#e7000b] text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-md">
+                      Sale
+                    </div>
+                  )}
+                  <img src={item.mainImage || item.images?.[0]?.url || imgJar.src} alt={item.name} className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500 drop-shadow-2xl mix-blend-multiply" />
                 </Link>
 
                 {/* Product Details */}
                 <div className="p-6 flex flex-col flex-1">
                   <div className="flex items-center gap-1 mb-3">
                     {Array(5).fill(0).map((_, i) => (
-                      <svg key={i} className={`w-4 h-4 ${i < Math.floor(item.rating) ? 'text-[#eab308]' : 'text-gray-300'}`} fill="currentColor" viewBox="0 0 20 20">
+                      <svg key={i} className={`w-4 h-4 ${i < Math.floor(item.averageRating || 5) ? 'text-[#eab308]' : 'text-gray-300'}`} fill="currentColor" viewBox="0 0 20 20">
                         <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                       </svg>
                     ))}
-                    <span className="text-gray-500 text-xs ml-1 font-medium">({item.rating})</span>
+                    <span className="text-gray-500 text-xs ml-1 font-medium">({item.reviews?.length || 0})</span>
                   </div>
 
-                  <Link href={`/product/${idx}`} className="block w-fit">
-                    <h4 className="text-xl font-bold text-[#373737] mb-1 hover:text-[#496506] transition-colors">{item.name}</h4>
+                  <Link href={`/product/${item._id}`} className="block w-fit">
+                    <h4 className="text-xl font-bold text-[#373737] mb-1 hover:text-[#496506] transition-colors line-clamp-1">{item.name}</h4>
                   </Link>
-                  <p className="text-gray-500 text-sm mb-6 flex-1">{item.desc}</p>
+                  <p className="text-gray-500 text-sm mb-6 flex-1 line-clamp-2">{item.shortDescription || item.description}</p>
 
                   <div className="flex items-center justify-between border-t border-gray-100 pt-4 mt-auto">
                     <div className="flex items-center gap-2">
-                      <span className="text-[#496506] font-bold text-2xl leading-none">{item.price}</span>
-                      <span className="text-gray-400 text-sm line-through font-medium">{item.oldPrice}</span>
+                      <span className="text-[#496506] font-bold text-2xl leading-none">₹{item.variants?.[0]?.price || item.price}</span>
+                      {(item.discountPrice || item.variants?.[0]?.discountPrice) && (
+                        <span className="text-gray-400 text-sm line-through font-medium">₹{item.variants?.[0]?.discountPrice || item.discountPrice}</span>
+                      )}
                     </div>
                     <button 
-                      onClick={() => handleAddToCart(item, idx)}
+                      onClick={() => handleAddToCart(item)}
                       className="bg-[#496506] hover:bg-[#3a5204] text-white p-3 rounded-full transition-colors group-hover:-translate-y-1"
                     >
                       <ShoppingCart className="w-5 h-5" />

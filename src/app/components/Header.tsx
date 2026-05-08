@@ -11,7 +11,7 @@ export function Header() {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <div className="flex items-center gap-3">
-            <img src={logoIcon} alt="Arabic Dry Fruits" className="h-10 lg:h-12 w-auto" />
+            <img src={logoIcon.src} alt="Arabic Dry Fruits" className="h-10 lg:h-12 w-auto" />
             <div className="hidden md:block">
               <h1 className="text-lg font-bold text-[#496506]">Arabic Dry Fruits</h1>
               <p className="text-xs text-gray-600">Premium Quality</p>

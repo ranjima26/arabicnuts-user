@@ -44,7 +44,7 @@ export function Testimonials() {
               <div className="absolute inset-0 bg-gradient-to-br from-[#496506]/20 to-[#D39B16]/20 rounded-full blur-2xl group-hover:blur-3xl transition-all"></div>
               <div className="relative w-36 h-36 md:w-48 md:h-48 lg:w-56 lg:h-56 rounded-full overflow-hidden border-8 border-white shadow-2xl group-hover:scale-110 transition-transform duration-500">
                 <img 
-                  src={testimonialImage}
+                  src={testimonialImage.src}
                   alt="Nadiya S."
                   className="w-full h-full object-cover"
                 />
@@ -73,7 +73,7 @@ export function Testimonials() {
                     }}
                   >
                     <img 
-                      src={customer}
+                      src={customer.src}
                       alt={`Customer ${index + 1}`}
                       className="w-full h-full object-cover"
                     />

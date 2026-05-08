@@ -67,7 +67,7 @@ export function GiftHampers() {
               <img 
                 alt="Luxury Gift Hampers" 
                 className="w-[140%] h-auto max-w-none object-contain scale-110 lg:scale-[1.3] transform -translate-y-4" 
-                src={imgChatGptImageFeb202026120533Pm1} 
+                src={imgChatGptImageFeb202026120533Pm1.src} 
               />
             </div>
           </motion.div>
@@ -115,14 +115,14 @@ export function GiftHampers() {
         {floatingNuts.map((nut, i) => (
           <motion.img
             key={i}
-            src={nut.src}
+            src={nut.src.src}
             alt=""
             className={`absolute z-20 pointer-events-none drop-shadow-xl ${nut.className}`}
             animate={{ 
               y: ["-10px", "10px", "-10px"],
               rotate: [nut.className.match(/rotate-\[(\d+)deg\]/)?.[1] + "deg", parseInt(nut.className.match(/rotate-\[(\d+)deg\]/)?.[1] || "0") + 15 + "deg", nut.className.match(/rotate-\[(\d+)deg\]/)?.[1] + "deg"]
             }}
-            transition={{ duration: 4 + i, repeat: Infinity, ease: "easeInOut", delay: nut.delay }}
+            transition={{ duration: 4 + i, repeat: Infinity, delay: nut.delay }}
           />
         ))}
 

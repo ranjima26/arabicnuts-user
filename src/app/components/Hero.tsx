@@ -9,7 +9,7 @@ export function Hero() {
       <div className="absolute inset-0">
         <div className="relative w-full h-full mx-2 my-2 md:mx-4 md:my-3 lg:mx-6 lg:my-4">
           <img 
-            src={heroImage} 
+            src={heroImage.src} 
             alt="Arabic Dry Fruits Store" 
             className="w-full h-full object-cover rounded-2xl md:rounded-3xl shadow-2xl"
           />

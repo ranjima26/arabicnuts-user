@@ -87,7 +87,7 @@ export function BlanchedPeanuts() {
       {floatingNuts.map((nut, i) => (
         <motion.img 
           key={i}
-          src={nut.src}
+          src={nut.src.src}
           alt=""
           className={`absolute z-0 pointer-events-none drop-shadow-xl ${nut.className}`}
           animate={{ y: ["-15px", "15px", "-15px"], rotate: ["0deg", "10deg", "0deg"] }}
@@ -116,7 +116,7 @@ export function BlanchedPeanuts() {
                   className="absolute inset-0 overflow-hidden z-10"
                 >
                   <img 
-                    src={imgVarietyNutsBowls1} 
+                    src={imgVarietyNutsBowls1.src} 
                     alt={products[activeIndex].name}
                     className="absolute max-w-none"
                     style={{ 
@@ -190,7 +190,7 @@ export function BlanchedPeanuts() {
                   <div className="relative w-[65px] sm:w-[80px] md:w-[100px]" style={{ aspectRatio: '100/108' }}>
                     <div className="absolute inset-0 overflow-hidden pointer-events-none">
                       <img 
-                        src={imgVarietyNutsBowls1} 
+                        src={imgVarietyNutsBowls1.src} 
                         alt={prod.name}
                         className={`absolute max-w-none transition-transform duration-500 origin-center ${isActive ? '' : 'group-hover:scale-110'}`}
                         style={{ 
