@@ -5,13 +5,7 @@ import mongoose from "mongoose";
 
 // Ensure connection helper
 async function dbConnect() {
-  clientPromise;
-  if (mongoose.connection.readyState !== 1) {
-    // Note: clientPromise usually handles the connection, but if using Mongoose models
-    // we need to make sure Mongoose itself is connected to the URI.
-    const uri = process.env.MONGODB_URI!;
-    await mongoose.connect(uri);
-  }
+  await clientPromise();
 }
 
 export async function GET(req: NextRequest) {
