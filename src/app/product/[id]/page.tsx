@@ -1,6 +1,4 @@
 import { PageOverview } from "@/components/PageOverview";
-import { products } from "@/data/products";
-import { notFound } from "next/navigation";
 
 export default async function ProductPage({
   params,
@@ -9,5 +7,7 @@ export default async function ProductPage({
 }) {
   const { id } = await params;
 
+  // PageOverview fetches from the API for DB products (_id),
+  // and falls back to local mock data for static slug products.
   return <PageOverview productId={id} />;
 }

@@ -63,7 +63,7 @@ export function ShopPage() {
     dispatch(addToCart({
       _id: product._id || product.id,
       name: product.name,
-      image: product.images?.[0] || product.mainImage,
+      image: product.images?.[0]?.url || product.images?.[0] || product.mainImage,
       price: priceValue,
       qty: 1,
       variant: product.variants?.[0] || null
@@ -193,7 +193,7 @@ export function ShopPage() {
                       {item.discount}
                     </div>
                   )}
-                  <img src={item.images[0]} alt={item.name} className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500 drop-shadow-2xl" />
+                  <img src={item.images?.[0]?.url || item.images?.[0]} alt={item.name} className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500 drop-shadow-2xl" />
                 </Link>
 
                 {/* Product Details */}

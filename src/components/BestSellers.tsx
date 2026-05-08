@@ -100,7 +100,7 @@ export function BestSellers() {
               className="bg-[#f8faeb] border border-[#e6eed4] rounded-[24px] flex p-3 md:p-4 hover:shadow-lg hover:-translate-y-1 active:scale-[0.98] active:shadow-md active:-translate-y-0.5 transition-all duration-300 cursor-pointer animate-in fade-in zoom-in duration-300"
             >
               {/* Image side */}
-              <Link href={`/product/${product._id}`} className="w-[45%] flex items-center justify-center p-1 md:p-2">
+              <Link href={`/product/${product._id || product.id}`} className="w-[45%] flex items-center justify-center p-1 md:p-2">
                 <img
                   src={product.mainImage || product.images?.[0]?.url || imgJar.src}
                   alt={product.name}
@@ -109,7 +109,7 @@ export function BestSellers() {
               </Link>
 
               <div className="w-[55%] flex flex-col justify-center py-1 pl-1 pr-1 md:pr-2">
-                <Link href={`/product/${product._id}`}>
+                <Link href={`/product/${product._id || product.id}`}>
                   <h4 className="text-[20px] md:text-[22px] font-extrabold text-[#3a3a3a] leading-[1.1] mb-2 tracking-tight line-clamp-2 hover:text-[#dea424] transition-colors">
                     {product.name}
                   </h4>

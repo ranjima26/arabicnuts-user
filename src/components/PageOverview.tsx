@@ -41,12 +41,20 @@ const MOCK_PRODUCT = {
     "High Protein & Healthy Fats",
     "100% Natural & Gluten-Free"
   ],
+<<<<<<< HEAD
   ingredients: "Premium Quality Pistachios, Minimal Sea Salt.",
   benefits: [
     { title: "Heart Healthy", icon: null },
     { title: "Weight Management", icon: null },
     { title: "Antioxidant Rich", icon: null },
     { title: "Energy Booster", icon: null }
+=======
+  benefits: [
+    { title: "Healthy Heart" },
+    { title: "Protein Rich" },
+    { title: "Weight Control" },
+    { title: "Anti-oxidants" }
+>>>>>>> d4f1883 (Fix UI bugs, add sweetalert, validation, and product link fixes)
   ]
 };
 

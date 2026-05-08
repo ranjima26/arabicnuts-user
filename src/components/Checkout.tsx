@@ -12,7 +12,8 @@ import {
   ShieldCheck,
   ChevronRight,
   ArrowLeft,
-  CheckCircle2
+  CheckCircle2,
+  XCircle
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
@@ -23,6 +24,36 @@ import { useAuth } from '@/hooks/useAuth';
 import { useCreateNewOrderMutation } from '@/redux/api/orderApi';
 import { toast } from 'react-toastify';
 import Swal from 'sweetalert2';
+
+// ── Checkout Validation Helpers ──────────────────────────────────────────────
+const checkoutValidators: Record<string, (v: string) => string> = {
+  name: (v) => v.trim() ? "" : "Full name is required.",
+  email: (v) => {
+    if (!v) return "Email is required.";
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) ? "" : "Please enter a valid email address.";
+  },
+  phone: (v) => {
+    if (!v) return "Phone number is required.";
+    return /^[6-9]\d{9}$/.test(v.replace(/\s/g, "")) ? "" : "Enter a valid 10-digit Indian mobile number.";
+  },
+  address: (v) => v.trim() ? "" : "Delivery address is required.",
+  city: (v) => v.trim() ? "" : "City is required.",
+  state: (v) => v.trim() ? "" : "State is required.",
+  pinCode: (v) => {
+    if (!v) return "Pin code is required.";
+    return /^\d{6}$/.test(v) ? "" : "Enter a valid 6-digit pin code.";
+  },
+};
+
+function FieldError({ message }: { message: string }) {
+  if (!message) return null;
+  return (
+    <p className="flex items-center gap-1 text-xs text-red-500 mt-1">
+      <XCircle size={12} className="shrink-0" />
+      {message}
+    </p>
+  );
+}
 
 export function Checkout() {
   const router = useRouter();
@@ -42,6 +73,13 @@ export function Checkout() {
     pinCode: ''
   });
 
+  const [shippingErrors, setShippingErrors] = useState<Record<string, string>>({
+    name: '', email: '', phone: '', address: '', city: '', state: '', pinCode: ''
+  });
+  const [shippingTouched, setShippingTouched] = useState<Record<string, boolean>>({
+    name: false, email: false, phone: false, address: false, city: false, state: false, pinCode: false
+  });
+
   const { cartItems, buyNowItem } = useSelector((state: any) => state.cart);
 
   const getSafePrice = (price: any) => {
@@ -59,11 +97,29 @@ export function Checkout() {
 
   const total = subtotal;
 
+  const validateAllFields = () => {
+    const newErrors: Record<string, string> = {};
+    let isValid = true;
+    Object.keys(checkoutValidators).forEach((key) => {
+      const err = checkoutValidators[key](shippingData[key as keyof typeof shippingData]);
+      newErrors[key] = err;
+      if (err) isValid = false;
+    });
+    setShippingErrors(newErrors);
+    setShippingTouched(Object.keys(checkoutValidators).reduce((acc, k) => ({ ...acc, [k]: true }), {}));
+    return isValid;
+  };
+
   const handlePlaceOrder = (e: React.FormEvent) => {
-    e.preventDefault(); // Trigger browser validation
+    e.preventDefault();
 
     if (items.length === 0) {
       toast.error("Your cart is empty!");
+      return;
+    }
+
+    if (!validateAllFields()) {
+      toast.error("Please fix the errors in the form before proceeding.");
       return;
     }
 
@@ -134,6 +190,20 @@ export function Checkout() {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setShippingData(prev => ({ ...prev, [name]: value }));
+    // Live validation once the field has been touched
+    if (shippingTouched[name] && checkoutValidators[name]) {
+      setShippingErrors(prev => ({ ...prev, [name]: checkoutValidators[name](value) }));
+    }
+  };
+
+  const handleBlur = (name: string) => {
+    setShippingTouched(prev => ({ ...prev, [name]: true }));
+    if (checkoutValidators[name]) {
+      setShippingErrors(prev => ({
+        ...prev,
+        [name]: checkoutValidators[name](shippingData[name as keyof typeof shippingData])
+      }));
+    }
   };
 
   if (!isMounted) return null;
@@ -182,11 +252,18 @@ export function Checkout() {
                         name="name"
                         value={shippingData.name}
                         onChange={handleInputChange}
+                        onBlur={() => handleBlur('name')}
                         placeholder="John Doe"
-                        className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 pl-12 pr-4 text-gray-800 placeholder:text-gray-500 focus:ring-2 focus:ring-[#496506] focus:bg-white transition-all outline-none font-bold"
-                        required
+                        className={`w-full bg-gray-50 border rounded-2xl py-4 pl-12 pr-4 text-gray-800 placeholder:text-gray-500 focus:ring-2 focus:bg-white transition-all outline-none font-bold ${
+                          shippingTouched.name && shippingErrors.name
+                            ? 'border-red-400 focus:ring-red-200'
+                            : shippingTouched.name && !shippingErrors.name
+                            ? 'border-green-400 focus:ring-green-200'
+                            : 'border-gray-100 focus:ring-[#496506]'
+                        }`}
                       />
                     </div>
+                    <FieldError message={shippingTouched.name ? shippingErrors.name : ""} />
                   </div>
 
                   {/* Email Address */}
@@ -199,11 +276,18 @@ export function Checkout() {
                         name="email"
                         value={shippingData.email}
                         onChange={handleInputChange}
+                        onBlur={() => handleBlur('email')}
                         placeholder="john@example.com"
-                        className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 pl-12 pr-4 text-gray-800 placeholder:text-gray-500 focus:ring-2 focus:ring-[#496506] focus:bg-white transition-all outline-none font-bold"
-                        required
+                        className={`w-full bg-gray-50 border rounded-2xl py-4 pl-12 pr-4 text-gray-800 placeholder:text-gray-500 focus:ring-2 focus:bg-white transition-all outline-none font-bold ${
+                          shippingTouched.email && shippingErrors.email
+                            ? 'border-red-400 focus:ring-red-200'
+                            : shippingTouched.email && !shippingErrors.email
+                            ? 'border-green-400 focus:ring-green-200'
+                            : 'border-gray-100 focus:ring-[#496506]'
+                        }`}
                       />
                     </div>
+                    <FieldError message={shippingTouched.email ? shippingErrors.email : ""} />
                   </div>
 
                   {/* Phone Number */}
@@ -216,11 +300,19 @@ export function Checkout() {
                         name="phone"
                         value={shippingData.phone}
                         onChange={handleInputChange}
-                        placeholder="10 digit mobile number"
-                        className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 pl-12 pr-4 text-gray-800 placeholder:text-gray-500 focus:ring-2 focus:ring-[#496506] focus:bg-white transition-all outline-none font-bold"
-                        required
+                        onBlur={() => handleBlur('phone')}
+                        placeholder="10-digit mobile number"
+                        maxLength={10}
+                        className={`w-full bg-gray-50 border rounded-2xl py-4 pl-12 pr-4 text-gray-800 placeholder:text-gray-500 focus:ring-2 focus:bg-white transition-all outline-none font-bold ${
+                          shippingTouched.phone && shippingErrors.phone
+                            ? 'border-red-400 focus:ring-red-200'
+                            : shippingTouched.phone && !shippingErrors.phone
+                            ? 'border-green-400 focus:ring-green-200'
+                            : 'border-gray-100 focus:ring-[#496506]'
+                        }`}
                       />
                     </div>
+                    <FieldError message={shippingTouched.phone ? shippingErrors.phone : ""} />
                   </div>
 
                   {/* Delivery Address */}
@@ -233,50 +325,79 @@ export function Checkout() {
                         name="address"
                         value={shippingData.address}
                         onChange={handleInputChange}
+                        onBlur={() => handleBlur('address')}
                         placeholder="House no, Building, Street name"
-                        className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 pl-12 pr-4 text-gray-800 placeholder:text-gray-500 focus:ring-2 focus:ring-[#496506] focus:bg-white transition-all outline-none font-bold"
-                        required
+                        className={`w-full bg-gray-50 border rounded-2xl py-4 pl-12 pr-4 text-gray-800 placeholder:text-gray-500 focus:ring-2 focus:bg-white transition-all outline-none font-bold ${
+                          shippingTouched.address && shippingErrors.address
+                            ? 'border-red-400 focus:ring-red-200'
+                            : shippingTouched.address && !shippingErrors.address
+                            ? 'border-green-400 focus:ring-green-200'
+                            : 'border-gray-100 focus:ring-[#496506]'
+                        }`}
                       />
                     </div>
+                    <FieldError message={shippingTouched.address ? shippingErrors.address : ""} />
                   </div>
 
                   {/* City, State, Pin Code */}
                   <div className="space-y-2">
                     <label className="text-xs font-bold text-gray-600 uppercase tracking-wider ml-1">City</label>
-                    <input
+                     <input
                       type="text"
                       name="city"
                       value={shippingData.city}
                       onChange={handleInputChange}
+                      onBlur={() => handleBlur('city')}
                       placeholder="e.g. Kochi"
-                      className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 px-6 text-gray-800 placeholder:text-gray-500 focus:ring-2 focus:ring-[#496506] focus:bg-white transition-all outline-none font-bold"
-                      required
+                      className={`w-full bg-gray-50 border rounded-2xl py-4 px-6 text-gray-800 placeholder:text-gray-500 focus:ring-2 focus:bg-white transition-all outline-none font-bold ${
+                        shippingTouched.city && shippingErrors.city
+                          ? 'border-red-400 focus:ring-red-200'
+                          : shippingTouched.city && !shippingErrors.city
+                          ? 'border-green-400 focus:ring-green-200'
+                          : 'border-gray-100 focus:ring-[#496506]'
+                      }`}
                     />
+                    <FieldError message={shippingTouched.city ? shippingErrors.city : ""} />
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <label className="text-xs font-bold text-gray-600 uppercase tracking-wider ml-1">State</label>
-                      <input
-                        type="text"
-                        name="state"
-                        value={shippingData.state}
-                        onChange={handleInputChange}
-                        placeholder="e.g. Kerala"
-                        className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 px-6 text-gray-800 placeholder:text-gray-500 focus:ring-2 focus:ring-[#496506] focus:bg-white transition-all outline-none font-bold"
-                        required
-                      />
+                       <input
+                          type="text"
+                          name="state"
+                          value={shippingData.state}
+                          onChange={handleInputChange}
+                          onBlur={() => handleBlur('state')}
+                          placeholder="e.g. Kerala"
+                          className={`w-full bg-gray-50 border rounded-2xl py-4 px-6 text-gray-800 placeholder:text-gray-500 focus:ring-2 focus:bg-white transition-all outline-none font-bold ${
+                            shippingTouched.state && shippingErrors.state
+                              ? 'border-red-400 focus:ring-red-200'
+                              : shippingTouched.state && !shippingErrors.state
+                              ? 'border-green-400 focus:ring-green-200'
+                              : 'border-gray-100 focus:ring-[#496506]'
+                          }`}
+                        />
+                        <FieldError message={shippingTouched.state ? shippingErrors.state : ""} />
                     </div>
                     <div className="space-y-2">
                       <label className="text-xs font-bold text-gray-600 uppercase tracking-wider ml-1">Pin Code</label>
-                      <input
-                        type="text"
-                        name="pinCode"
-                        value={shippingData.pinCode}
-                        onChange={handleInputChange}
-                        placeholder="######"
-                        className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 px-6 text-gray-800 placeholder:text-gray-500 focus:ring-2 focus:ring-[#496506] focus:bg-white transition-all outline-none font-bold"
-                        required
-                      />
+                       <input
+                          type="text"
+                          name="pinCode"
+                          value={shippingData.pinCode}
+                          onChange={handleInputChange}
+                          onBlur={() => handleBlur('pinCode')}
+                          placeholder="6-digit pin code"
+                          maxLength={6}
+                          className={`w-full bg-gray-50 border rounded-2xl py-4 px-6 text-gray-800 placeholder:text-gray-500 focus:ring-2 focus:bg-white transition-all outline-none font-bold ${
+                            shippingTouched.pinCode && shippingErrors.pinCode
+                              ? 'border-red-400 focus:ring-red-200'
+                              : shippingTouched.pinCode && !shippingErrors.pinCode
+                              ? 'border-green-400 focus:ring-green-200'
+                              : 'border-gray-100 focus:ring-[#496506]'
+                          }`}
+                        />
+                        <FieldError message={shippingTouched.pinCode ? shippingErrors.pinCode : ""} />
                     </div>
                   </div>
                 </div>
