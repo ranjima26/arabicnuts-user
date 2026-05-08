@@ -1,34 +1,27 @@
 import { NextResponse } from "next/server";
+import Product from "@/models/Product";
 
 export async function GET(
   req: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const { id } = await params;
+  try {
+    const { id } = await params;
 
-  return NextResponse.json({
-    message: `Product ${id} details`,
-  });
-}
+    const product = await Product.findById(id);
 
-export async function PUT(
-  req: Request,
-  { params }: { params: Promise<{ id: string }> }
-) {
-  const { id } = await params;
+    if (!product) {
+      return NextResponse.json(
+        { message: "Product not found" },
+        { status: 404 }
+      );
+    }
 
-  return NextResponse.json({
-    message: `Product ${id} updated`,
-  });
-}
-
-export async function DELETE(
-  req: Request,
-  { params }: { params: Promise<{ id: string }> }
-) {
-  const { id } = await params;
-
-  return NextResponse.json({
-    message: `Product ${id} deleted`,
-  });
+    return NextResponse.json(product);
+  } catch (error) {
+    return NextResponse.json(
+      { message: "Failed to fetch product" },
+      { status: 500 }
+    );
+  }
 }

@@ -10,6 +10,12 @@ import jarImage from '@/assets/0d50403659dbeb714860454d0322380314619c03.png';
 
 export function Cart() {
   const dispatch = useDispatch();
+  const [mounted, setMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const { cartItems: items } = useSelector((state: any) => state.cart);
   const [isMounted, setIsMounted] = useState(false);
 
@@ -40,6 +46,18 @@ export function Cart() {
   const removeItem = (id: string) => {
     dispatch(removeFromCart(id));
   };
+
+  const handleCheckout = () => {
+    dispatch(clearBuyNowItem());
+  };
+
+  if (!mounted) {
+    return (
+      <div className="min-h-screen bg-[#FDFCFB] pt-32 pb-20 flex items-center justify-center">
+        <div className="text-gray-400 animate-pulse font-light">Loading your bag...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#FDFCFB] pt-32 pb-20">
@@ -93,7 +111,9 @@ export function Cart() {
                       <div className="flex-grow flex flex-col justify-between py-2">
                         <div>
                           <div className="flex justify-between items-start mb-1">
-                            <h3 className="text-xl font-medium text-gray-900">{item.name}</h3>
+                            <h3 className="text-xl font-medium text-gray-900">
+                              {item.name} {item.variant?.size ? `(${item.variant.size})` : ''}
+                            </h3>
                             <button 
                               onClick={() => removeItem(item._id)}
                               className="text-gray-400 hover:text-red-500 transition-colors p-1"
@@ -171,7 +191,10 @@ export function Cart() {
                   </div>
 
                   <Link href="/checkout">
-                    <button className="w-full py-4 bg-gradient-to-br from-[#496506] via-[#3d5405] to-[#496506] text-white rounded-lg transition-all duration-300 font-bold text-lg mb-6 shadow-lg shadow-[#496506]/20 hover:shadow-2xl hover:shadow-[#496506]/40 hover:-translate-y-1 active:scale-[0.98]">
+                    <button 
+                      onClick={handleCheckout}
+                      className="w-full py-4 bg-gradient-to-br from-[#496506] via-[#3d5405] to-[#496506] text-white rounded-lg transition-all duration-300 font-bold text-lg mb-6 shadow-lg shadow-[#496506]/20 hover:shadow-2xl hover:shadow-[#496506]/40 hover:-translate-y-1 active:scale-[0.98]"
+                    >
                       Checkout
                     </button>
                   </Link>

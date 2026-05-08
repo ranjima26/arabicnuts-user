@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import { useRegisterMutation } from "@/redux/api/authApi";
+import { signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { auth, googleProvider } from "@/lib/firebase";
+import { setUser } from "@/redux/slices/usersSlice";
 import { toast } from "react-toastify";
 import { Button } from "./ui/button";
 import {
@@ -17,6 +17,9 @@ import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { Loader2, Eye, EyeOff } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useRegisterMutation } from "@/redux/api/authApi";
+import { useDispatch } from "react-redux";
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -24,6 +27,7 @@ interface AuthModalProps {
 }
 
 export function AuthModal({ isOpen, onClose }: AuthModalProps) {
+  const dispatch = useDispatch();
   const router = useRouter();
   const [register, { isLoading: isRegistering }] = useRegisterMutation();
   const [isLoading, setIsLoading] = useState(false);
@@ -49,20 +53,28 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
 
     setIsLoading(true);
     try {
-      const result = await signIn("credentials", {
-        email: loginEmail,
-        password: loginPassword,
-        redirect: false,
+      const result = await signInWithEmailAndPassword(auth, loginEmail, loginPassword);
+      const firebaseUser = result.user;
+
+      const res = await fetch('/api/auth/firebase-sync', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: firebaseUser.email,
+          uid: firebaseUser.uid,
+          signupMethod: 'Email/Password'
+        }),
       });
 
-      if (result?.error) {
-        toast.error(result.error || "Invalid credentials");
+      if (!res.ok) {
+        toast.error("Failed to sync with server");
       } else {
+        toast.success("login successfull..Welcome to Arabic Dry Fruits");
         onClose();
         router.refresh();
       }
-    } catch (error) {
-      toast.error("An error occurred during login");
+    } catch (error: any) {
+      toast.error(error.message || "Invalid credentials");
     } finally {
       setIsLoading(false);
     }
@@ -75,20 +87,63 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
       return;
     }
 
+    setIsLoading(true);
     try {
-      const res = await register({ name: regName, email: regEmail, password: regPassword }).unwrap();
-      toast.success("Account created successfully! Please login.");
-      setRegName("");
-      setRegEmail("");
-      setRegPassword("");
-      setActiveTab("login");
+      const result = await createUserWithEmailAndPassword(auth, regEmail, regPassword);
+      await updateProfile(result.user, { displayName: regName });
+
+      const res = await fetch('/api/auth/firebase-sync', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: result.user.email,
+          name: regName,
+          uid: result.user.uid,
+          signupMethod: 'Email/Password'
+        }),
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        dispatch(setUser(data.user));
+        toast.success("Account created successfully!");
+        onClose();
+        router.refresh();
+      }
     } catch (error: any) {
-      toast.error(error?.data?.message || "Registration failed");
+      toast.error(error.message || "Registration failed");
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const handleGoogleSignIn = () => {
-    signIn("google", { callbackUrl: "/" });
+  const handleGoogleSignIn = async () => {
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      const firebaseUser = result.user;
+
+      const res = await fetch('/api/auth/firebase-sync', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: firebaseUser.email,
+          name: firebaseUser.displayName,
+          image: firebaseUser.photoURL,
+          uid: firebaseUser.uid,
+          signupMethod: 'OAuth'
+        }),
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        dispatch(setUser(data.user));
+        toast.success("Login successful!");
+        onClose();
+        router.refresh();
+      }
+    } catch (error: any) {
+      toast.error(error.message || "Google sign in failed");
+    }
   };
 
   return (
@@ -111,10 +166,10 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
             <form onSubmit={handleLogin} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="email" className="text-sm font-light text-gray-600">Email address</Label>
-                <Input 
-                  id="email" 
-                  type="email" 
-                  placeholder="name@example.com" 
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="name@example.com"
                   className="h-12 bg-white/50 border-gray-200 rounded-xl focus:ring-[#496506] focus:border-[#496506]/30"
                   value={loginEmail}
                   onChange={(e) => setLoginEmail(e.target.value)}
@@ -126,14 +181,14 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                   <button type="button" className="text-xs text-[#496506] hover:underline">Forgot password?</button>
                 </div>
                 <div className="relative">
-                  <Input 
-                    id="password" 
-                    type={showLoginPassword ? "text" : "password"} 
+                  <Input
+                    id="password"
+                    type={showLoginPassword ? "text" : "password"}
                     className="h-12 bg-white/50 border-gray-200 rounded-xl focus:ring-[#496506] focus:border-[#496506]/30 pr-10"
                     value={loginPassword}
                     onChange={(e) => setLoginPassword(e.target.value)}
                   />
-                  <button 
+                  <button
                     type="button"
                     className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
                     onClick={() => setShowLoginPassword(!showLoginPassword)}
@@ -142,7 +197,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                   </button>
                 </div>
               </div>
-              <Button 
+              <Button
                 type="submit"
                 disabled={isLoading}
                 className="w-full h-12 bg-[#496506] hover:bg-[#3a5005] text-white rounded-xl transition-all duration-300 shadow-md hover:shadow-lg mt-2"
@@ -159,8 +214,8 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
               </div>
             </div>
             <div className="grid grid-cols-1 gap-4">
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 className="h-12 border-gray-200 rounded-xl hover:bg-gray-50 font-light"
                 onClick={handleGoogleSignIn}
               >
@@ -173,9 +228,9 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
             <form onSubmit={handleRegister} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="reg-name" className="text-sm font-light text-gray-600">Full Name</Label>
-                <Input 
-                  id="reg-name" 
-                  placeholder="John Doe" 
+                <Input
+                  id="reg-name"
+                  placeholder="John Doe"
                   className="h-12 bg-white/50 border-gray-200 rounded-xl focus:ring-[#496506] focus:border-[#496506]/30"
                   value={regName}
                   onChange={(e) => setRegName(e.target.value)}
@@ -183,10 +238,10 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="reg-email" className="text-sm font-light text-gray-600">Email address</Label>
-                <Input 
-                  id="reg-email" 
-                  type="email" 
-                  placeholder="name@example.com" 
+                <Input
+                  id="reg-email"
+                  type="email"
+                  placeholder="name@example.com"
                   className="h-12 bg-white/50 border-gray-200 rounded-xl focus:ring-[#496506] focus:border-[#496506]/30"
                   value={regEmail}
                   onChange={(e) => setRegEmail(e.target.value)}
@@ -195,14 +250,14 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
               <div className="space-y-2">
                 <Label htmlFor="reg-password" className="text-sm font-light text-gray-600">Password</Label>
                 <div className="relative">
-                  <Input 
-                    id="reg-password" 
-                    type={showRegPassword ? "text" : "password"} 
+                  <Input
+                    id="reg-password"
+                    type={showRegPassword ? "text" : "password"}
                     className="h-12 bg-white/50 border-gray-200 rounded-xl focus:ring-[#496506] focus:border-[#496506]/30 pr-10"
                     value={regPassword}
                     onChange={(e) => setRegPassword(e.target.value)}
                   />
-                  <button 
+                  <button
                     type="button"
                     className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
                     onClick={() => setShowRegPassword(!showRegPassword)}
@@ -211,7 +266,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                   </button>
                 </div>
               </div>
-              <Button 
+              <Button
                 type="submit"
                 disabled={isRegistering}
                 className="w-full h-12 bg-[#496506] hover:bg-[#3a5005] text-white rounded-xl transition-all duration-300 shadow-md hover:shadow-lg mt-2"

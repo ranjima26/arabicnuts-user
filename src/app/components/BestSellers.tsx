@@ -96,7 +96,7 @@ export function BestSellers() {
         {/* Products Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 max-w-7xl mx-auto">
           {bestSellers.map((product, index) => (
-            <div 
+            <div
               key={product.id}
               className="group bg-white rounded-3xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-500 hover:-translate-y-3"
               style={{ animationDelay: `${index * 0.1}s` }}
@@ -110,7 +110,7 @@ export function BestSellers() {
                 />
                 {/* Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                
+
                 {/* Discount Badge */}
                 <div className="absolute top-4 left-4 bg-gradient-to-r from-red-500 to-red-600 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg">
                   {product.discount}
@@ -128,13 +128,12 @@ export function BestSellers() {
                 <div className="flex items-center gap-2 mb-3">
                   <div className="flex items-center gap-1">
                     {[...Array(5)].map((_, i) => (
-                      <Star 
+                      <Star
                         key={i}
-                        className={`w-4 h-4 ${
-                          i < Math.floor(product.rating) 
-                            ? 'fill-yellow-400 text-yellow-400' 
+                        className={`w-4 h-4 ${i < Math.floor(product.rating)
+                            ? 'fill-yellow-400 text-yellow-400'
                             : 'text-gray-300'
-                        }`}
+                          }`}
                       />
                     ))}
                   </div>
@@ -145,7 +144,7 @@ export function BestSellers() {
                 <h4 className="text-xl md:text-2xl font-bold text-[#373737] mb-2 group-hover:text-[#496506] transition-colors">
                   {product.name}
                 </h4>
-                
+
                 {/* Description */}
                 <p className="text-sm text-gray-600 mb-4 capitalize leading-relaxed">
                   {product.description}

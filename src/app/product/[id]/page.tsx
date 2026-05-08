@@ -15,5 +15,5 @@ export default async function ProductPage({
     notFound();
   }
 
-  return <PageOverview product={product} />;
+  return <PageOverview productId={id} />;
 }

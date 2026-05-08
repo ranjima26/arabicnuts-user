@@ -1,12 +1,11 @@
 import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/lib/auth";
+import { getAuthUser } from "@/lib/auth-helper";
 import connectDB from "@/lib/mongodb";
 import User from "@/models/User";
 
 export async function GET(req: Request) {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await getAuthUser();
 
     if (!session) {
       return NextResponse.json({ message: "Not authenticated" }, { status: 401 });

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import {
   Truck,
@@ -15,18 +15,18 @@ import {
   CheckCircle2
 } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useRouter } from 'next/navigation';
 import { useSelector, useDispatch } from 'react-redux';
 import { clearBuyNowItem, createOrder, clearCartItems } from '@/redux/slices/cartSlice';
 import jarImage from '@/assets/0d50403659dbeb714860454d0322380314619c03.png';
-import { useRouter } from 'next/navigation';
-import { useSession } from 'next-auth/react';
+import { useAuth } from '@/hooks/useAuth';
 import { toast } from 'react-toastify';
 import Swal from 'sweetalert2';
 
 export function Checkout() {
-  const dispatch = useDispatch();
   const router = useRouter();
-  const { data: session } = useSession();
+  const dispatch = useDispatch();
+  const { user } = useAuth();
   const [paymentMethod, setPaymentMethod] = useState<'cod' | 'online'>('online');
   const [isMounted, setIsMounted] = useState(false);
   
@@ -103,14 +103,14 @@ export function Checkout() {
   }, []);
 
   React.useEffect(() => {
-    if (session?.user && !shippingData.name && !shippingData.email) {
+    if (user && !shippingData.name && !shippingData.email) {
       setShippingData(prev => ({
         ...prev,
-        name: session.user?.name || '',
-        email: session.user?.email || '',
+        name: user?.name || '',
+        email: user?.email || '',
       }));
     }
-  }, [session, shippingData.name, shippingData.email]);
+  }, [user, shippingData.name, shippingData.email]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -118,6 +118,10 @@ export function Checkout() {
   };
 
   if (!isMounted) return null;
+
+  if (!isMounted) {
+    return <div className="min-h-screen bg-[#F8F9FA] pt-32 pb-20 flex items-center justify-center">Loading checkout...</div>;
+  }
 
   return (
     <div className="min-h-screen bg-[#F8F9FA] pt-32 pb-20">

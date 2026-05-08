@@ -1,46 +1,119 @@
-import mongoose, { Schema, model, models } from 'mongoose';
+import mongoose, { Schema, model, models } from "mongoose";
 
-const OrderItemSchema = new Schema({
-  name: { type: String, required: true },
-  qty: { type: Number, required: true },
-  image: { type: String, required: true },
-  price: { type: Number, required: true },
-  product: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Product',
-    required: true,
-  },
-});
-
-const OrderSchema = new Schema(
+const orderSchema = new mongoose.Schema(
   {
+    shippingInfo: {
+      fullName: { type: String, required: false },
+      address: { type: String, required: false },
+      address2: { type: String, required: false },
+      email: { type: String, required: false },
+      state: { type: String, required: false },
+      city: { type: String, required: false },
+      phoneNo: { type: String, required: false },
+      zipCode: { type: String, required: false },
+      country: { type: String, required: false, default: "India" },
+    },
+    shippingAddress: {
+      fullName: { type: String, required: false },
+      email: { type: String, required: false },
+      phone: { type: String, required: false },
+      address: { type: String, required: false },
+      city: { type: String, required: false },
+      state: { type: String, required: false },
+      pinCode: { type: String, required: false },
+      country: { type: String, required: false, default: "India" },
+    },
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
-      required: true,
+      required: false,
+      ref: "User",
     },
-    orderItems: [OrderItemSchema],
-    shippingAddress: {
-      fullName: { type: String, required: true },
-      address: { type: String, required: true },
-      city: { type: String, required: true },
-      postalCode: { type: String, required: true },
-      country: { type: String, required: true },
+    orderItems: [
+      {
+        name: { type: String, required: false },
+        sku: { type: String, required: false },
+        quantity: { type: Number, required: false },
+        image: { type: String, required: false, default: "" },
+        imageUrl: { type: String, required: false },
+        variant: { type: mongoose.Schema.Types.Mixed, required: false },
+        price: { type: mongoose.Schema.Types.Mixed, required: false },
+        discountPrice: { type: String, required: false },
+        productId: { type: String, required: false },
+        product: {
+          type: mongoose.Schema.Types.ObjectId,
+          required: false,
+          ref: "products",
+        },
+      },
+    ],
+    items: { type: Array, required: false },
+    paymentMethod: {
+      type: String,
+      required: false,
+      enum: {
+        values: ["COD", "Online", "cod", "online"],
+        message: "Please select COD or Online Payments",
+      },
     },
-    paymentMethod: { type: String, required: true },
-    paymentResult: { id: String, status: String, update_time: String, email_address: String },
-    itemsPrice: { type: Number, required: true, default: 0.0 },
-    taxPrice: { type: Number, required: true, default: 0.0 },
-    shippingPrice: { type: Number, required: true, default: 0.0 },
-    totalPrice: { type: Number, required: true, default: 0.0 },
-    isPaid: { type: Boolean, required: true, default: false },
-    paidAt: { type: Date },
-    isDelivered: { type: Boolean, required: true, default: false },
-    deliveredAt: { type: Date },
+    paymentInfo: {
+      id: String,
+      status: String,
+    },
+    itemsPrice: { type: Number, required: false, default: 0 },
+    taxAmount: { type: Number, required: false, default: 0 },
+    shippingAmount: { type: Number, required: false, default: 0 },
+    totalAmount: { type: Number, required: false },
+    couponApplied: { type: String, required: false, default: "No" },
+    couponAppliedRef: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Coupon",
+      required: false,
+    },
+    couponDiscount: { type: Number, default: 0 },
+    status: { type: String, required: false },
+    orderStatus: {
+      type: String,
+      default: "Processing",
+      enum: {
+        values: [
+          "Processing",
+          "Shipped",
+          "Delivered",
+          "Cancelled",
+          "Return Requested",
+          "Return Approved",
+          "Return Rejected",
+          "Returned",
+          "Refunded",
+        ],
+        message: "Please select valid order status",
+      },
+    },
+    orderNotes: { type: String, required: false },
+    waybill: { type: String, required: false, unique: true, sparse: true },
+    invoiceURL: { type: String, required: false },
+    delhiveryCurrentOrderStatus: { type: String, required: false },
+    cancelOrReturnReason: { type: String, required: false },
+    cancelledAt: { type: Date, required: false },
+    returnRequestedAt: { type: Date, required: false },
+    returnedAt: { type: Date, required: false },
+    refundedAt: { type: Date, required: false },
+    refundAmount: { type: Number, required: false },
+    refundInfo: { id: String, status: String },
+    orderTracking: [
+      {
+        Status: { type: String, required: false },
+        StatusDateTime: { type: Date, required: false },
+        StatusType: { type: String, required: false },
+        StatusLocation: { type: String, required: false },
+        Instructions: { type: String, required: false },
+      },
+    ],
+    deliveredAt: Date,
   },
   { timestamps: true }
 );
 
-const Order = models.Order || model('Order', OrderSchema);
+const Order = models.Order || model("Order", orderSchema);
 
 export default Order;

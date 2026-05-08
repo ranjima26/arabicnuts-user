@@ -3,13 +3,15 @@ import { Menu, Search, User, X, LogOut, ShoppingCart } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useSession, signOut } from 'next-auth/react';
 import { useSelector } from 'react-redux';
+import { useAuth } from '@/hooks/useAuth';
+import { signOut } from 'firebase/auth';
+import { auth } from '@/lib/firebase';
 import { AuthModal } from './AuthModal';
 import { products } from '@/data/products';
 
 export function Header() {
-  const { data: session } = useSession();
+  const { user } = useAuth();
   const { cartItems } = useSelector((state: any) => state.cart);
   const router = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -99,17 +101,17 @@ export function Header() {
               )}
             </Link>
 
-            {session ? (
+            {user ? (
               <Link 
                 href="/profile"
                 className="flex items-center gap-2 md:gap-3 h-10 md:h-12 lg:h-14 bg-white/30 hover:bg-white/40 backdrop-blur-md border border-white/20 rounded-full pl-4 pr-1.5 md:pl-5 md:pr-2 lg:pl-6 lg:pr-2 transition-all group"
               >
                 <span className="text-sm md:text-base font-medium text-gray-800 whitespace-nowrap hidden sm:block group-hover:text-[#496506] transition-colors">
-                  Hi, <span className="font-bold capitalize">{session.user?.name ? session.user.name.split(' ')[0] : 'User'}</span>
+                  Hi, <span className="font-bold capitalize">{user.name ? user.name.split(' ')[0] : 'User'}</span>
                 </span>
                 <div className="w-7 h-7 md:w-8 md:h-8 lg:w-10 lg:h-10 flex items-center justify-center bg-[#496506]/20 group-hover:bg-[#496506]/30 rounded-full overflow-hidden shrink-0 transition-colors">
-                  {session.user?.image ? (
-                    <img src={session.user.image} alt={session.user.name || "User"} className="w-full h-full object-cover" />
+                  {user.image ? (
+                    <img src={user.image} alt={user.name || "User"} className="w-full h-full object-cover" />
                   ) : (
                     <User className="w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 text-[#496506]" />
                   )}
@@ -231,15 +233,15 @@ export function Header() {
                 </span>
               )}
             </Link>
-            {session && (
+            {user && (
               <Link href="/profile" onClick={() => setMobileMenuOpen(false)} className="text-3xl font-light text-gray-800 hover:text-[#496506] transition-colors">My Profile</Link>
             )}
             <Link href="/#best-sellers" onClick={() => setMobileMenuOpen(false)} className="text-3xl font-light text-gray-800 hover:text-[#496506] transition-colors">Best Sellers</Link>
             <Link href="/about" onClick={() => setMobileMenuOpen(false)} className="text-3xl font-light text-gray-800 hover:text-[#496506] transition-colors">About Us</Link>
-            {session ? (
+            {user ? (
               <button 
                 onClick={() => {
-                  signOut({ callbackUrl: '/' });
+                  signOut(auth);
                   setMobileMenuOpen(false);
                 }}
                 className="text-3xl font-light text-red-600 hover:text-red-700 transition-colors flex items-center gap-2"

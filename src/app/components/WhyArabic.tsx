@@ -84,7 +84,7 @@ const features = [
 export function WhyArabic() {
   return (
     <section className="relative w-full min-h-[900px] lg:h-[1000px] bg-[#fafafa] overflow-hidden py-20 flex items-center justify-center font-['Roboto',sans-serif]">
-      
+
       {/* Background Palm Logo */}
       <div className="absolute inset-0 flex items-center justify-center opacity-[0.15] pointer-events-none z-0">
         <motion.div

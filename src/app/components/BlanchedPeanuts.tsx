@@ -110,6 +110,7 @@ export function BlanchedPeanuts() {
       <div className="absolute top-[5%] left-[15%] w-[70vw] h-[70vw] max-w-[800px] max-h-[800px] bg-[#fcf9eb] rounded-full blur-[100px] pointer-events-none -z-10" />
 
       {/* Floating Elements */}
+      {/* Floating Elements */}
       {floatingNuts.map((nut, i) => (
         <motion.div
           key={i}
@@ -229,11 +230,10 @@ export function BlanchedPeanuts() {
                 <button
                   key={idx}
                   onClick={() => setActiveIndex(idx)}
-                  className={`flex flex-col items-center justify-start w-[90px] sm:w-[110px] md:w-[125px] h-[135px] sm:h-[155px] md:h-[175px] pt-4 px-2 gap-3 shrink-0 snap-center group rounded-[25px] transition-all duration-300 outline-none ${
-                    isActive
+                  className={`flex flex-col items-center justify-start w-[90px] sm:w-[110px] md:w-[125px] h-[135px] sm:h-[155px] md:h-[175px] pt-4 px-2 gap-3 shrink-0 snap-center group rounded-[25px] transition-all duration-300 outline-none ${isActive
                       ? "border-[0.5px] border-[#8c8b8a]/75 bg-transparent scale-[1.05] shadow-[0_4px_15px_rgba(0,0,0,0.02)]"
                       : "border-[0.5px] border-transparent hover:border-[#8c8b8a]/30 hover:bg-black/[0.01] hover:scale-[1.02]"
-                  }`}
+                    }`}
                 >
                   <div
                     className="relative w-[65px] sm:w-[80px] md:w-[100px]"
@@ -244,9 +244,8 @@ export function BlanchedPeanuts() {
                         src={imgVarietyNutsBowls1}
                         alt={prod.name}
                         fill
-                        className={`absolute max-w-none object-contain transition-transform duration-500 origin-center ${
-                          isActive ? "" : "group-hover:scale-110"
-                        }`}
+                        className={`absolute max-w-none object-contain transition-transform duration-500 origin-center ${isActive ? "" : "group-hover:scale-110"
+                          }`}
                         style={{
                           height: "347.47%",
                           width: "296.59%",
@@ -258,11 +257,10 @@ export function BlanchedPeanuts() {
                   </div>
 
                   <span
-                    className={`text-[11px] sm:text-[13px] md:text-[14px] font-medium text-center leading-[1.2] transition-colors ${
-                      isActive
+                    className={`text-[11px] sm:text-[13px] md:text-[14px] font-medium text-center leading-[1.2] transition-colors ${isActive
                         ? "text-[#373737]"
                         : "text-[#8c8b8a] group-hover:text-[#373737]"
-                    }`}
+                      }`}
                   >
                     {nameParts[0]}
                     <br />

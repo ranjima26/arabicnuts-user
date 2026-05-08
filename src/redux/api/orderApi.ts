@@ -7,7 +7,7 @@ export const orderApi = createApi({
   endpoints: (builder) => ({
     createNewOrder: builder.mutation({
       query: (body) => ({
-        url: 'order/new',
+        url: 'orders/createOrder',
         method: 'POST',
         body,
       }),

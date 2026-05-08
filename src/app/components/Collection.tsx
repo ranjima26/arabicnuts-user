@@ -50,8 +50,8 @@ export function Collection() {
               <div className="bg-white rounded-2xl shadow-lg overflow-hidden transition-all duration-500 hover:shadow-2xl hover:-translate-y-2">
                 {/* Product Image */}
                 <div className="relative w-full aspect-[240/229] overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100">
-                  <Image 
-                    src={product.image}
+                  <img 
+                    src={product.image.src}
                     alt={product.name}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                   />

@@ -20,7 +20,7 @@ import { useDispatch } from "react-redux";
 import { addToCart, setBuyNowItem } from "@/redux/slices/cartSlice";
 import imgPistachio from "@/assets/roasted_pistachios.png";
 import { useEffect } from "react";
-
+import { useGetProductDetailsQuery } from "@/redux/api/productApi";
 // Mock data for demonstration - you can replace this with real props
 const MOCK_PRODUCT = {
   id: "p2",
@@ -41,11 +41,18 @@ const MOCK_PRODUCT = {
   ]
 };
 
-export function PageOverview({ product = MOCK_PRODUCT }: { product?: any }) {
+export function PageOverview({ productId }: { productId?: string }) {
   const router = useRouter();
   const dispatch = useDispatch();
+  
+  const { data: response, isLoading } = useGetProductDetailsQuery(productId, { skip: !productId });
+  const fetchedProduct = response?.product;
+  
+  const product = fetchedProduct || MOCK_PRODUCT;
+
   const [quantity, setQuantity] = useState(1);
-  const [mainImage, setMainImage] = useState(product.images[0]);
+  const [selectedVariantIdx, setSelectedVariantIdx] = useState(0);
+  const [mainImage, setMainImage] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState("description");
   const [isMounted, setIsMounted] = useState(false);
 
@@ -56,41 +63,48 @@ export function PageOverview({ product = MOCK_PRODUCT }: { product?: any }) {
   const increment = () => setQuantity(q => q + 1);
   const decrement = () => setQuantity(q => Math.max(1, q - 1));
 
+  const variants = product.variants || [];
+  const selectedVariant = variants[selectedVariantIdx] || null;
+  const price = selectedVariant?.price || product.price || 0;
+  const discountPrice = selectedVariant?.discountPrice || product.discountPrice || 0;
+  
+  const displayImage = mainImage || product.mainImage || product.images?.[0]?.url || product.images?.[0] || imgPistachio.src;
+  const allImages = product.images && typeof product.images[0] === 'string' 
+    ? product.images 
+    : [product.mainImage, ...(product.images || []).map((img: any) => img.url)].filter(Boolean);
+  if (allImages.length === 0) allImages.push(imgPistachio.src);
+
   if (!isMounted) return null;
 
   const handleAddToCart = () => {
-    // Parse price string like "₹1,299" to number 1299
-    const priceValue = typeof product.price === 'string' 
-      ? Number(product.price.replace(/[^\d]/g, '')) 
-      : product.price;
-
     dispatch(addToCart({
-      _id: product.id,
+      _id: product._id || product.id,
       name: product.name,
-      image: mainImage,
-      price: priceValue,
-      qty: quantity
+      image: displayImage,
+      price: typeof price === 'string' ? Number(price.replace(/[^\d]/g, '')) : price,
+      qty: quantity,
+      variant: selectedVariant
     }));
     
     router.push("/cart");
   };
 
   const handleBuyNow = () => {
-
-    const priceValue = typeof product.price === 'string' 
-      ? Number(product.price.replace(/[^\d]/g, '')) 
-      : product.price;
-
     dispatch(setBuyNowItem({
-      _id: product.id,
+      _id: product._id || product.id,
       name: product.name,
-      image: mainImage,
-      price: priceValue,
-      qty: quantity
+      image: displayImage,
+      price: typeof price === 'string' ? Number(price.replace(/[^\d]/g, '')) : price,
+      qty: quantity,
+      variant: selectedVariant
     }));
     
     router.push("/checkout");
   };
+
+  if (isLoading && productId) {
+    return <div className="min-h-screen flex items-center justify-center">Loading product details...</div>;
+  }
 
   return (
     <div className="w-full bg-[#fcfcfb] min-h-screen py-8 md:py-16 overflow-x-hidden">
@@ -126,23 +140,23 @@ export function PageOverview({ product = MOCK_PRODUCT }: { product?: any }) {
               </button>
               
               <img 
-                src={mainImage} 
+                src={displayImage} 
                 alt={product.name} 
-                className="w-full h-full object-contain drop-shadow-2xl group-hover:scale-105 transition-transform duration-500"
+                className="w-full h-full object-contain drop-shadow-2xl group-hover:scale-105 transition-transform duration-500 mix-blend-multiply"
               />
             </div>
 
             {/* Thumbnails */}
             <div className="flex items-center gap-4 overflow-x-auto pb-2 scrollbar-hide">
-              {product.images.map((img: string, idx: number) => (
+              {allImages.map((img: string, idx: number) => (
                 <button 
                   key={idx}
                   onClick={() => setMainImage(img)}
                   className={`relative flex-shrink-0 w-24 h-24 rounded-2xl border-2 overflow-hidden bg-white p-2 transition-all duration-300 ${
-                    mainImage === img ? 'border-[#496506] shadow-md' : 'border-gray-100 opacity-70 hover:opacity-100'
+                    displayImage === img ? 'border-[#496506] shadow-md' : 'border-gray-100 opacity-70 hover:opacity-100'
                   }`}
                 >
-                  <img src={img} alt={`View ${idx + 1}`} className="w-full h-full object-contain" />
+                  <img src={img} alt={`View ${idx + 1}`} className="w-full h-full object-contain mix-blend-multiply" />
                 </button>
               ))}
             </div>
@@ -157,7 +171,7 @@ export function PageOverview({ product = MOCK_PRODUCT }: { product?: any }) {
           >
             <div className="mb-6">
               <h1 className="text-4xl md:text-5xl font-bold text-[#1b1d0e] mb-3">{product.name}</h1>
-              <p className="text-[#735c00] text-lg font-medium">{product.subtitle}</p>
+              <p className="text-[#735c00] text-lg font-medium">{product.shortDescription || product.subtitle}</p>
             </div>
 
           
@@ -167,16 +181,20 @@ export function PageOverview({ product = MOCK_PRODUCT }: { product?: any }) {
                   <Star key={i} className={`w-5 h-5 ${i < Math.floor(product.rating) ? 'fill-current' : 'text-gray-300'}`} />
                 ))}
               </div>
-              <span className="text-gray-600 font-medium">{product.rating}</span>
+              <span className="text-gray-600 font-medium">{product.averageRating || product.rating || 5}</span>
               <span className="text-gray-300">|</span>
-              <span className="text-[#496506] hover:underline cursor-pointer text-sm font-medium">{product.reviews} Reviews</span>
+              <span className="text-[#496506] hover:underline cursor-pointer text-sm font-medium">{product.reviews?.length || 0} Reviews</span>
             </div>
 
            
             <div className="flex items-baseline gap-4 mb-8">
-              <span className="text-4xl font-bold text-[#496506]">{product.price}</span>
-              <span className="text-xl text-gray-400 line-through font-medium">{product.oldPrice}</span>
-              <span className="text-sm font-bold text-[#e7000b] bg-[#e7000b]/10 px-3 py-1 rounded-full">Save {product.discount}</span>
+              <span className="text-4xl font-bold text-[#496506]">₹{price}</span>
+              {discountPrice > 0 && (
+                <>
+                  <span className="text-xl text-gray-400 line-through font-medium">₹{discountPrice}</span>
+                  <span className="text-sm font-bold text-[#e7000b] bg-[#e7000b]/10 px-3 py-1 rounded-full">Sale</span>
+                </>
+              )}
             </div>
 
             <p className="text-gray-600 leading-relaxed font-light mb-8">
@@ -256,7 +274,7 @@ export function PageOverview({ product = MOCK_PRODUCT }: { product?: any }) {
                   <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-4">
                     <p>{product.description}</p>
                     <ul className="list-disc pl-5 space-y-2 text-[#496506]">
-                      {product.features.map((f: string, i: number) => (
+                      {(product.features?.length > 0 ? product.features : MOCK_PRODUCT.features).map((f: string, i: number) => (
                         <li key={i}><span className="text-gray-600">{f}</span></li>
                       ))}
                     </ul>

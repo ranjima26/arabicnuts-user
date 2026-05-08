@@ -24,9 +24,9 @@ export async function GET(
     }
 
     return NextResponse.json(order);
-  } catch (error: any) {
+  } catch (error) {
     return NextResponse.json(
-      { message: error.message },
+      { message: "Failed to fetch order" },
       { status: 500 }
     );
   }

@@ -2,14 +2,16 @@
 
 import React, { useState } from 'react';
 import { User, ShoppingBag, LogOut, ChevronRight, MapPin, Phone, Mail, Edit2, Shield } from 'lucide-react';
-import { useSession, signOut } from "next-auth/react";
+import { useAuth } from '@/hooks/useAuth';
+import { signOut } from 'firebase/auth';
+import { auth } from '@/lib/firebase';
 import { useUpdateProfileMutation } from '@/redux/api/userApi';
 import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 import { useSearchParams } from 'next/navigation';
 
 export default function Profile() {
-  const { data: session, update: updateSession } = useSession();
+  const { user } = useAuth();
   const searchParams = useSearchParams();
   const [updateProfile, { isLoading: isUpdating }] = useUpdateProfileMutation();
   
@@ -19,8 +21,8 @@ export default function Profile() {
   const { orders } = useSelector((state: any) => state.cart);
 
   const [formData, setFormData] = useState({
-    name: session?.user?.name || "",
-    email: session?.user?.email || "",
+    name: user?.name || "",
+    email: user?.email || "",
     phone: "", 
     location: "" 
   });
@@ -28,17 +30,14 @@ export default function Profile() {
 
   React.useEffect(() => {
     setIsMounted(true);
-    const user = session?.user as any;
     if (user) {
       setFormData(prev => ({
         ...prev,
         name: user.name || prev.name,
         email: user.email || prev.email,
-        phone: user.phone || prev.phone,
-        location: user.location || prev.location
       }));
     }
-  }, [session]);
+  }, [user]);
 
   const userName = formData.name || "User";
   const userEmail = formData.email || "user@example.com";
@@ -56,18 +55,6 @@ export default function Profile() {
         phone: formData.phone,
         location: formData.location
       }).unwrap();
-
-      // Optionally update NextAuth session
-      await updateSession({
-        ...session,
-        user: {
-          ...session?.user,
-          name: formData.name,
-          email: formData.email,
-          phone: formData.phone,
-          location: formData.location
-        }
-      });
 
       toast.success("Profile updated successfully!");
     } catch (error: any) {
@@ -169,7 +156,10 @@ export default function Profile() {
                 <div className="h-[1px] bg-gray-100 my-4 mx-4"></div>
                 
                 <button 
-                  onClick={() => signOut({ callbackUrl: '/' })}
+                  onClick={() => {
+                    signOut(auth);
+                    window.location.href = '/';
+                  }}
                   className="w-full flex items-center gap-4 p-4 rounded-2xl text-red-500 hover:bg-red-50 transition-all font-bold"
                 >
                   <LogOut className="w-5 h-5" />

@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 
 // Ensure connection helper
 async function dbConnect() {
-  await clientPromise;
+  clientPromise;
   if (mongoose.connection.readyState !== 1) {
     // Note: clientPromise usually handles the connection, but if using Mongoose models
     // we need to make sure Mongoose itself is connected to the URI.

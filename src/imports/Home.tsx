@@ -911,7 +911,7 @@ function Group43() {
         <div className="flex-none h-[117.864px] rotate-[-104.73deg] skew-x-[2.26deg] w-[92.046px]">
           <div className="relative shadow-[-50px_25px_16px_0px_rgba(0,0,0,0),-32px_16px_14px_0px_rgba(0,0,0,0.01),-18px_9px_12px_0px_rgba(0,0,0,0.05),-8px_4px_9px_0px_rgba(0,0,0,0.09),-2px_1px_5px_0px_rgba(0,0,0,0.1)] size-full" data-name="Object">
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <Image alt="" className="absolute h-[100.01%] left-0 max-w-none top-0 w-[99.99%]" src={imgObject2} />
+              <img alt="" className="absolute h-[100.01%] left-0 max-w-none top-0 w-[99.99%]" src={imgObject2.src} />
             </div>
           </div>
         </div>
@@ -921,6 +921,7 @@ function Group43() {
           <div className="relative shadow-[-50px_25px_16px_0px_rgba(0,0,0,0),-32px_16px_14px_0px_rgba(0,0,0,0.01),-18px_9px_12px_0px_rgba(0,0,0,0.05),-8px_4px_9px_0px_rgba(0,0,0,0.09),-2px_1px_5px_0px_rgba(0,0,0,0.1)] size-full" data-name="Object">
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
               <Image alt="" className="absolute h-[100.01%] left-0 max-w-none top-0 w-[99.99%]" src={imgObject2} />
+              <img alt="" className="absolute h-[100.01%] left-0 max-w-none top-0 w-[99.99%]" src={imgObject2.src} />
             </div>
           </div>
         </div>
@@ -938,7 +939,7 @@ function Group43() {
         <div className="flex-none h-[102.807px] rotate-[128.13deg] skew-x-[3.41deg] w-[78.822px]">
           <div className="relative shadow-[-50px_25px_16px_0px_rgba(0,0,0,0),-32px_16px_14px_0px_rgba(0,0,0,0.01),-18px_9px_12px_0px_rgba(0,0,0,0.05),-8px_4px_9px_0px_rgba(0,0,0,0.09),-2px_1px_5px_0px_rgba(0,0,0,0.1)] size-full" data-name="Object">
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <Image alt="" className="absolute left-0 max-w-none size-full top-0" src={imgObject} />
+              <img alt="" className="absolute left-0 max-w-none size-full top-0" src={imgObject.src} />
             </div>
           </div>
         </div>
@@ -948,6 +949,7 @@ function Group43() {
           <div className="relative shadow-[-149px_199px_70px_0px_rgba(0,0,0,0),-95px_127px_64px_0px_rgba(0,0,0,0.01),-54px_72px_54px_0px_rgba(0,0,0,0.05),-24px_32px_40px_0px_rgba(0,0,0,0.09),-6px_8px_22px_0px_rgba(0,0,0,0.1)] size-full" data-name="Object">
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
               <Image alt="" className="absolute h-[67.19%] left-0 max-w-none top-[32.81%] w-full" src={imgObject3} />
+              <img alt="" className="absolute h-[67.19%] left-0 max-w-none top-[32.81%] w-full" src={imgObject3.src} />
             </div>
           </div>
         </div>
@@ -1046,6 +1048,7 @@ function Group2() {
       <div className="absolute h-[190px] left-[114px] top-[4085px] w-[199.127px]" data-name="ChatGPT Image Feb 17, 2026, 01_03_01 PM 1">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <Image alt="" className="absolute h-[157.21%] left-0 max-w-none top-[-29.26%] w-full" src={imgChatGptImageFeb172026010301Pm1} />
+          <img alt="" className="absolute h-[157.21%] left-0 max-w-none top-[-29.26%] w-full" src={imgChatGptImageFeb172026010301Pm1.src} />
         </div>
       </div>
     </div>
@@ -1130,6 +1133,7 @@ function Group7() {
       <div className="absolute h-[190px] left-[114px] top-[4355px] w-[199.127px]" data-name="ChatGPT Image Feb 17, 2026, 01_03_01 PM 1">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <Image alt="" className="absolute h-[157.21%] left-0 max-w-none top-[-29.26%] w-full" src={imgChatGptImageFeb172026010301Pm1} />
+          <img alt="" className="absolute h-[157.21%] left-0 max-w-none top-[-29.26%] w-full" src={imgChatGptImageFeb172026010301Pm1.src} />
         </div>
       </div>
     </div>
@@ -1214,6 +1218,7 @@ function Group9() {
       <div className="absolute h-[190px] left-[560px] top-[4085px] w-[199.127px]" data-name="ChatGPT Image Feb 17, 2026, 01_03_01 PM 1">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <Image alt="" className="absolute h-[157.21%] left-0 max-w-none top-[-29.26%] w-full" src={imgChatGptImageFeb172026010301Pm1} />
+          <img alt="" className="absolute h-[157.21%] left-0 max-w-none top-[-29.26%] w-full" src={imgChatGptImageFeb172026010301Pm1.src} />
         </div>
       </div>
     </div>
@@ -1298,6 +1303,7 @@ function Group10() {
       <div className="absolute h-[190px] left-[560px] top-[4355px] w-[199.127px]" data-name="ChatGPT Image Feb 17, 2026, 01_03_01 PM 1">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <Image alt="" className="absolute h-[157.21%] left-0 max-w-none top-[-29.26%] w-full" src={imgChatGptImageFeb172026010301Pm1} />
+          <img alt="" className="absolute h-[157.21%] left-0 max-w-none top-[-29.26%] w-full" src={imgChatGptImageFeb172026010301Pm1.src} />
         </div>
       </div>
     </div>
@@ -1382,6 +1388,7 @@ function Group13() {
       <div className="absolute h-[190px] left-[1006px] top-[4085px] w-[199.127px]" data-name="ChatGPT Image Feb 17, 2026, 01_03_01 PM 1">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <Image alt="" className="absolute h-[157.21%] left-0 max-w-none top-[-29.26%] w-full" src={imgChatGptImageFeb172026010301Pm1} />
+          <img alt="" className="absolute h-[157.21%] left-0 max-w-none top-[-29.26%] w-full" src={imgChatGptImageFeb172026010301Pm1.src} />
         </div>
       </div>
     </div>
@@ -1466,6 +1473,7 @@ function Group16() {
       <div className="absolute h-[190px] left-[1006px] top-[4355px] w-[199.127px]" data-name="ChatGPT Image Feb 17, 2026, 01_03_01 PM 1">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <Image alt="" className="absolute h-[157.21%] left-0 max-w-none top-[-29.26%] w-full" src={imgChatGptImageFeb172026010301Pm1} />
+          <img alt="" className="absolute h-[157.21%] left-0 max-w-none top-[-29.26%] w-full" src={imgChatGptImageFeb172026010301Pm1.src} />
         </div>
       </div>
     </div>

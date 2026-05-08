@@ -8,47 +8,38 @@ import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { addToCart } from "@/redux/slices/cartSlice";
 
-const allProducts = products;
+import { useGetProductsQuery } from "@/redux/api/productApi";
+import imgJar from "@/assets/0d50403659dbeb714860454d0322380314619c03.png";
 
-const tabs = ["All", "Dates", "Nuts", "Spices"];
+const tabs = ['All', 'Dry Fruits', 'Almonds', 'Pistachios', 'Cashews', 'Figs', 'Chocolates', 'Dates', 'Spices'];
 
 export function BestSellers() {
   const router = useRouter();
   const dispatch = useDispatch();
+  const [activeTab, setActiveTab] = useState('All');
 
-  const [activeTab, setActiveTab] = useState("All");
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+  const { data, isLoading } = useGetProductsQuery({ limit: 12 });
+  const allProducts = data?.allProducts || [];
 
   const handleAddToCart = (product: any) => {
-    // Parse price string like "₹ 899" to number 899
-    const priceValue =
-      typeof product.price === "string"
-        ? Number(product.price.replace(/[^\d]/g, ""))
-        : product.price;
+    const priceValue = product.variants?.[0]?.price || product.price;
+    const selectedVariant = product.variants?.[0] || null;
 
-    dispatch(
-      addToCart({
-        _id: product.id,
-        name: product.name,
-        image: product.images[0],
-        price: priceValue,
-        qty: 1,
-      })
-    );
+    dispatch(addToCart({
+      _id: String(product._id),
+      name: product.name,
+      image: product.mainImage || product.images?.[0]?.url || imgJar.src,
+      price: priceValue,
+      qty: 1,
+      variant: selectedVariant
+    }));
 
     router.push("/cart");
   };
 
-  if (!isMounted) return null;
-
-  const filteredProducts =
-    activeTab === "All"
-      ? allProducts
-      : allProducts.filter((p) => p.category === activeTab);
+  const filteredProducts = activeTab === 'All'
+    ? allProducts
+    : allProducts.filter((p: any) => p.category === activeTab);
 
   return (
     <section
@@ -75,8 +66,8 @@ export function BestSellers() {
               key={tab}
               onClick={() => setActiveTab(tab)}
               className={`px-5 py-1.5 md:py-2 rounded-full text-[13px] md:text-sm font-bold transition-all ${activeTab === tab
-                  ? "bg-[#dea424] text-white border-2 border-[#dea424] shadow-md hover:bg-[#c99119]"
-                  : "bg-white text-[#65615e] border border-gray-200 hover:border-gray-300"
+                ? "bg-[#dea424] text-white border-2 border-[#dea424] shadow-md hover:bg-[#c99119]"
+                : "bg-white text-[#65615e] border border-gray-200 hover:border-gray-300"
                 }`}
             >
               {tab}
@@ -86,39 +77,42 @@ export function BestSellers() {
 
         {/* Products Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6 min-h-[400px]">
-          {filteredProducts.map((product) => (
+          {isLoading ? (
+            <div className="col-span-full text-center py-12 text-gray-500">Loading products...</div>
+          ) : filteredProducts.length === 0 ? (
+            <div className="col-span-full text-center py-12 text-gray-500">No products found in this category.</div>
+          ) : filteredProducts.map((product: any) => (
             <div
-              key={product.id}
-              onClick={() => router.push(`/product/${product.id}`)}
-              className="bg-[#f8faeb] border border-[#e6eed4] rounded-[24px] flex p-3 md:p-4 hover:shadow-lg hover:-translate-y-1 active:scale-[0.98] active:shadow-md active:-translate-y-0.5 transition-all duration-300 cursor-pointer animate-in fade-in zoom-in"
+              key={product._id}
+              className="bg-[#f8faeb] border border-[#e6eed4] rounded-[24px] flex p-3 md:p-4 hover:shadow-lg hover:-translate-y-1 active:scale-[0.98] active:shadow-md active:-translate-y-0.5 transition-all duration-300 cursor-pointer animate-in fade-in zoom-in duration-300"
             >
               {/* Image side */}
-              <div className="w-[45%] flex items-center justify-center p-1 md:p-2">
-                <Image
-                  src={product.images[0]}
+              <Link href={`/product/${product._id}`} className="w-[45%] flex items-center justify-center p-1 md:p-2">
+                <img
+                  src={product.mainImage || product.images?.[0]?.url || imgJar.src}
                   alt={product.name}
-                  width={300}
-                  height={300}
-                  className="w-full h-auto object-contain drop-shadow-md"
+                  className="w-full h-auto object-contain drop-shadow-md rounded-xl"
                 />
-              </div>
+              </Link>
 
               <div className="w-[55%] flex flex-col justify-center py-1 pl-1 pr-1 md:pr-2">
-                <h4 className="text-[20px] md:text-[22px] font-extrabold text-[#3a3a3a] leading-[1.1] mb-2 tracking-tight">
-                  <span className="block">{product.name}</span>
-                </h4>
+                <Link href={`/product/${product._id}`}>
+                  <h4 className="text-[20px] md:text-[22px] font-extrabold text-[#3a3a3a] leading-[1.1] mb-2 tracking-tight line-clamp-2 hover:text-[#dea424] transition-colors">
+                    {product.name}
+                  </h4>
+                </Link>
 
-                <p className="text-[10px] md:text-[11px] text-[#6b6b6b] leading-tight mb-2 pr-2 font-medium truncate">
-                  {product.subtitle}
+                <p className="text-[10px] md:text-[11px] text-[#6b6b6b] leading-tight mb-2 pr-2 font-medium line-clamp-2">
+                  {product.shortDescription || product.description}
                 </p>
 
                 <span className="text-[11px] md:text-xs font-bold text-[#555555] mb-3 md:mb-4">
-                  {product.weight}
+                  {product.variants?.[0]?.size || "Standard"}
                 </span>
 
                 <div className="flex items-center gap-3">
                   <div className="bg-[#dea424] text-white px-3 py-1 rounded-full text-[13px] md:text-sm font-bold shadow-sm inline-flex items-center justify-center">
-                    {product.price}
+                    ₹ {product.variants?.[0]?.price || product.price}
                   </div>
 
                   <button
