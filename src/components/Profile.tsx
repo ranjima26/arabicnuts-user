@@ -6,9 +6,10 @@ import { useAuth } from '@/hooks/useAuth';
 import { signOut } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { useUpdateProfileMutation } from '@/redux/api/userApi';
-import { toast } from 'react-toastify';
+import { toast } from 'sonner';
 import { useSelector } from 'react-redux';
 import { useSearchParams } from 'next/navigation';
+import { useMyOrdersQuery } from '@/redux/api/orderApi';
 
 export default function Profile() {
   const { user } = useAuth();
@@ -18,7 +19,8 @@ export default function Profile() {
   const initialTab = (searchParams.get('tab') as 'details' | 'orders') || 'details';
   const [activeTab, setActiveTab] = useState<'details' | 'orders'>(initialTab);
   
-  const { orders } = useSelector((state: any) => state.cart);
+  const { data: dbOrders, isLoading: isLoadingOrders } = useMyOrdersQuery({});
+  const orders = dbOrders || [];
 
   const [formData, setFormData] = useState({
     name: user?.name || "",
@@ -222,7 +224,11 @@ export default function Profile() {
                     </div>
                     
                     <div className="space-y-6">
-                      {!orders || orders.length === 0 ? (
+                      {isLoadingOrders ? (
+                        <div className="text-center py-20">
+                          <p className="text-gray-500 animate-pulse">Loading your orders...</p>
+                        </div>
+                      ) : !orders || orders.length === 0 ? (
                         <div className="text-center py-20 bg-[#f4f7ed]/20 rounded-[40px] border-2 border-dashed border-[#496506]/10 px-6">
                           <ShoppingBag className="w-16 h-16 text-[#496506]/20 mx-auto mb-4" />
                           <p className="text-gray-900 font-bold text-xl mb-2">No orders yet</p>
@@ -236,31 +242,31 @@ export default function Profile() {
                         </div>
                       ) : (
                         orders.map((order: any) => (
-                          <div key={order.id} className="group bg-[#f4f7ed]/30 p-6 rounded-3xl flex items-center justify-between border-2 border-transparent hover:border-[#496506]/20 hover:bg-white transition-all cursor-pointer">
+                          <div key={order._id || order.id} className="group bg-[#f4f7ed]/30 p-6 rounded-3xl flex items-center justify-between border-2 border-transparent hover:border-[#496506]/20 hover:bg-white transition-all cursor-pointer">
                             <div className="flex items-center gap-6">
                               <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform duration-500">
                                 <ShoppingBag className="w-7 h-7 text-[#496506]" />
                               </div>
                               <div>
                                 <div className="flex items-center gap-3 mb-1">
-                                  <h3 className="font-black text-xl text-gray-900 leading-tight">{order.id}</h3>
+                                  <h3 className="font-black text-xl text-gray-900 leading-tight">#{order._id?.slice(-6).toUpperCase() || order.id}</h3>
                                   <span className={`text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-tighter ${
-                                    order.status === 'DELIVERED' 
+                                    (order.orderStatus || order.status)?.toUpperCase() === 'DELIVERED' 
                                       ? 'bg-green-100 text-green-700' 
                                       : 'bg-blue-100 text-blue-700'
                                   }`}>
-                                    {order.status}
+                                    {order.orderStatus || order.status}
                                   </span>
                                 </div>
                                 <p className="text-sm text-gray-500 font-bold uppercase tracking-tighter">
-                                  {order.date} • {order.items?.length || 0} Items
+                                  {order.createdAt ? new Date(order.createdAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) : order.date} • {order.orderItems?.length || order.items?.length || 0} Items
                                 </p>
                               </div>
                             </div>
                             
                             <div className="flex items-center gap-8">
                               <div className="text-right">
-                                <p className="font-black text-2xl text-gray-900">₹{order.total || order.price}</p>
+                                <p className="font-black text-2xl text-gray-900">₹{(order.totalAmount || order.total || order.price)?.toLocaleString()}</p>
                               </div>
                               <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center group-hover:bg-[#496506] group-hover:text-white shadow-sm transition-all">
                                 <ChevronRight className="w-6 h-6" />

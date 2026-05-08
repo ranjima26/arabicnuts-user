@@ -13,7 +13,7 @@ export const orderApi = createApi({
       }),
     }),
     myOrders: builder.query({
-      query: () => 'me/orders',
+      query: () => 'orders/getOrdersByUser',
       providesTags: ['Order'],
     }),
     orderDetails: builder.query({

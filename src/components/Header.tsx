@@ -9,6 +9,14 @@ import { signOut } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { AuthModal } from './AuthModal';
 import { products } from '@/data/products';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export function Header() {
   const { user } = useAuth();
@@ -22,7 +30,7 @@ export function Header() {
   const [searchResults, setSearchResults] = useState<typeof products>([]);
   const searchInputRef = useRef<HTMLInputElement>(null);
 
-  const cartItemCount = cartItems.reduce((acc: number, item: any) => acc + (item.qty || 0), 0);
+  const cartItemCount = user ? cartItems.reduce((acc: number, item: any) => acc + (item.qty || 0), 0) : 0;
 
   useEffect(() => {
     setIsMounted(true);
@@ -102,21 +110,41 @@ export function Header() {
             </Link>
 
             {user ? (
-              <Link 
-                href="/profile"
-                className="flex items-center gap-2 md:gap-3 h-10 md:h-12 lg:h-14 bg-white/30 hover:bg-white/40 backdrop-blur-md border border-white/20 rounded-full pl-4 pr-1.5 md:pl-5 md:pr-2 lg:pl-6 lg:pr-2 transition-all group"
-              >
-                <span className="text-sm md:text-base font-medium text-gray-800 whitespace-nowrap hidden sm:block group-hover:text-[#496506] transition-colors">
-                  Hi, <span className="font-bold capitalize">{user.name ? user.name.split(' ')[0] : 'User'}</span>
-                </span>
-                <div className="w-7 h-7 md:w-8 md:h-8 lg:w-10 lg:h-10 flex items-center justify-center bg-[#496506]/20 group-hover:bg-[#496506]/30 rounded-full overflow-hidden shrink-0 transition-colors">
-                  {user.image ? (
-                    <img src={user.image} alt={user.name || "User"} className="w-full h-full object-cover" />
-                  ) : (
-                    <User className="w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 text-[#496506]" />
-                  )}
-                </div>
-              </Link>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button 
+                    className="flex items-center gap-2 md:gap-3 h-10 md:h-12 lg:h-14 bg-white/30 hover:bg-white/40 backdrop-blur-md border border-white/20 rounded-full pl-4 pr-1.5 md:pl-5 md:pr-2 lg:pl-6 lg:pr-2 transition-all group outline-none"
+                  >
+                    <span className="text-sm md:text-base font-medium text-gray-800 whitespace-nowrap group-hover:text-[#496506] transition-colors">
+                      Hi, <span className="font-bold capitalize">{user.name ? user.name.split(' ')[0] : 'User'}</span>
+                    </span>
+                    <div className="w-7 h-7 md:w-8 md:h-8 lg:w-10 lg:h-10 flex items-center justify-center bg-[#496506]/20 group-hover:bg-[#496506]/30 rounded-full overflow-hidden shrink-0 transition-colors">
+                      {user.image ? (
+                        <img src={user.image} alt={user.name || "User"} className="w-full h-full object-cover" />
+                      ) : (
+                        <User className="w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 text-[#496506]" />
+                      )}
+                    </div>
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56 mt-2 rounded-2xl bg-white/80 backdrop-blur-xl border border-white/20 shadow-xl overflow-hidden p-2">
+                  <DropdownMenuLabel className="px-3 py-2 text-xs font-bold text-gray-400 uppercase tracking-widest">My Account</DropdownMenuLabel>
+                  <DropdownMenuSeparator className="bg-gray-100/50" />
+                  <DropdownMenuItem asChild>
+                    <Link href="/profile" className="flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm text-gray-700 hover:bg-[#496506]/10 hover:text-[#496506] transition-all cursor-pointer outline-none">
+                      <User className="w-4 h-4" />
+                      Profile Settings
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem 
+                    onClick={() => signOut(auth)}
+                    className="flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm text-red-600 hover:bg-red-50 cursor-pointer outline-none transition-all mt-1"
+                  >
+                    <LogOut className="w-4 h-4" />
+                    Logout
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             ) : (
               <button 
                 onClick={() => setAuthModalOpen(true)}
@@ -172,7 +200,7 @@ export function Header() {
                   searchResults.map((product) => (
                     <button
                       key={product.id}
-                      onClick={() => handleSearchSelect(product.id)}
+                      onClick={() => handleSearchSelect(product._id || product.id)}
                       className="w-full flex items-center gap-4 px-5 py-4 hover:bg-[#f4ebd0]/40 transition-colors text-left border-b border-gray-50 last:border-0"
                     >
                       <img

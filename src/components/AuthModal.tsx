@@ -69,7 +69,6 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
       if (!res.ok) {
         toast.error("Failed to sync with server");
       } else {
-        toast.success("login successfull..Welcome to Arabic Dry Fruits");
         onClose();
         router.refresh();
       }
@@ -137,7 +136,6 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
 
       if (data.success) {
         dispatch(setUser(data.user));
-        toast.success("Login successful!");
         onClose();
         router.refresh();
       }

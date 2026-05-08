@@ -2,6 +2,7 @@ import jarImage1 from "@/assets/0d50403659dbeb714860454d0322380314619c03.png";
 import imgPistachio from "@/assets/roasted_pistachios.png";
 
 export interface Product {
+  _id: string;
   id: string;
   category: string;
   name: string;

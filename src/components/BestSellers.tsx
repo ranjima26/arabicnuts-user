@@ -6,6 +6,8 @@ import { products } from "@/data/products";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
+import { useAuth } from "@/hooks/useAuth";
+import { toast } from "sonner";
 import { addToCart } from "@/redux/slices/cartSlice";
 
 import { useGetProductsQuery } from "@/redux/api/productApi";
@@ -14,6 +16,7 @@ import imgJar from "@/assets/0d50403659dbeb714860454d0322380314619c03.png";
 const tabs = ['All', 'Dry Fruits', 'Almonds', 'Pistachios', 'Cashews', 'Figs', 'Chocolates', 'Dates', 'Spices'];
 
 export function BestSellers() {
+  const { user } = useAuth();
   const router = useRouter();
   const dispatch = useDispatch();
   const [activeTab, setActiveTab] = useState('All');
@@ -22,6 +25,16 @@ export function BestSellers() {
   const allProducts = data?.allProducts || [];
 
   const handleAddToCart = (product: any) => {
+    if (!user) {
+      toast.error("Please login to add items to your cart", {
+        description: "You need to be logged in to manage your bag.",
+        action: {
+          label: "Login",
+          onClick: () => router.push("/")
+        }
+      });
+      return;
+    }
     const priceValue = product.variants?.[0]?.price || product.price;
     const selectedVariant = product.variants?.[0] || null;
 

@@ -17,6 +17,8 @@ import {
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
+import { useAuth } from "@/hooks/useAuth";
+import { toast } from "sonner";
 import { addToCart, setBuyNowItem } from "@/redux/slices/cartSlice";
 import imgPistachio from "@/assets/roasted_pistachios.png";
 import { useEffect } from "react";
@@ -38,10 +40,25 @@ const MOCK_PRODUCT = {
     "Lightly Salted (Low Sodium)",
     "High Protein & Healthy Fats",
     "100% Natural & Gluten-Free"
+  ],
+  ingredients: "Premium Quality Pistachios, Minimal Sea Salt.",
+  benefits: [
+    { title: "Heart Healthy", icon: null },
+    { title: "Weight Management", icon: null },
+    { title: "Antioxidant Rich", icon: null },
+    { title: "Energy Booster", icon: null }
   ]
 };
 
+const DEFAULT_BENEFITS = [
+  { title: "100% Organic", icon: null },
+  { title: "Premium Quality", icon: null },
+  { title: "Ethically Sourced", icon: null },
+  { title: "No Preservatives", icon: null }
+];
+
 export function PageOverview({ productId }: { productId?: string }) {
+  const { user } = useAuth();
   const router = useRouter();
   const dispatch = useDispatch();
   
@@ -77,6 +94,16 @@ export function PageOverview({ productId }: { productId?: string }) {
   if (!isMounted) return null;
 
   const handleAddToCart = () => {
+    if (!user) {
+      toast.error("Please login to add items to your cart", {
+        description: "You need to be logged in to manage your bag.",
+        action: {
+          label: "Login",
+          onClick: () => router.push("/")
+        }
+      });
+      return;
+    }
     dispatch(addToCart({
       _id: product._id || product.id,
       name: product.name,
@@ -90,6 +117,16 @@ export function PageOverview({ productId }: { productId?: string }) {
   };
 
   const handleBuyNow = () => {
+    if (!user) {
+      toast.error("Please login to proceed to checkout", {
+        description: "You need to be logged in to make a purchase.",
+        action: {
+          label: "Login",
+          onClick: () => router.push("/")
+        }
+      });
+      return;
+    }
     dispatch(setBuyNowItem({
       _id: product._id || product.id,
       name: product.name,
@@ -188,7 +225,7 @@ export function PageOverview({ productId }: { productId?: string }) {
 
            
             <div className="flex items-baseline gap-4 mb-8">
-              <span className="text-4xl font-bold text-[#496506]">₹{price}</span>
+              <span className="text-4xl font-bold text-[#496506]">{price}</span>
               {discountPrice > 0 && (
                 <>
                   <span className="text-xl text-gray-400 line-through font-medium">₹{discountPrice}</span>
@@ -282,7 +319,7 @@ export function PageOverview({ productId }: { productId?: string }) {
                 )}
                 {activeTab === 'ingredients' && (
                   <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                    <p>{product.ingredients}</p>
+                    <p>{product.ingredients || "Ingredients information not available for this product."}</p>
                   </motion.div>
                 )}
                 {activeTab === 'shipping' && (
@@ -301,7 +338,7 @@ export function PageOverview({ productId }: { productId?: string }) {
           <h2 className="text-3xl md:text-4xl font-bold text-center text-[#1b1d0e] mb-12">Benefits</h2>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {product.benefits.map((benefit: any, idx: number) => (
+            {(product.benefits || MOCK_PRODUCT.benefits || DEFAULT_BENEFITS).map((benefit: any, idx: number) => (
               <motion.div 
                 key={idx}
                 initial={{ opacity: 0, y: 20 }}

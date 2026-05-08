@@ -20,6 +20,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { clearBuyNowItem, createOrder, clearCartItems } from '@/redux/slices/cartSlice';
 import jarImage from '@/assets/0d50403659dbeb714860454d0322380314619c03.png';
 import { useAuth } from '@/hooks/useAuth';
+import { useCreateNewOrderMutation } from '@/redux/api/orderApi';
 import { toast } from 'react-toastify';
 import Swal from 'sweetalert2';
 
@@ -28,6 +29,7 @@ export function Checkout() {
   const dispatch = useDispatch();
   const { user } = useAuth();
   const [paymentMethod, setPaymentMethod] = useState<'cod' | 'online'>('online');
+  const [createNewOrder, { isLoading: isCreatingOrder }] = useCreateNewOrderMutation();
   const [isMounted, setIsMounted] = useState(false);
   
   const [shippingData, setShippingData] = useState({
@@ -66,35 +68,52 @@ export function Checkout() {
     }
 
     // Capture current items to preserve summary during success state
-    const orderItems = [...items];
+    const orderItems = items.map((item: { name: any; qty: any; quantity: any; image: any; price: any; productId: any; _id: any; }) => ({
+      name: item.name,
+      quantity: item.qty || item.quantity || 1,
+      image: item.image,
+      price: getSafePrice(item.price),
+      productId: item.productId || item._id
+    }));
 
-    Swal.fire({
-      title: 'Order Successful!',
-      text: 'Thank you for shopping with Arabic Dry Fruits. Your premium selection is being prepared!',
-      icon: 'success',
-      confirmButtonColor: '#496506',
-      background: '#ffffff',
-      customClass: {
-        popup: 'rounded-[32px]',
-        confirmButton: 'rounded-xl px-8 py-3'
+    createNewOrder({
+      shippingAddress: {
+        ...shippingData,
+        fullName: shippingData.name
+      },
+      orderItems: orderItems,
+      itemsPrice: subtotal,
+      shippingAmount: 0,
+      totalPrice: total,
+      paymentMethod: paymentMethod,
+      paymentInfo: {
+        id: "COD",
+        status: "Succeeded"
       }
-    }).then(() => {
-      // Create order in Redux
-      dispatch(createOrder({
-        items: orderItems,
-        total: total,
-        shippingAddress: shippingData
-      }));
+    }).unwrap().then(() => {
+      Swal.fire({
+        title: 'Order Successful!',
+        text: 'Thank you for shopping with Arabic Dry Fruits. Your premium selection is being prepared!',
+        icon: 'success',
+        confirmButtonColor: '#496506',
+        background: '#ffffff',
+        customClass: {
+          popup: 'rounded-[32px]',
+          confirmButton: 'rounded-xl px-8 py-3'
+        }
+      }).then(() => {
+        // Clear relevant items
+        if (buyNowItem) {
+          dispatch(clearBuyNowItem());
+        } else {
+          dispatch(clearCartItems());
+        }
 
-      // Clear relevant items
-      if (buyNowItem) {
-        dispatch(clearBuyNowItem());
-      } else {
-        dispatch(clearCartItems());
-      }
-
-      // Navigate to orders
-      router.push('/profile?tab=orders');
+        // Navigate to orders
+        router.push('/profile?tab=orders');
+      });
+    }).catch((err) => {
+      toast.error(err?.data?.message || "Failed to place order");
     });
   };
 
@@ -380,9 +399,10 @@ export function Checkout() {
                 {/* Desktop CTA */}
                 <button 
                   type="submit"
-                  className="w-full py-4 bg-gradient-to-br from-[#496506] via-[#3d5405] to-[#496506] text-white rounded-lg transition-all duration-300 font-bold text-lg mb-6 shadow-lg shadow-[#496506]/20 hover:shadow-2xl hover:shadow-[#496506]/40 hover:-translate-y-1 active:scale-[0.98]"
+                  disabled={isCreatingOrder}
+                  className="w-full py-4 bg-gradient-to-br from-[#496506] via-[#3d5405] to-[#496506] text-white rounded-lg transition-all duration-300 font-bold text-lg mb-6 shadow-lg shadow-[#496506]/20 hover:shadow-2xl hover:shadow-[#496506]/40 hover:-translate-y-1 active:scale-[0.98] disabled:opacity-50 disabled:translate-y-0"
                 >
-                  Proceed to Payment
+                  {isCreatingOrder ? "Placing Order..." : "Proceed to Payment"}
                 </button>
               </div>
             </div>

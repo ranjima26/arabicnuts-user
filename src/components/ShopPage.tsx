@@ -13,6 +13,8 @@ import { ShoppingCart, Tag, ShieldCheck, Leaf, PackageCheck, ThermometerSnowflak
 import Link from 'next/link';
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
+import { useAuth } from "@/hooks/useAuth";
+import { toast } from "sonner";
 import { addToCart } from "@/redux/slices/cartSlice";
 import { useEffect, useState } from "react";
 
@@ -32,6 +34,7 @@ const bentoItems = [
 
 
 export function ShopPage() {
+  const { user } = useAuth();
   const router = useRouter();
   const dispatch = useDispatch();
   const [isMounted, setIsMounted] = useState(false);
@@ -43,6 +46,16 @@ export function ShopPage() {
   }, []);
 
   const handleAddToCart = (product: any) => {
+    if (!user) {
+      toast.error("Please login to add items to your cart", {
+        description: "You need to be logged in to manage your bag.",
+        action: {
+          label: "Login",
+          onClick: () => router.push("/")
+        }
+      });
+      return;
+    }
     const priceValue = typeof product.price === 'string' 
       ? Number(product.price.replace(/[^\d]/g, '')) 
       : product.price;
@@ -174,7 +187,7 @@ export function ShopPage() {
                 className="bg-[#f8faeb] rounded-[24px] overflow-hidden shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] hover:shadow-xl transition-shadow group flex flex-col border border-[#e6eed4]"
               >
                 {/* Product Image */}
-                <Link href={`/product/${item.id}`} className="relative h-[250px] w-full bg-gradient-to-br from-[#f4ebd0]/30 to-[#f4ebd0]/10 overflow-hidden flex items-center justify-center p-8">
+                <Link href={`/product/${item._id || item.id}`} className="relative h-[250px] w-full bg-gradient-to-br from-[#f4ebd0]/30 to-[#f4ebd0]/10 overflow-hidden flex items-center justify-center p-8">
                   {item.discount && (
                     <div className="absolute top-4 left-4 z-10 bg-gradient-to-r from-[#fb2c36] to-[#e7000b] text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-md">
                       {item.discount}
@@ -194,7 +207,7 @@ export function ShopPage() {
                     <span className="text-gray-500 text-xs ml-1 font-medium">({item.reviews?.length || 0})</span>
                   </div>
 
-                  <Link href={`/product/${item.id}`} className="block w-fit">
+                  <Link href={`/product/${item._id || item.id}`} className="block w-fit">
                     <h4 className="text-xl font-bold text-[#373737] mb-1 hover:text-[#496506] transition-colors">{item.name}</h4>
                   </Link>
                   <p className="text-gray-500 text-sm mb-6 flex-1 line-clamp-2">{item.description}</p>

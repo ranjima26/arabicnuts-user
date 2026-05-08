@@ -9,11 +9,5 @@ export default async function ProductPage({
 }) {
   const { id } = await params;
 
-  const product = products.find((p) => p.id === id);
-
-  if (!product) {
-    notFound();
-  }
-
   return <PageOverview productId={id} />;
 }

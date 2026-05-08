@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { ShoppingBag, Trash2, Plus, Minus, ArrowLeft, HelpCircle, ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSelector, useDispatch } from 'react-redux';
+import { useAuth } from '@/hooks/useAuth';
 import { addToCart, removeFromCart, clearBuyNowItem } from '@/redux/slices/cartSlice';
 import jarImage from '@/assets/0d50403659dbeb714860454d0322380314619c03.png';
 
@@ -16,7 +17,9 @@ export function Cart() {
     setMounted(true);
   }, []);
 
-  const { cartItems: items } = useSelector((state: any) => state.cart);
+  const { user } = useAuth();
+  const { cartItems: allItems } = useSelector((state: any) => state.cart);
+  const items = user ? allItems : [];
   const [isMounted, setIsMounted] = useState(false);
 
   React.useEffect(() => {
@@ -212,16 +215,19 @@ export function Cart() {
               <div className="w-24 h-24 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-6">
                 <ShoppingBag className="w-10 h-10 text-gray-300" />
               </div>
-              <h2 className="text-2xl font-light text-gray-900 mb-4">Your bag is empty</h2>
+              <h2 className="text-2xl font-light text-gray-900 mb-4">
+                {user ? "Your bag is empty" : "Please login to view your bag"}
+              </h2>
               <p className="text-gray-500 mb-8 max-w-md mx-auto font-light">
-                Looks like you haven't added anything to your bag yet. 
-                Discover our premium collection of nuts and dried fruits.
+                {user 
+                  ? "Looks like you haven't added anything to your bag yet. Discover our premium collection of nuts and dried fruits." 
+                  : "Login to see your saved items and continue shopping our premium collection."}
               </p>
               <Link 
-                href="/shop"
+                href={user ? "/shop" : "/"}
                 className="inline-flex items-center justify-center px-8 py-4 bg-[#496506] text-white rounded-2xl hover:bg-[#3a5205] transition-all font-medium"
               >
-                Start Shopping
+                {user ? "Start Shopping" : "Go to Login"}
               </Link>
             </div>
           )}

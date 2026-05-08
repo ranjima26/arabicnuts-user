@@ -4,12 +4,13 @@ import { useState, useEffect } from 'react';
 import { onAuthStateChanged, User as FirebaseUser } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { useDispatch, useSelector } from 'react-redux';
-import { setUser } from '@/redux/slices/usersSlice'; // Assuming this exists or similar
+import { setUser } from '@/redux/slices/usersSlice';
+import { clearCartItems } from '@/redux/slices/cartSlice';
 
 export function useAuth() {
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
-  const user = useSelector((state: any) => state.auth?.user);
+  const user = useSelector((state: any) => state.users?.user);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
@@ -37,6 +38,7 @@ export function useAuth() {
         }
       } else {
         dispatch(setUser(null));
+        dispatch(clearCartItems());
       }
       setLoading(false);
     });
