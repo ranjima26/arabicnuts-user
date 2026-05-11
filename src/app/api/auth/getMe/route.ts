@@ -12,14 +12,16 @@ export async function GET(req: Request) {
     }
 
     await connectDB();
+    
+    const mongoose = require('mongoose');
+    const userId = new mongoose.Types.ObjectId((session.user as any).id);
 
-    const user = await User.findById((session.user as any).id).select("-password");
-
+    const user = await User.findById(userId).select("-password");
     if (!user) {
       return NextResponse.json({ message: "User not found" }, { status: 404 });
     }
 
-    return NextResponse.json(user);
+    return NextResponse.json({ user });
   } catch (error: any) {
     return NextResponse.json(
       { message: "Fetching user profile failed", error: error.message },

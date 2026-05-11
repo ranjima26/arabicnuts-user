@@ -9,9 +9,11 @@ import { useDispatch } from "react-redux";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
 import { addToCart } from "@/redux/slices/cartSlice";
+import { ShoppingCart } from "lucide-react";
 
 import { useGetProductsQuery } from "@/redux/api/productApi";
 import imgJar from "@/assets/0d50403659dbeb714860454d0322380314619c03.png";
+import imgMedjool from "@/assets/medjool_dates.png";
 
 const tabs = ['All', 'Dry Fruits', 'Almonds', 'Pistachios', 'Cashews', 'Figs', 'Chocolates', 'Dates', 'Spices'];
 
@@ -41,7 +43,7 @@ export function BestSellers() {
     dispatch(addToCart({
       _id: String(product._id),
       name: product.name,
-      image: product.mainImage || product.images?.[0]?.url || imgJar.src,
+      image: product.name?.toLowerCase().includes('medjool') ? imgMedjool.src : (product.mainImage || product.images?.[0]?.url || imgJar.src),
       price: priceValue,
       qty: 1,
       variant: selectedVariant
@@ -97,12 +99,13 @@ export function BestSellers() {
           ) : filteredProducts.map((product: any) => (
             <div
               key={product._id}
+              onClick={() => router.push(`/product/${product._id || product.id}`)}
               className="bg-[#f8faeb] border border-[#e6eed4] rounded-[24px] flex p-3 md:p-4 hover:shadow-lg hover:-translate-y-1 active:scale-[0.98] active:shadow-md active:-translate-y-0.5 transition-all duration-300 cursor-pointer animate-in fade-in zoom-in duration-300"
             >
               {/* Image side */}
               <Link href={`/product/${product._id || product.id}`} className="w-[45%] flex items-center justify-center p-1 md:p-2">
                 <img
-                  src={product.mainImage || product.images?.[0]?.url || imgJar.src}
+                  src={product.name?.toLowerCase().includes('medjool') ? imgMedjool.src : (product.mainImage || product.images?.[0]?.url || imgJar.src)}
                   alt={product.name}
                   className="w-full h-auto object-contain drop-shadow-md rounded-xl"
                 />

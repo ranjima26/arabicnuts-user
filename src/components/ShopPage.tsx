@@ -9,6 +9,7 @@ import imgFigs from "../assets/Margin-3.png";
 import imgChocolates from "../assets/Margin-4.png";
 import imgSpices from "../assets/Margin-5.png";
 import imgJar from "@/assets/0d50403659dbeb714860454d0322380314619c03.png";
+import imgMedjool from "@/assets/medjool_dates.png";
 import { ShoppingCart, Tag, ShieldCheck, Leaf, PackageCheck, ThermometerSnowflake } from "lucide-react";
 import Link from 'next/link';
 import { useRouter } from "next/navigation";
@@ -94,7 +95,7 @@ export function ShopPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-center mt-12 md:mt-24"
+          className="text-center mt-28 md:mt-24"
         >
           <h2 className="text-[#65615e] font-light text-2xl md:text-[40px] uppercase tracking-wider mb-2">Shop</h2>
           <h1 className="text-[#65615e] font-medium text-4xl md:text-[70px] leading-tight uppercase mb-6">Premium Collection</h1>
@@ -184,7 +185,8 @@ export function ShopPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.5, delay: idx * 0.1 }}
-                className="bg-[#f8faeb] rounded-[24px] overflow-hidden shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] hover:shadow-xl transition-shadow group flex flex-col border border-[#e6eed4]"
+                onClick={() => router.push(`/product/${item._id || item.id}`)}
+                className="bg-[#f8faeb] rounded-[24px] overflow-hidden shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] hover:shadow-xl transition-shadow group flex flex-col border border-[#e6eed4] cursor-pointer"
               >
                 {/* Product Image */}
                 <Link href={`/product/${item._id || item.id}`} className="relative h-[250px] w-full bg-gradient-to-br from-[#f4ebd0]/30 to-[#f4ebd0]/10 overflow-hidden flex items-center justify-center p-8">
@@ -193,7 +195,11 @@ export function ShopPage() {
                       {item.discount}
                     </div>
                   )}
-                  <img src={item.images?.[0]?.url || item.images?.[0]} alt={item.name} className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500 drop-shadow-2xl" />
+                  <img 
+                    src={item.name?.toLowerCase().includes('medjool') ? imgMedjool.src : (item.images?.[0]?.url || item.images?.[0] || item.mainImage)} 
+                    alt={item.name} 
+                    className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500 drop-shadow-2xl" 
+                  />
                 </Link>
 
                 {/* Product Details */}
@@ -220,7 +226,10 @@ export function ShopPage() {
                       )}
                     </div>
                     <button 
-                      onClick={() => handleAddToCart(item)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleAddToCart(item);
+                      }}
                       className="bg-[#496506] hover:bg-[#3a5204] text-white p-3 rounded-full transition-colors group-hover:-translate-y-1"
                     >
                       <ShoppingCart className="w-5 h-5" />

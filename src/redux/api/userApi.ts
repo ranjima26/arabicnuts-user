@@ -29,6 +29,16 @@ export const userApi = createApi({
         method: 'PUT',
         body,
       }),
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          if (data.success && data.user) {
+            dispatch(setUser(data.user));
+          }
+        } catch (error) {
+          console.error('Update profile failed:', error);
+        }
+      },
       invalidatesTags: ['User'],
     }),
     updatePassword: builder.mutation({

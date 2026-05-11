@@ -15,20 +15,21 @@ export function Cart() {
 
   React.useEffect(() => {
     setMounted(true);
-  }, []);
-
-  const { user } = useAuth();
-  const { cartItems: allItems } = useSelector((state: any) => state.cart);
-  const items = user ? allItems : [];
-  const [isMounted, setIsMounted] = useState(false);
-
-  React.useEffect(() => {
-    setIsMounted(true);
     // Clear any buy now item when viewing the full cart
     dispatch(clearBuyNowItem());
   }, [dispatch]);
 
-  if (!isMounted) return null;
+  const { user } = useAuth();
+  const { cartItems: allItems } = useSelector((state: any) => state.cart);
+  const items = user ? allItems : [];
+
+  if (!mounted) {
+    return (
+      <div className="min-h-screen bg-[#FDFCFB] pt-32 pb-20 flex items-center justify-center">
+        <div className="text-gray-400 animate-pulse font-light">Loading your bag...</div>
+      </div>
+    );
+  }
 
   const subtotal = items.reduce((acc: any, item: any) => {
     const rawPrice = typeof item.price === 'string' 

@@ -3,12 +3,11 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import imgBgLogo from "@/assets/0a072b9885ca84a574ec1ed74c34c0098abc5ff1.png";
 import { Phone, Mail, MapPin, ArrowRight, Loader2, CheckCircle2 } from "lucide-react";
+import { toast } from "sonner";
 
 export function Contact() {
   const [formData, setFormData] = useState({ fullName: "", email: "", message: "" });
   const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const [error, setError] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -17,8 +16,6 @@ export function Contact() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setError("");
-    setSuccess(false);
 
     try {
       const res = await fetch("/api/enquiries", {
@@ -30,14 +27,13 @@ export function Contact() {
       const data = await res.json();
 
       if (data.success) {
-        setSuccess(true);
+        toast.success("Message sent successfully!");
         setFormData({ fullName: "", email: "", message: "" });
-        setTimeout(() => setSuccess(false), 5000);
       } else {
-        setError(data.message || "Failed to submit enquiry.");
+        toast.error(data.message || "Failed to submit enquiry.");
       }
     } catch (err: any) {
-      setError("An unexpected error occurred. Please try again.");
+      toast.error("An unexpected error occurred. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -203,27 +199,6 @@ export function Contact() {
                     </>
                   )}
                 </button>
-                
-                {success && (
-                  <motion.div 
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    className="flex items-center gap-2 text-white bg-white/10 px-4 py-2 rounded-full"
-                  >
-                    <CheckCircle2 className="w-5 h-5 text-[#d4af37]" />
-                    <span className="font-medium text-sm">Message sent successfully!</span>
-                  </motion.div>
-                )}
-
-                {error && (
-                  <motion.div 
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    className="flex items-center gap-2 text-white bg-red-500/20 px-4 py-2 rounded-full border border-red-500/30"
-                  >
-                    <span className="font-medium text-sm">{error}</span>
-                  </motion.div>
-                )}
               </div>
             </form>
           </motion.div>

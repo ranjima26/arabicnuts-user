@@ -4,7 +4,7 @@ import { useState } from "react";
 import { signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth, googleProvider } from "@/lib/firebase";
 import { setUser } from "@/redux/slices/usersSlice";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import { Button } from "./ui/button";
 import {
   Dialog,
@@ -26,7 +26,7 @@ interface AuthModalProps {
   onClose: () => void;
 }
 
-// ── Validation helpers ──────────────────────────────────────────────────────
+// ── Validation  ──────────────────────────────────────────────────────
 const validateEmail = (email: string) => {
   const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!email) return "Email is required.";
@@ -197,6 +197,8 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
         setRegTouched({ name: false, email: false, password: false });
         onClose();
         router.refresh();
+      } else {
+        toast.error(data.message || "Registration sync failed");
       }
     } catch (error: any) {
       toast.error(error.message || "Registration failed");

@@ -11,6 +11,7 @@ export const orderApi = createApi({
         method: 'POST',
         body,
       }),
+      invalidatesTags: ['Order'],
     }),
     myOrders: builder.query({
       query: () => 'orders/getOrdersByUser',

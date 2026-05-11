@@ -2,15 +2,15 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { 
-  ShoppingCart, 
-  Star, 
-  ShieldCheck, 
-  Leaf, 
-  Truck, 
-  Minus, 
-  Plus, 
-  ChevronRight, 
+import {
+  ShoppingCart,
+  Star,
+  ShieldCheck,
+  Leaf,
+  Truck,
+  Minus,
+  Plus,
+  ChevronRight,
   Heart,
   BadgeCheck
 } from "lucide-react";
@@ -21,8 +21,10 @@ import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
 import { addToCart, setBuyNowItem } from "@/redux/slices/cartSlice";
 import imgPistachio from "@/assets/roasted_pistachios.png";
+import imgMedjool from "@/assets/medjool_dates.png";
 import { useEffect } from "react";
 import { useGetProductDetailsQuery } from "@/redux/api/productApi";
+import { products } from "@/data/products";
 // Mock data for demonstration - you can replace this with real props
 const MOCK_PRODUCT = {
   id: "p2",
@@ -41,20 +43,12 @@ const MOCK_PRODUCT = {
     "High Protein & Healthy Fats",
     "100% Natural & Gluten-Free"
   ],
-<<<<<<< HEAD
   ingredients: "Premium Quality Pistachios, Minimal Sea Salt.",
   benefits: [
     { title: "Heart Healthy", icon: null },
     { title: "Weight Management", icon: null },
     { title: "Antioxidant Rich", icon: null },
     { title: "Energy Booster", icon: null }
-=======
-  benefits: [
-    { title: "Healthy Heart" },
-    { title: "Protein Rich" },
-    { title: "Weight Control" },
-    { title: "Anti-oxidants" }
->>>>>>> d4f1883 (Fix UI bugs, add sweetalert, validation, and product link fixes)
   ]
 };
 
@@ -69,11 +63,14 @@ export function PageOverview({ productId }: { productId?: string }) {
   const { user } = useAuth();
   const router = useRouter();
   const dispatch = useDispatch();
-  
+
   const { data: response, isLoading } = useGetProductDetailsQuery(productId, { skip: !productId });
-  const fetchedProduct = response?.product;
-  
-  const product = fetchedProduct || MOCK_PRODUCT;
+  const fetchedProduct = response;
+
+  // Find in local products if not in DB (for mock data support)
+  const localProduct = products.find(p => p.id === productId || p._id === productId);
+
+  const product = fetchedProduct || localProduct || MOCK_PRODUCT;
 
   const [quantity, setQuantity] = useState(1);
   const [selectedVariantIdx, setSelectedVariantIdx] = useState(0);
@@ -92,12 +89,18 @@ export function PageOverview({ productId }: { productId?: string }) {
   const selectedVariant = variants[selectedVariantIdx] || null;
   const price = selectedVariant?.price || product.price || 0;
   const discountPrice = selectedVariant?.discountPrice || product.discountPrice || 0;
+
+  const isMedjool = product.name?.toLowerCase().includes('medjool');
+  const fallbackImg = isMedjool ? imgMedjool.src : imgPistachio.src;
+
+  const displayImage = mainImage || (isMedjool ? imgMedjool.src : (product.mainImage || product.images?.[0]?.url || product.images?.[0] || fallbackImg));
   
-  const displayImage = mainImage || product.mainImage || product.images?.[0]?.url || product.images?.[0] || imgPistachio.src;
-  const allImages = product.images && typeof product.images[0] === 'string' 
-    ? product.images 
-    : [product.mainImage, ...(product.images || []).map((img: any) => img.url)].filter(Boolean);
-  if (allImages.length === 0) allImages.push(imgPistachio.src);
+  const allImages = isMedjool 
+    ? [imgMedjool.src, imgMedjool.src, imgMedjool.src, imgMedjool.src] 
+    : (product.images && typeof product.images[0] === 'string'
+        ? product.images
+        : [(product.mainImage), ...(product.images || []).map((img: any) => img.url)].filter(Boolean));
+  if (allImages.length === 0) allImages.push(fallbackImg);
 
   if (!isMounted) return null;
 
@@ -120,7 +123,7 @@ export function PageOverview({ productId }: { productId?: string }) {
       qty: quantity,
       variant: selectedVariant
     }));
-    
+
     router.push("/cart");
   };
 
@@ -143,19 +146,17 @@ export function PageOverview({ productId }: { productId?: string }) {
       qty: quantity,
       variant: selectedVariant
     }));
-    
+
     router.push("/checkout");
   };
 
-  if (isLoading && productId) {
-    return <div className="min-h-screen flex items-center justify-center">Loading product details...</div>;
-  }
+
 
   return (
     <div className="w-full bg-[#fcfcfb] min-h-screen py-8 md:py-16 overflow-x-hidden">
       <div className="max-w-[1280px] mx-auto px-4 md:px-8">
-        
-      
+
+
         <nav className="flex items-center gap-2 text-sm text-gray-500 mb-8 font-light">
           <Link href="/" className="hover:text-[#496506] transition-colors">Home</Link>
           <ChevronRight className="w-4 h-4" />
@@ -165,9 +166,9 @@ export function PageOverview({ productId }: { productId?: string }) {
         </nav>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
-          
+
           {/* Left Column - Image Gallery */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
@@ -183,10 +184,10 @@ export function PageOverview({ productId }: { productId?: string }) {
               <button className="absolute top-6 right-6 z-10 bg-white/80 backdrop-blur p-3 rounded-full text-gray-400 hover:text-[#e7000b] hover:bg-white transition-all shadow-sm">
                 <Heart className="w-5 h-5" />
               </button>
-              
-              <img 
-                src={displayImage} 
-                alt={product.name} 
+
+              <img
+                src={displayImage}
+                alt={product.name}
                 className="w-full h-full object-contain drop-shadow-2xl group-hover:scale-105 transition-transform duration-500 mix-blend-multiply"
               />
             </div>
@@ -194,12 +195,11 @@ export function PageOverview({ productId }: { productId?: string }) {
             {/* Thumbnails */}
             <div className="flex items-center gap-4 overflow-x-auto pb-2 scrollbar-hide">
               {allImages.map((img: string, idx: number) => (
-                <button 
+                <button
                   key={idx}
                   onClick={() => setMainImage(img)}
-                  className={`relative flex-shrink-0 w-24 h-24 rounded-2xl border-2 overflow-hidden bg-white p-2 transition-all duration-300 ${
-                    displayImage === img ? 'border-[#496506] shadow-md' : 'border-gray-100 opacity-70 hover:opacity-100'
-                  }`}
+                  className={`relative flex-shrink-0 w-24 h-24 rounded-2xl border-2 overflow-hidden bg-white p-2 transition-all duration-300 ${displayImage === img ? 'border-[#496506] shadow-md' : 'border-gray-100 opacity-70 hover:opacity-100'
+                    }`}
                 >
                   <img src={img} alt={`View ${idx + 1}`} className="w-full h-full object-contain mix-blend-multiply" />
                 </button>
@@ -207,8 +207,8 @@ export function PageOverview({ productId }: { productId?: string }) {
             </div>
           </motion.div>
 
-          
-          <motion.div 
+
+          <motion.div
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
@@ -219,7 +219,7 @@ export function PageOverview({ productId }: { productId?: string }) {
               <p className="text-[#735c00] text-lg font-medium">{product.shortDescription || product.subtitle}</p>
             </div>
 
-          
+
             <div className="flex items-center gap-3 mb-8">
               <div className="flex items-center text-[#eab308]">
                 {[...Array(5)].map((_, i) => (
@@ -231,7 +231,7 @@ export function PageOverview({ productId }: { productId?: string }) {
               <span className="text-[#496506] hover:underline cursor-pointer text-sm font-medium">{product.reviews?.length || 0} Reviews</span>
             </div>
 
-           
+
             <div className="flex items-baseline gap-4 mb-8">
               <span className="text-4xl font-bold text-[#496506]">{price}</span>
               {discountPrice > 0 && (
@@ -246,7 +246,7 @@ export function PageOverview({ productId }: { productId?: string }) {
               {product.description}
             </p>
 
-           
+
             <div className="flex flex-row items-center gap-3 sm:gap-4 mb-6 sm:mb-10 w-full">
               <div className="flex items-center justify-between bg-white border border-gray-200 rounded-xl h-14 px-2 sm:px-4 w-[120px] sm:w-40 shrink-0 shadow-sm">
                 <button onClick={decrement} className="text-gray-400 hover:text-[#496506] transition-colors p-2">
@@ -258,7 +258,7 @@ export function PageOverview({ productId }: { productId?: string }) {
                 </button>
               </div>
 
-              <button 
+              <button
                 onClick={handleAddToCart}
                 className="flex-1 w-full flex items-center justify-center gap-2 bg-[#496506] hover:bg-[#3a5204] text-white h-14 rounded-xl font-bold text-[13px] sm:text-base tracking-widest uppercase transition-all shadow-md hover:shadow-lg"
               >
@@ -267,15 +267,15 @@ export function PageOverview({ productId }: { productId?: string }) {
               </button>
             </div>
 
-          
-            <button 
+
+            <button
               onClick={handleBuyNow}
               className="w-full flex items-center justify-center gap-2 bg-[#1b1d0e] hover:bg-black text-white h-14 rounded-xl font-bold tracking-widest uppercase transition-all shadow-md hover:shadow-lg mb-10"
             >
               Buy it Now
             </button>
 
-     
+
             <div className="grid grid-cols-2 gap-4 mb-10">
               <div className="flex items-center gap-3 bg-[#f4ebd0]/30 p-4 rounded-2xl border border-[#d0c5af]/20">
                 <div className="bg-white p-2 rounded-xl text-[#735c00] shadow-sm"><Leaf className="w-5 h-5" /></div>
@@ -295,16 +295,15 @@ export function PageOverview({ productId }: { productId?: string }) {
               </div>
             </div>
 
-         
+
             <div className="border-t border-gray-200 pt-8">
               <div className="flex items-center gap-8 border-b border-gray-200 mb-6">
                 {['description', 'ingredients', 'shipping'].map((tab) => (
                   <button
                     key={tab}
                     onClick={() => setActiveTab(tab)}
-                    className={`pb-4 text-sm font-bold uppercase tracking-wider transition-colors relative ${
-                      activeTab === tab ? 'text-[#496506]' : 'text-gray-400 hover:text-gray-800'
-                    }`}
+                    className={`pb-4 text-sm font-bold uppercase tracking-wider transition-colors relative ${activeTab === tab ? 'text-[#496506]' : 'text-gray-400 hover:text-gray-800'
+                      }`}
                   >
                     {tab}
                     {activeTab === tab && (
@@ -313,7 +312,7 @@ export function PageOverview({ productId }: { productId?: string }) {
                   </button>
                 ))}
               </div>
-              
+
               <div className="min-h-[150px] text-gray-600 font-light leading-relaxed">
                 {activeTab === 'description' && (
                   <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-4">
@@ -341,13 +340,13 @@ export function PageOverview({ productId }: { productId?: string }) {
           </motion.div>
         </div>
 
-      
+
         <div className="mt-24 w-full">
           <h2 className="text-3xl md:text-4xl font-bold text-center text-[#1b1d0e] mb-12">Benefits</h2>
-          
+
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {(product.benefits || MOCK_PRODUCT.benefits || DEFAULT_BENEFITS).map((benefit: any, idx: number) => (
-              <motion.div 
+              <motion.div
                 key={idx}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}

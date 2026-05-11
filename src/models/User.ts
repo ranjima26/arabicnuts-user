@@ -53,6 +53,10 @@ const userSchema = new mongoose.Schema(
       enum: ["OTP", "Email/Password", "OAuth"],
       default: "Email/Password",
     },
+    userAddress: {
+      type: String,
+      required: false,
+    },
   },
   { timestamps: true },
 );

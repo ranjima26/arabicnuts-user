@@ -14,7 +14,6 @@ export async function POST(req: Request) {
     }
 
     let user = await User.findOne({ email });
-
     if (!user) {
       user = await User.create({
         name,
@@ -38,13 +37,7 @@ export async function POST(req: Request) {
 
     const response = NextResponse.json({
       success: true,
-      user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-        image: user.avatar?.url,
-      }
+      user
     });
 
     (await cookies()).set("firebase-token", token, {

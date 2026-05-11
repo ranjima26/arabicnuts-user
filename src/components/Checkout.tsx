@@ -22,8 +22,8 @@ import { clearBuyNowItem, createOrder, clearCartItems } from '@/redux/slices/car
 import jarImage from '@/assets/0d50403659dbeb714860454d0322380314619c03.png';
 import { useAuth } from '@/hooks/useAuth';
 import { useCreateNewOrderMutation } from '@/redux/api/orderApi';
-import { toast } from 'react-toastify';
-import Swal from 'sweetalert2';
+import { toast } from 'sonner';
+
 
 // ── Checkout Validation Helpers ──────────────────────────────────────────────
 const checkoutValidators: Record<string, (v: string) => string> = {
@@ -129,7 +129,8 @@ export function Checkout() {
       quantity: item.qty || item.quantity || 1,
       image: item.image,
       price: getSafePrice(item.price),
-      productId: item.productId || item._id
+      productId: item.productId || item._id,
+      qty: item.qty || 1
     }));
 
     createNewOrder({
@@ -139,7 +140,7 @@ export function Checkout() {
       },
       orderItems: orderItems,
       itemsPrice: subtotal,
-      shippingAmount: 0,
+      shippingPrice: 0,
       totalPrice: total,
       paymentMethod: paymentMethod,
       paymentInfo: {
@@ -147,27 +148,18 @@ export function Checkout() {
         status: "Succeeded"
       }
     }).unwrap().then(() => {
-      Swal.fire({
-        title: 'Order Successful!',
-        text: 'Thank you for shopping with Arabic Dry Fruits. Your premium selection is being prepared!',
-        icon: 'success',
-        confirmButtonColor: '#496506',
-        background: '#ffffff',
-        customClass: {
-          popup: 'rounded-[32px]',
-          confirmButton: 'rounded-xl px-8 py-3'
-        }
-      }).then(() => {
-        // Clear relevant items
-        if (buyNowItem) {
-          dispatch(clearBuyNowItem());
-        } else {
-          dispatch(clearCartItems());
-        }
-
-        // Navigate to orders
-        router.push('/profile?tab=orders');
+      toast.success('Order Successful!', {
+        description: 'Thank you for shopping with Arabic Dry Fruits. Your premium selection is being prepared!',
       });
+      // Clear relevant items
+      if (buyNowItem && buyNowItem._id) {
+        dispatch(clearBuyNowItem());
+      } else {
+        dispatch(clearCartItems());
+      }
+
+      // Navigate to orders
+      router.push('/profile?tab=orders');
     }).catch((err) => {
       toast.error(err?.data?.message || "Failed to place order");
     });
