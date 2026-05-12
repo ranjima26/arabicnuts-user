@@ -15,7 +15,13 @@ export const userApi = createApi({
       async onQueryStarted(args, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
-          dispatch(setUser(data.user));
+          if (data.user) {
+            dispatch(setUser(data.user));
+            if (data.user.cartItems) {
+              const { setCartItems } = await import('../slices/cartSlice');
+              dispatch(setCartItems(data.user.cartItems));
+            }
+          }
           dispatch(setIsAuthenticated(true));
         } catch (error) {
           console.error('Error fetching user data:', error);

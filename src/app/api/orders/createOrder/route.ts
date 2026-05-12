@@ -7,9 +7,12 @@ export async function POST(req: Request) {
   try {
     const session = await getAuthUser();
     if (!session) return NextResponse.json({ message: "Not authenticated" }, { status: 401 });
-    const { orderItems, shippingAddress, paymentMethod, paymentInfo, itemsPrice, taxPrice, shippingPrice, totalPrice } = await req.json();
+    
+    const { orderItems, shippingAddress, paymentMethod, paymentInfo, itemsPrice, taxPrice, shippingPrice, totalPrice, clearCart } = await req.json();
+    
     if (!orderItems || orderItems.length === 0) return NextResponse.json({ message: "No order items" }, { status: 400 });
     await connectDB();
+    
     // Helper: only use a value as ObjectId when it looks like one (24-char hex)
     const toObjectId = (val: any) => {
       if (val && typeof val === "string" && /^[a-f\d]{24}$/i.test(val)) return val;
@@ -58,6 +61,13 @@ export async function POST(req: Request) {
     });
 
     const createdOrder = await order.save();
+
+    // Clear cart if requested
+    if (clearCart && session.user.id) {
+      const User = (await import("@/models/User")).default;
+      await User.findByIdAndUpdate(session.user.id, { cartItems: [] });
+    }
+
     return NextResponse.json({ success: true, order: createdOrder }, { status: 201 });
   } catch (error: any) {
     console.error("Order creation error:", error);

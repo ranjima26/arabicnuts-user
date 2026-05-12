@@ -5,7 +5,7 @@ import { onAuthStateChanged, User as FirebaseUser } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from '@/redux/slices/usersSlice';
-import { clearCartItems } from '@/redux/slices/cartSlice';
+import { clearCartItems, setCartItems } from '@/redux/slices/cartSlice';
 
 export function useAuth() {
   const [loading, setLoading] = useState(true);
@@ -15,9 +15,7 @@ export function useAuth() {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
-        // Sync with backend if needed or just set local state
-        // For now, we'll assume the sync happens during login
-        // But we might want to fetch the DB user here to get the role
+   
         try {
           const res = await fetch('/api/auth/firebase-sync', {
             method: 'POST',
@@ -30,15 +28,34 @@ export function useAuth() {
             }),
           });
           const data = await res.json();
-          if (data.success) {
+          if (data.success && data.user) {
             dispatch(setUser(data.user));
+            
+            // Merge local cart with database cart
+            const dbCart = data.user.cartItems || [];
+            const localCart = JSON.parse(localStorage.getItem('cartItems') || '[]');
+            
+      
+            const mergedCart = [...dbCart];
+            
+            localCart.forEach((localItem: any) => {
+              const existingItemIndex = mergedCart.findIndex(dbItem => dbItem._id === localItem._id);
+              if (existingItemIndex > -1) {
+
+              } else {
+                mergedCart.push(localItem);
+              }
+            });
+            
+            dispatch(setCartItems(mergedCart));
           }
         } catch (err) {
           console.error("Auth sync failed", err);
         }
       } else {
         dispatch(setUser(null));
-        dispatch(clearCartItems());
+        // We no longer clear cart items here so they persist in localStorage as a guest cart
+        // They will be merged again when the next user logs in
       }
       setLoading(false);
     });

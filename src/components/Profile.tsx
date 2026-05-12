@@ -8,13 +8,15 @@ import { auth } from '@/lib/firebase';
 import { useUpdateProfileMutation, useGetMeQuery } from '@/redux/api/userApi';
 import { toast } from 'sonner';
 import { useSelector } from 'react-redux';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { useMyOrdersQuery } from '@/redux/api/orderApi';
+import imgMedjool from "@/assets/medjool_dates.png";
 
 export default function Profile() {
   const { user, loading: authLoading } = useAuth();
   const { data: userData, refetch: refetchUser, isLoading: getMeLoading } = useGetMeQuery({});
   const searchParams = useSearchParams();
+  const router = useRouter();
   const [updateProfile, { isLoading: isUpdating }] = useUpdateProfileMutation();
   
   const initialTab = (searchParams.get('tab') as 'details' | 'orders') || 'details';
@@ -176,7 +178,7 @@ export default function Profile() {
                 <button 
                   onClick={() => {
                     signOut(auth);
-                    window.location.href = '/';
+                    router.push('/');
                   }}
                   className="w-full flex items-center gap-4 p-4 rounded-2xl text-red-500 hover:bg-red-50 transition-all font-bold"
                 >
@@ -292,7 +294,7 @@ export default function Profile() {
                               {selectedOrder.orderItems?.map((item: any, idx: number) => (
                                 <div key={idx} className="flex items-center gap-4 bg-white p-4 rounded-3xl border border-gray-100 shadow-sm">
                                   <div className="w-16 h-16 bg-[#f4f7ed] rounded-2xl flex-shrink-0 overflow-hidden">
-                                    <img src={item.image} alt={item.name} className="w-full h-full object-contain p-2" />
+                                    <img src={item.name?.toLowerCase().includes('medjool') ? imgMedjool.src : item.image} alt={item.name} className="w-full h-full object-contain p-2" />
                                   </div>
                                   <div className="flex-1 min-w-0">
                                     <h4 className="font-bold text-gray-900 truncate">{item.name}</h4>

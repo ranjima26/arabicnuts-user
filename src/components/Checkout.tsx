@@ -20,6 +20,7 @@ import { useRouter } from 'next/navigation';
 import { useSelector, useDispatch } from 'react-redux';
 import { clearBuyNowItem, clearCartItems } from '@/redux/slices/cartSlice';
 import jarImage from '@/assets/0d50403659dbeb714860454d0322380314619c03.png';
+import imgMedjool from "@/assets/medjool_dates.png";
 import { useAuth } from '@/hooks/useAuth';
 import { useCreateNewOrderMutation } from '@/redux/api/orderApi';
 import { toast } from 'sonner';
@@ -87,7 +88,7 @@ export function Checkout() {
     return Number(raw) || 0;
   };
 
-  const items = buyNowItem ? [buyNowItem] : cartItems;
+  const items = user ? (buyNowItem ? [buyNowItem] : cartItems) : [];
 
   const subtotal = items.reduce((acc: number, item: any) => {
     const price = getSafePrice(item.price);
@@ -173,7 +174,8 @@ export function Checkout() {
       paymentInfo: {
         id: "COD",
         status: "Succeeded"
-      }
+      },
+      clearCart: !buyNowItem
     }).unwrap().then(() => {
       toast.success('Order Successful!', {
         description: 'Thank you for shopping with Arabic Dry Fruits. Your premium selection is being prepared!',
@@ -194,7 +196,11 @@ export function Checkout() {
 
   React.useEffect(() => {
     setIsMounted(true);
-  }, []);
+    // Redirect if not logged in
+    if (!user && isMounted) {
+      router.push('/');
+    }
+  }, [user, isMounted, router]);
 
   React.useEffect(() => {
     if (user && !shippingData.name && !shippingData.email) {
@@ -492,7 +498,7 @@ export function Checkout() {
                   {items.map((item: any, idx: number) => (
                     <div key={idx} className="bg-white rounded-[24px] p-4 flex items-center gap-4 relative">
                       <div className="w-16 h-16 bg-gray-50 rounded-xl overflow-hidden shrink-0 relative">
-                        <img src={item.image} alt={item.name} className="w-full h-full object-contain p-2" />
+                        <img src={item.name?.toLowerCase().includes('medjool') ? imgMedjool.src : item.image} alt={item.name} className="w-full h-full object-contain p-2" />
                         <span className="absolute -top-1 -right-1 w-5 h-5 bg-black text-white text-[10px] font-bold rounded-full flex items-center justify-center border-2 border-white">
                           {item.qty || item.quantity}
                         </span>

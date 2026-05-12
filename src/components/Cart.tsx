@@ -7,7 +7,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useSelector, useDispatch } from 'react-redux';
 import { useAuth } from '@/hooks/useAuth';
 import { addToCart, removeFromCart, clearBuyNowItem } from '@/redux/slices/cartSlice';
+import { openAuthModal } from '@/redux/slices/usersSlice';
 import jarImage from '@/assets/0d50403659dbeb714860454d0322380314619c03.png';
+import imgMedjool from "@/assets/medjool_dates.png";
 
 export function Cart() {
   const dispatch = useDispatch();
@@ -105,7 +107,7 @@ export function Cart() {
                       {/* Product Image */}
                       <div className="relative w-full sm:w-40 h-40 bg-gray-50 rounded-2xl overflow-hidden shrink-0 flex items-center justify-center p-4">
                         <img 
-                          src={item.image} 
+                          src={item.name?.toLowerCase().includes('medjool') ? imgMedjool.src : item.image} 
                           alt={item.name} 
                           className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500 drop-shadow-xl" 
                         />
@@ -224,12 +226,21 @@ export function Cart() {
                   ? "Looks like you haven't added anything to your bag yet. Discover our premium collection of nuts and dried fruits." 
                   : "Login to see your saved items and continue shopping our premium collection."}
               </p>
-              <Link 
-                href={user ? "/shop" : "/"}
-                className="inline-flex items-center justify-center px-8 py-4 bg-[#496506] text-white rounded-2xl hover:bg-[#3a5205] transition-all font-medium"
-              >
-                {user ? "Start Shopping" : "Go to Login"}
-              </Link>
+              {user ? (
+                <Link 
+                  href="/shop"
+                  className="inline-flex items-center justify-center px-8 py-4 bg-[#496506] text-white rounded-2xl hover:bg-[#3a5205] transition-all font-medium"
+                >
+                  Start Shopping
+                </Link>
+              ) : (
+                <button 
+                  onClick={() => dispatch(openAuthModal())}
+                  className="inline-flex items-center justify-center px-8 py-4 bg-[#496506] text-white rounded-2xl hover:bg-[#3a5205] transition-all font-medium"
+                >
+                  Go to Login
+                </button>
+              )}
             </div>
           )}
         </motion.div>

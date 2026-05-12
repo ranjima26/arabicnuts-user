@@ -20,6 +20,7 @@ import { useDispatch } from "react-redux";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
 import { addToCart, setBuyNowItem } from "@/redux/slices/cartSlice";
+import { openAuthModal } from "@/redux/slices/usersSlice";
 import imgPistachio from "@/assets/roasted_pistachios.png";
 import imgMedjool from "@/assets/medjool_dates.png";
 import { useEffect } from "react";
@@ -110,7 +111,7 @@ export function PageOverview({ productId }: { productId?: string }) {
         description: "You need to be logged in to manage your bag.",
         action: {
           label: "Login",
-          onClick: () => router.push("/")
+          onClick: () => dispatch(openAuthModal())
         }
       });
       return;
@@ -139,7 +140,7 @@ export function PageOverview({ productId }: { productId?: string }) {
         description: "You need to be logged in to make a purchase.",
         action: {
           label: "Login",
-          onClick: () => router.push("/")
+          onClick: () => dispatch(openAuthModal())
         }
       });
       return;

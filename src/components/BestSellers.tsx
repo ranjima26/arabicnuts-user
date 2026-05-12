@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
 import { addToCart } from "@/redux/slices/cartSlice";
+import { openAuthModal } from "@/redux/slices/usersSlice";
 import { ShoppingCart } from "lucide-react";
 
 import { useGetProductsQuery } from "@/redux/api/productApi";
@@ -32,7 +33,7 @@ export function BestSellers() {
         description: "You need to be logged in to manage your bag.",
         action: {
           label: "Login",
-          onClick: () => router.push("/")
+          onClick: () => dispatch(openAuthModal())
         }
       });
       return;
@@ -81,7 +82,7 @@ export function BestSellers() {
         </div>
 
         {/* Tabs */}
-        <div className="flex flex-wrap gap-3 md:gap-4 mb-8">
+        <div className="flex flex-wrap justify-center gap-3 md:gap-4 mb-8">
           {tabs.map((tab) => (
             <button
               key={tab}
@@ -97,7 +98,7 @@ export function BestSellers() {
         </div>
 
         {/* Products Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6 min-h-[400px]">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
           {isLoading ? (
             <div className="col-span-full text-center py-12 text-gray-500">Loading products...</div>
           ) : filteredProducts.length === 0 ? (
@@ -106,18 +107,18 @@ export function BestSellers() {
             <div
               key={product._id}
               onClick={() => router.push(`/product/${product._id || product.id}`)}
-              className="bg-[#f8faeb] border border-[#e6eed4] rounded-[24px] flex p-3 md:p-4 hover:shadow-lg hover:-translate-y-1 active:scale-[0.98] active:shadow-md active:-translate-y-0.5 transition-all duration-300 cursor-pointer animate-in fade-in zoom-in duration-300"
+              className="bg-[#f8faeb] border border-[#e6eed4] rounded-[24px] flex p-3 md:p-4 hover:shadow-lg hover:-translate-y-1 active:scale-[0.98] active:shadow-md active:-translate-y-0.5 transition-all duration-300 cursor-pointer animate-in fade-in zoom-in duration-300 h-full min-h-[180px] md:min-h-[200px]"
             >
               {/* Image side */}
-              <Link href={`/product/${product._id || product.id}`} className="w-[45%] flex items-center justify-center p-1 md:p-2">
+              <div className="w-[40%] flex items-center justify-center p-1 md:p-2 shrink-0">
                 <img
                   src={product.name?.toLowerCase().includes('medjool') ? imgMedjool.src : (product.mainImage || product.images?.[0]?.url || imgJar.src)}
                   alt={product.name}
-                  className="w-full h-auto object-contain drop-shadow-md rounded-xl"
+                  className="w-full h-full max-h-[120px] md:max-h-[140px] object-contain drop-shadow-md rounded-xl transition-transform duration-500 group-hover:scale-110"
                 />
-              </Link>
+              </div>
 
-              <div className="w-[55%] flex flex-col justify-center py-1 pl-1 pr-1 md:pr-2">
+              <div className="w-[60%] flex flex-col justify-center py-1 pl-1 pr-1 md:pr-2">
                 <Link href={`/product/${product._id || product.id}`}>
                   <h4 className="text-[20px] md:text-[22px] font-extrabold text-[#3a3a3a] leading-[1.1] mb-2 tracking-tight line-clamp-2 hover:text-[#dea424] transition-colors">
                     {product.name}
