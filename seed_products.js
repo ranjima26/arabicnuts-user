@@ -11,8 +11,8 @@ const sampleProducts = [
         shortDescription: "Crunchy and nutritious California almonds.",
         stockQuantity: 100,
         category: "Almonds",
-        mainImage: "https://m.media-amazon.com/images/I/71u+O9lW89L._SL1500_.jpg",
-        images: [{ url: "https://m.media-amazon.com/images/I/71u+O9lW89L._SL1500_.jpg" }],
+        mainImage: "https://images.unsplash.com/photo-1508061253366-f7da158b6d46?w=800&q=80",
+        images: [{ url: "https://images.unsplash.com/photo-1508061253366-f7da158b6d46?w=800&q=80" }],
         variants: [
             { size: "500g", price: 850, discountPrice: 750 }
         ],
@@ -25,8 +25,8 @@ const sampleProducts = [
         shortDescription: "Savory roasted pistachios.",
         stockQuantity: 50,
         category: "Pistachios",
-        mainImage: "https://m.media-amazon.com/images/I/71-Lw4O18zL._SL1500_.jpg",
-        images: [{ url: "https://m.media-amazon.com/images/I/71-Lw4O18zL._SL1500_.jpg" }],
+        mainImage: "https://images.unsplash.com/photo-1599598425947-3300262145b2?w=800&q=80",
+        images: [{ url: "https://images.unsplash.com/photo-1599598425947-3300262145b2?w=800&q=80" }],
         variants: [
             { size: "500g", price: 950, discountPrice: 890 }
         ],
@@ -39,8 +39,8 @@ const sampleProducts = [
         shortDescription: "Creamy and rich whole cashews.",
         stockQuantity: 75,
         category: "Cashews",
-        mainImage: "https://m.media-amazon.com/images/I/61r5f8a0-BL._SL1500_.jpg",
-        images: [{ url: "https://m.media-amazon.com/images/I/61r5f8a0-BL._SL1500_.jpg" }],
+        mainImage: "https://images.unsplash.com/photo-1579112959807-6c88880d8eb8?w=800&q=80",
+        images: [{ url: "https://images.unsplash.com/photo-1579112959807-6c88880d8eb8?w=800&q=80" }],
         variants: [
             { size: "500g", price: 1100, discountPrice: 990 }
         ],
@@ -53,8 +53,8 @@ const sampleProducts = [
         shortDescription: "Soft and sweet king of dates.",
         stockQuantity: 30,
         category: "Dates",
-        mainImage: "https://m.media-amazon.com/images/I/71oX6u6W+kL._SL1500_.jpg",
-        images: [{ url: "https://m.media-amazon.com/images/I/71oX6u6W+kL._SL1500_.jpg" }],
+        mainImage: "https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=800&q=80",
+        images: [{ url: "https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=800&q=80" }],
         variants: [
             { size: "1kg", price: 1500, discountPrice: 1350 }
         ],

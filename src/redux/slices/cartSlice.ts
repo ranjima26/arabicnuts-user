@@ -93,7 +93,9 @@ const cartSlice = createSlice({
 
       if (existItem) {
         state.cartItems = state.cartItems.map((x) =>
-          x._id === existItem._id ? itemWithUniqueId : x
+          x._id === uniqueId
+            ? { ...itemWithUniqueId, qty: x.qty + item.qty }  // accumulate qty
+            : x
         );
       } else {
         state.cartItems.push(itemWithUniqueId);

@@ -69,8 +69,14 @@ export function ShopPage() {
       qty: 1,
       variant: product.variants?.[0] || null
     }));
-    
-    router.push("/cart");
+
+    toast.success(`${product.name} added to cart!`, {
+      description: "Keep shopping or head to your cart.",
+      action: {
+        label: "Go to Cart",
+        onClick: () => router.push("/cart")
+      }
+    });
   };
 
   if (!isMounted) return null;

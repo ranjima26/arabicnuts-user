@@ -30,7 +30,7 @@ export function Header() {
   const [searchResults, setSearchResults] = useState<typeof products>([]);
   const searchInputRef = useRef<HTMLInputElement>(null);
 
-  const cartItemCount = user ? cartItems.reduce((acc: number, item: any) => acc + (item.qty || 0), 0) : 0;
+  const cartItemCount = cartItems.reduce((acc: number, item: any) => acc + (item.qty || 0), 0);
 
   useEffect(() => {
     setIsMounted(true);

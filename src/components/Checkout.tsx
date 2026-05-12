@@ -18,7 +18,7 @@ import {
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { useSelector, useDispatch } from 'react-redux';
-import { clearBuyNowItem, createOrder, clearCartItems } from '@/redux/slices/cartSlice';
+import { clearBuyNowItem, clearCartItems } from '@/redux/slices/cartSlice';
 import jarImage from '@/assets/0d50403659dbeb714860454d0322380314619c03.png';
 import { useAuth } from '@/hooks/useAuth';
 import { useCreateNewOrderMutation } from '@/redux/api/orderApi';
@@ -110,16 +110,43 @@ export function Checkout() {
     return isValid;
   };
 
+  const fieldLabels: Record<string, string> = {
+    name: "Full Name",
+    email: "Email Address",
+    phone: "Phone Number",
+    address: "Delivery Address",
+    city: "City",
+    state: "State",
+    pinCode: "Pin Code",
+  };
+
   const handlePlaceOrder = (e: React.FormEvent) => {
     e.preventDefault();
 
     if (items.length === 0) {
-      toast.error("Your cart is empty!");
+      Swal.fire({
+        title: 'Cart is Empty',
+        text: 'Please add at least one item to your cart before placing an order.',
+        icon: 'warning',
+        confirmButtonColor: '#496506',
+        customClass: { popup: 'rounded-[32px]', confirmButton: 'rounded-xl px-8 py-3' }
+      });
       return;
     }
 
     if (!validateAllFields()) {
-      toast.error("Please fix the errors in the form before proceeding.");
+      // Collect which specific fields failed
+      const failedFields = Object.keys(checkoutValidators)
+        .filter((key) => checkoutValidators[key](shippingData[key as keyof typeof shippingData]) !== "")
+        .map((key) => fieldLabels[key] || key);
+
+      Swal.fire({
+        title: 'Missing or Invalid Details',
+        html: `<p style="margin-bottom:10px">Please correct the following fields before proceeding:</p><ul style="text-align:left;padding-left:20px">${failedFields.map(f => `<li style="margin:4px 0">• ${f}</li>`).join('')}</ul>`,
+        icon: 'error',
+        confirmButtonColor: '#e7000b',
+        customClass: { popup: 'rounded-[32px]', confirmButton: 'rounded-xl px-8 py-3' }
+      });
       return;
     }
 
@@ -200,10 +227,6 @@ export function Checkout() {
 
   if (!isMounted) return null;
 
-  if (!isMounted) {
-    return <div className="min-h-screen bg-[#F8F9FA] pt-32 pb-20 flex items-center justify-center">Loading checkout...</div>;
-  }
-
   return (
     <div className="min-h-screen bg-[#F8F9FA] pt-32 pb-20">
       <div className="container mx-auto px-4 md:px-8 lg:px-12">
@@ -245,7 +268,7 @@ export function Checkout() {
                         value={shippingData.name}
                         onChange={handleInputChange}
                         onBlur={() => handleBlur('name')}
-                        placeholder="John Doe"
+                        placeholder="Enter your full name"
                         className={`w-full bg-gray-50 border rounded-2xl py-4 pl-12 pr-4 text-gray-800 placeholder:text-gray-500 focus:ring-2 focus:bg-white transition-all outline-none font-bold ${
                           shippingTouched.name && shippingErrors.name
                             ? 'border-red-400 focus:ring-red-200'
@@ -269,7 +292,7 @@ export function Checkout() {
                         value={shippingData.email}
                         onChange={handleInputChange}
                         onBlur={() => handleBlur('email')}
-                        placeholder="john@example.com"
+                        placeholder="Enter your email address"
                         className={`w-full bg-gray-50 border rounded-2xl py-4 pl-12 pr-4 text-gray-800 placeholder:text-gray-500 focus:ring-2 focus:bg-white transition-all outline-none font-bold ${
                           shippingTouched.email && shippingErrors.email
                             ? 'border-red-400 focus:ring-red-200'
@@ -293,7 +316,7 @@ export function Checkout() {
                         value={shippingData.phone}
                         onChange={handleInputChange}
                         onBlur={() => handleBlur('phone')}
-                        placeholder="10-digit mobile number"
+                        placeholder="Enter your 10-digit mobile number"
                         maxLength={10}
                         className={`w-full bg-gray-50 border rounded-2xl py-4 pl-12 pr-4 text-gray-800 placeholder:text-gray-500 focus:ring-2 focus:bg-white transition-all outline-none font-bold ${
                           shippingTouched.phone && shippingErrors.phone
@@ -318,7 +341,7 @@ export function Checkout() {
                         value={shippingData.address}
                         onChange={handleInputChange}
                         onBlur={() => handleBlur('address')}
-                        placeholder="House no, Building, Street name"
+                        placeholder="Enter house no, building & street name"
                         className={`w-full bg-gray-50 border rounded-2xl py-4 pl-12 pr-4 text-gray-800 placeholder:text-gray-500 focus:ring-2 focus:bg-white transition-all outline-none font-bold ${
                           shippingTouched.address && shippingErrors.address
                             ? 'border-red-400 focus:ring-red-200'
@@ -340,7 +363,7 @@ export function Checkout() {
                       value={shippingData.city}
                       onChange={handleInputChange}
                       onBlur={() => handleBlur('city')}
-                      placeholder="e.g. Kochi"
+                      placeholder="Enter your city"
                       className={`w-full bg-gray-50 border rounded-2xl py-4 px-6 text-gray-800 placeholder:text-gray-500 focus:ring-2 focus:bg-white transition-all outline-none font-bold ${
                         shippingTouched.city && shippingErrors.city
                           ? 'border-red-400 focus:ring-red-200'
@@ -360,7 +383,7 @@ export function Checkout() {
                           value={shippingData.state}
                           onChange={handleInputChange}
                           onBlur={() => handleBlur('state')}
-                          placeholder="e.g. Kerala"
+                          placeholder="Enter your state"
                           className={`w-full bg-gray-50 border rounded-2xl py-4 px-6 text-gray-800 placeholder:text-gray-500 focus:ring-2 focus:bg-white transition-all outline-none font-bold ${
                             shippingTouched.state && shippingErrors.state
                               ? 'border-red-400 focus:ring-red-200'
@@ -379,7 +402,7 @@ export function Checkout() {
                           value={shippingData.pinCode}
                           onChange={handleInputChange}
                           onBlur={() => handleBlur('pinCode')}
-                          placeholder="6-digit pin code"
+                          placeholder="Enter your 6-digit pin code"
                           maxLength={6}
                           className={`w-full bg-gray-50 border rounded-2xl py-4 px-6 text-gray-800 placeholder:text-gray-500 focus:ring-2 focus:bg-white transition-all outline-none font-bold ${
                             shippingTouched.pinCode && shippingErrors.pinCode

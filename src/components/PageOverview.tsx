@@ -124,7 +124,13 @@ export function PageOverview({ productId }: { productId?: string }) {
       variant: selectedVariant
     }));
 
-    router.push("/cart");
+    toast.success(`${quantity > 1 ? `${quantity}x ` : ""}${product.name} added to cart!`, {
+      description: "Keep shopping or head to your cart.",
+      action: {
+        label: "Go to Cart",
+        onClick: () => router.push("/cart")
+      }
+    });
   };
 
   const handleBuyNow = () => {

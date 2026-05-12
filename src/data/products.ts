@@ -22,6 +22,7 @@ export interface Product {
 
 export const products: Product[] = [
   {
+    _id: "premium-dates",
     id: "premium-dates",
     category: "Dates",
     name: "Premium Royal Dates",
@@ -49,6 +50,7 @@ export const products: Product[] = [
     ]
   },
   {
+    _id: "roasted-pistachios",
     id: "roasted-pistachios",
     category: "Nuts",
     name: "Premium Roasted Pistachios",
@@ -76,6 +78,7 @@ export const products: Product[] = [
     ]
   },
   {
+    _id: "premium-almonds",
     id: "premium-almonds",
     category: "Nuts",
     name: "Premium California Almonds",
@@ -103,6 +106,7 @@ export const products: Product[] = [
     ]
   },
   {
+    _id: "premium-saffron",
     id: "premium-saffron",
     category: "Spices",
     name: "Premium Kashmiri Saffron",

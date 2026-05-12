@@ -23,6 +23,7 @@ const orderSchema = new mongoose.Schema(
       pinCode: { type: String, required: false },
       country: { type: String, required: false, default: "India" },
     },
+    userId: { type: String, required: false },   // Firebase UID (plain string)
     user: {
       type: mongoose.Schema.Types.ObjectId,
       required: false,

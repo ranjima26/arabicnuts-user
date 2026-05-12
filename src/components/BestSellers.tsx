@@ -49,7 +49,13 @@ export function BestSellers() {
       variant: selectedVariant
     }));
 
-    router.push("/cart");
+    toast.success(`${product.name} added to cart!`, {
+      description: "Keep shopping or head to your cart.",
+      action: {
+        label: "Go to Cart",
+        onClick: () => router.push("/cart")
+      }
+    });
   };
 
   const filteredProducts = activeTab === 'All'
