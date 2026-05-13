@@ -3,6 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 interface AuthState {
   user: any | null;
   isAuthenticated: boolean;
+  isAuthModalOpen: boolean;
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
   error: string | null;
 }
@@ -10,6 +11,7 @@ interface AuthState {
 const initialState: AuthState = {
   user: null,
   isAuthenticated: false,
+  isAuthModalOpen: false,
   status: 'idle',
   error: null,
 };
@@ -26,6 +28,12 @@ const authSlice = createSlice({
     setIsAuthenticated: (state, action: PayloadAction<boolean>) => {
       state.isAuthenticated = action.payload;
     },
+    openAuthModal: (state) => {
+      state.isAuthModalOpen = true;
+    },
+    closeAuthModal: (state) => {
+      state.isAuthModalOpen = false;
+    },
     logout: (state) => {
       state.user = null;
       state.isAuthenticated = false;
@@ -41,5 +49,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { setUser, setIsAuthenticated, logout, setLoading, setError } = authSlice.actions;
+export const { setUser, setIsAuthenticated, openAuthModal, closeAuthModal, logout, setLoading, setError } = authSlice.actions;
 export default authSlice.reducer;

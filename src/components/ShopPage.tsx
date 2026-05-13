@@ -17,6 +17,7 @@ import { useDispatch } from "react-redux";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
 import { addToCart } from "@/redux/slices/cartSlice";
+import { openAuthModal } from "@/redux/slices/usersSlice";
 import { useEffect, useState } from "react";
 
 import { products } from "@/data/products";
@@ -52,7 +53,7 @@ export function ShopPage() {
         description: "You need to be logged in to manage your bag.",
         action: {
           label: "Login",
-          onClick: () => router.push("/")
+          onClick: () => dispatch(openAuthModal())
         }
       });
       return;
@@ -64,7 +65,7 @@ export function ShopPage() {
     dispatch(addToCart({
       _id: product._id || product.id,
       name: product.name,
-      image: product.images?.[0]?.url || product.images?.[0] || product.mainImage,
+      image: product.name?.toLowerCase().includes('medjool') ? imgMedjool.src : (product.images?.[0]?.url || product.images?.[0] || product.mainImage),
       price: priceValue,
       qty: 1,
       variant: product.variants?.[0] || null

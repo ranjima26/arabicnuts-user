@@ -187,7 +187,9 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
       const data = await res.json();
 
       if (data.success) {
+        const { clearCartItems } = await import('@/redux/slices/cartSlice');
         dispatch(setUser(data.user));
+        dispatch(clearCartItems());
         toast.success("Account created successfully!");
         // Clear register form
         setRegName("");

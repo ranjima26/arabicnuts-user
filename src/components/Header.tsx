@@ -3,12 +3,13 @@ import { Menu, Search, User, X, LogOut, ShoppingCart } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useAuth } from '@/hooks/useAuth';
 import { signOut } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { AuthModal } from './AuthModal';
 import { products } from '@/data/products';
+import { openAuthModal, closeAuthModal } from '@/redux/slices/usersSlice';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,12 +19,16 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
+import { useCartSync } from '@/hooks/useCartSync';
+
 export function Header() {
+  useCartSync();
   const { user } = useAuth();
   const { cartItems } = useSelector((state: any) => state.cart);
+  const { isAuthModalOpen } = useSelector((state: any) => state.users);
   const router = useRouter();
+  const dispatch = useDispatch();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [authModalOpen, setAuthModalOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -137,7 +142,10 @@ export function Header() {
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem 
-                    onClick={() => signOut(auth)}
+                    onClick={() => {
+                      signOut(auth);
+                      router.push('/');
+                    }}
                     className="flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm text-red-600 hover:bg-red-50 cursor-pointer outline-none transition-all mt-1"
                   >
                     <LogOut className="w-4 h-4" />
@@ -147,7 +155,7 @@ export function Header() {
               </DropdownMenu>
             ) : (
               <button 
-                onClick={() => setAuthModalOpen(true)}
+                onClick={() => dispatch(openAuthModal())}
                 className="flex items-center justify-center w-10 h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 bg-white/30 hover:bg-white/40 backdrop-blur-md border border-white/20 rounded-full transition-all"
               >
                 <User className="w-5 h-5 md:w-6 md:h-6 text-gray-900" />
@@ -271,6 +279,7 @@ export function Header() {
                 onClick={() => {
                   signOut(auth);
                   setMobileMenuOpen(false);
+                  router.push('/');
                 }}
                 className="text-3xl font-light text-red-600 hover:text-red-700 transition-colors flex items-center gap-2"
               >
@@ -279,7 +288,7 @@ export function Header() {
             ) : (
               <button 
                 onClick={() => {
-                  setAuthModalOpen(true);
+                  dispatch(openAuthModal());
                   setMobileMenuOpen(false);
                 }}
                 className="text-3xl font-light text-[#496506] hover:text-[#3a5005] transition-colors"
@@ -291,7 +300,7 @@ export function Header() {
         </div>
       )}
 
-      <AuthModal isOpen={authModalOpen} onClose={() => setAuthModalOpen(false)} />
+      <AuthModal isOpen={isAuthModalOpen} onClose={() => dispatch(closeAuthModal())} />
     </>
   );
 }

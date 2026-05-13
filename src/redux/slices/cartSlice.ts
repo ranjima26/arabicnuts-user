@@ -139,6 +139,10 @@ const cartSlice = createSlice({
       state.orders = [newOrder, ...state.orders];
       localStorage.setItem('orders', JSON.stringify(state.orders));
     },
+    setCartItems: (state, action: PayloadAction<CartItem[]>) => {
+      state.cartItems = action.payload;
+      localStorage.setItem('cartItems', JSON.stringify(state.cartItems));
+    },
   },
 });
 
@@ -151,6 +155,7 @@ export const {
   setBuyNowItem,
   clearBuyNowItem,
   createOrder,
+  setCartItems,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;
