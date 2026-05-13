@@ -21,6 +21,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { clearBuyNowItem, clearCartItems } from '@/redux/slices/cartSlice';
 import jarImage from '@/assets/0d50403659dbeb714860454d0322380314619c03.png';
 import imgMedjool from "@/assets/medjool_dates.png";
+import imgPistachio from "@/assets/roasted_pistachios.png";
+import imgAlmond from "@/assets/Margin.png";
 import { useAuth } from '@/hooks/useAuth';
 import { useCreateNewOrderMutation } from '@/redux/api/orderApi';
 import { toast } from 'sonner';
@@ -143,7 +145,7 @@ export function Checkout() {
       return;
     }
 
-    // Capture current items to preserve summary during success state
+
     const orderItems = items.map((item: { name: any; qty: any; quantity: any; image: any; price: any; productId: any; _id: any; }) => ({
       name: item.name,
       quantity: item.qty || item.quantity || 1,
@@ -179,7 +181,7 @@ export function Checkout() {
         dispatch(clearCartItems());
       }
 
-      // Navigate to orders
+      
       router.push('/profile?tab=orders');
     }).catch((err) => {
       toast.error(err?.data?.message || "Failed to place order");
@@ -188,7 +190,7 @@ export function Checkout() {
 
   React.useEffect(() => {
     setIsMounted(true);
-    // Redirect if not logged in
+
     if (!user && isMounted) {
       router.push('/');
     }
@@ -490,7 +492,9 @@ export function Checkout() {
                   {items.map((item: any, idx: number) => (
                     <div key={idx} className="bg-white rounded-[24px] p-4 flex items-center gap-4 relative">
                       <div className="w-16 h-16 bg-gray-50 rounded-xl overflow-hidden shrink-0 relative">
-                        <img src={item.name?.toLowerCase().includes('medjool') ? imgMedjool.src : item.image} alt={item.name} className="w-full h-full object-contain p-2" />
+                        <img src={item.name?.toLowerCase().includes('medjool') ? imgMedjool.src : 
+                                  item.name?.toLowerCase().includes('pistachio') ? imgPistachio.src : 
+                                  item.name?.toLowerCase().includes('cashew') ? imgAlmond.src : item.image} alt={item.name} className="w-full h-full object-contain p-2" />
                         <span className="absolute -top-1 -right-1 w-5 h-5 bg-black text-white text-[10px] font-bold rounded-full flex items-center justify-center border-2 border-white">
                           {item.qty || item.quantity}
                         </span>

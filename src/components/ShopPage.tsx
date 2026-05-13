@@ -10,6 +10,7 @@ import imgChocolates from "../assets/Margin-4.png";
 import imgSpices from "../assets/Margin-5.png";
 import imgJar from "@/assets/0d50403659dbeb714860454d0322380314619c03.png";
 import imgMedjool from "@/assets/medjool_dates.png";
+import imgPistachio from "@/assets/roasted_pistachios.png";
 import { ShoppingCart, Tag, ShieldCheck, Leaf, PackageCheck, ThermometerSnowflake } from "lucide-react";
 import Link from 'next/link';
 import { useRouter } from "next/navigation";
@@ -65,7 +66,10 @@ export function ShopPage() {
     dispatch(addToCart({
       _id: product._id || product.id,
       name: product.name,
-      image: product.name?.toLowerCase().includes('medjool') ? imgMedjool.src : (product.images?.[0]?.url || product.images?.[0] || product.mainImage),
+      image: product.name?.toLowerCase().includes('medjool') ? imgMedjool.src : 
+             product.name?.toLowerCase().includes('pistachio') ? imgPistachio.src : 
+             product.name?.toLowerCase().includes('cashew') ? imgAlmonds.src : 
+             ((typeof product.images?.[0] === 'string' ? product.images[0] : product.images?.[0]?.url) || product.mainImage || imgPistachio.src),
       price: priceValue,
       qty: 1,
       variant: product.variants?.[0] || null
@@ -203,7 +207,10 @@ export function ShopPage() {
                     </div>
                   )}
                   <img 
-                    src={item.name?.toLowerCase().includes('medjool') ? imgMedjool.src : (item.images?.[0]?.url || item.images?.[0] || item.mainImage)} 
+                    src={item.name?.toLowerCase().includes('medjool') ? imgMedjool.src : 
+                         item.name?.toLowerCase().includes('pistachio') ? imgPistachio.src :
+                         item.name?.toLowerCase().includes('cashew') ? imgAlmonds.src :
+                         ((typeof item.images?.[0] === 'string' ? item.images[0] : item.images?.[0]?.url) || item.mainImage || imgPistachio.src)} 
                     alt={item.name} 
                     className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500 drop-shadow-2xl" 
                   />

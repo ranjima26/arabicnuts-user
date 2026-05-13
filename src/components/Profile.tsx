@@ -11,6 +11,8 @@ import { useSelector } from 'react-redux';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { useMyOrdersQuery } from '@/redux/api/orderApi';
 import imgMedjool from "@/assets/medjool_dates.png";
+import imgPistachio from "@/assets/roasted_pistachios.png";
+import imgAlmond from "@/assets/Margin.png";
 
 export default function Profile() {
   const { user, loading: authLoading } = useAuth();
@@ -294,7 +296,9 @@ export default function Profile() {
                               {selectedOrder.orderItems?.map((item: any, idx: number) => (
                                 <div key={idx} className="flex items-center gap-4 bg-white p-4 rounded-3xl border border-gray-100 shadow-sm">
                                   <div className="w-16 h-16 bg-[#f4f7ed] rounded-2xl flex-shrink-0 overflow-hidden">
-                                    <img src={item.name?.toLowerCase().includes('medjool') ? imgMedjool.src : item.image} alt={item.name} className="w-full h-full object-contain p-2" />
+                                    <img src={item.name?.toLowerCase().includes('medjool') ? imgMedjool.src : 
+                                              item.name?.toLowerCase().includes('pistachio') ? imgPistachio.src : 
+                                              item.name?.toLowerCase().includes('cashew') ? imgAlmond.src : item.image} alt={item.name} className="w-full h-full object-contain p-2" />
                                   </div>
                                   <div className="flex-1 min-w-0">
                                     <h4 className="font-bold text-gray-900 truncate">{item.name}</h4>

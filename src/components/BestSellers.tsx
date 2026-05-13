@@ -15,6 +15,8 @@ import { ShoppingCart } from "lucide-react";
 import { useGetProductsQuery } from "@/redux/api/productApi";
 import imgJar from "@/assets/0d50403659dbeb714860454d0322380314619c03.png";
 import imgMedjool from "@/assets/medjool_dates.png";
+import imgPistachio from "@/assets/roasted_pistachios.png";
+import imgAlmond from "@/assets/Margin.png";
 
 const tabs = ['All', 'Dry Fruits', 'Almonds', 'Pistachios', 'Cashews', 'Figs', 'Chocolates', 'Dates', 'Spices'];
 
@@ -44,7 +46,10 @@ export function BestSellers() {
     dispatch(addToCart({
       _id: String(product._id),
       name: product.name,
-      image: product.name?.toLowerCase().includes('medjool') ? imgMedjool.src : (product.mainImage || product.images?.[0]?.url || imgJar.src),
+      image: product.name?.toLowerCase().includes('medjool') ? imgMedjool.src : 
+             product.name?.toLowerCase().includes('pistachio') ? imgPistachio.src :
+             product.name?.toLowerCase().includes('cashew') ? imgAlmond.src :
+             (product.mainImage || (typeof product.images?.[0] === 'string' ? product.images[0] : product.images?.[0]?.url) || imgJar.src),
       price: priceValue,
       qty: 1,
       variant: selectedVariant
@@ -112,7 +117,10 @@ export function BestSellers() {
               {/* Image side */}
               <div className="w-[40%] flex items-center justify-center p-1 md:p-2 shrink-0">
                 <img
-                  src={product.name?.toLowerCase().includes('medjool') ? imgMedjool.src : (product.mainImage || product.images?.[0]?.url || imgJar.src)}
+                  src={product.name?.toLowerCase().includes('medjool') ? imgMedjool.src : 
+                       product.name?.toLowerCase().includes('pistachio') ? imgPistachio.src :
+                       product.name?.toLowerCase().includes('cashew') ? imgAlmond.src :
+                       (product.mainImage || (typeof product.images?.[0] === 'string' ? product.images[0] : product.images?.[0]?.url) || imgJar.src)}
                   alt={product.name}
                   className="w-full h-full max-h-[120px] md:max-h-[140px] object-contain drop-shadow-md rounded-xl transition-transform duration-500 group-hover:scale-110"
                 />
