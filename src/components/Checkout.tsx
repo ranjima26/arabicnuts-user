@@ -492,7 +492,7 @@ export function Checkout() {
                   {items.map((item: any, idx: number) => (
                     <div key={idx} className="bg-white rounded-[24px] p-4 flex items-center gap-4 relative">
                       <div className="w-16 h-16 bg-gray-50 rounded-xl overflow-hidden shrink-0 relative">
-                        <img src={item.name?.toLowerCase().includes('medjool') ? imgMedjool.src : 
+                        <img src={item.name?.toLowerCase().includes('medjool') || item.name?.toLowerCase().includes('majbool') ? imgMedjool.src : 
                                   item.name?.toLowerCase().includes('pistachio') ? imgPistachio.src : 
                                   item.name?.toLowerCase().includes('cashew') ? imgAlmond.src : item.image} alt={item.name} className="w-full h-full object-contain p-2" />
                         <span className="absolute -top-1 -right-1 w-5 h-5 bg-black text-white text-[10px] font-bold rounded-full flex items-center justify-center border-2 border-white">

@@ -24,10 +24,10 @@ export interface Product {
 
 export const products: Product[] = [
   {
-    _id: "premium-dates",
-    id: "premium-dates",
+    _id: "majbool-dates",
+    id: "majbool-dates",
     category: "Dates",
-    name: "Premium Royal Dates",
+    name: "Majbool Dates",
     subtitle: "Hand-picked from the finest farms in Medina",
     price: "₹899",
     oldPrice: "₹1,099",
@@ -35,7 +35,7 @@ export const products: Product[] = [
     rating: 4.8,
     reviews: 124,
     weight: "500g",
-    description: "Experience the ultimate luxury with our Premium Royal Dates. Naturally sweet, incredibly soft, and packed with essential nutrients. Perfect for gifting or daily healthy snacking.",
+    description: "Experience the ultimate luxury with our Majbool Dates. Naturally sweet, incredibly soft, and packed with essential nutrients. Perfect for gifting or daily healthy snacking.",
     images: [jarImage1.src, jarImage1.src],
     features: [
       "100% Natural & Organic",
@@ -105,34 +105,6 @@ export const products: Product[] = [
       { title: "Skin Health" },
       { title: "Energy Rich" },
       { title: "Fiber Packed" }
-    ]
-  },
-  {
-    _id: "premium-saffron",
-    id: "premium-saffron",
-    category: "Spices",
-    name: "Premium Kashmiri Saffron",
-    subtitle: "Pure Grade-A Mongra Saffron",
-    price: "₹1,299",
-    oldPrice: "₹1,599",
-    discount: "19% OFF",
-    rating: 4.9,
-    reviews: 89,
-    weight: "1g",
-    description: "Experience the magic of Kashmiri Saffron. Handpicked threads from the Pampore fields, offering unmatched aroma, color, and medicinal benefits.",
-    images: [jarImage1.src, jarImage1.src],
-    features: [
-      "100% Pure Mongra Quality",
-      "Natural Color & Aroma",
-      "Mood Enhancer",
-      "Rich in Anti-oxidants"
-    ],
-    ingredients: "100% Pure Saffron Filaments.",
-    benefits: [
-      { title: "Stress Relief" },
-      { title: "Skin Glow" },
-      { title: "Immunity Boost" },
-      { title: "Antioxidant Rich" }
     ]
   },
   {

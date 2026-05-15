@@ -91,12 +91,12 @@ export function PageOverview({ productId }: { productId?: string }) {
   const price = selectedVariant?.price || product.price || 0;
   const discountPrice = selectedVariant?.discountPrice || product.discountPrice || 0;
 
-  const isMedjool = product.name?.toLowerCase().includes('medjool');
+  const isMedjool = product.name?.toLowerCase().includes('medjool') || product.name?.toLowerCase().includes('majbool');
   const fallbackImg = isMedjool ? imgMedjool.src : imgPistachio.src;
 
   const displayImage = mainImage || (isMedjool ? imgMedjool.src : (product.mainImage || product.images?.[0]?.url || product.images?.[0] || fallbackImg));
   
-  const allImages = isMedjool 
+  const allImages = (product.name?.toLowerCase().includes('medjool') || product.name?.toLowerCase().includes('majbool'))
     ? [imgMedjool.src, imgMedjool.src, imgMedjool.src, imgMedjool.src] 
     : (product.images && typeof product.images[0] === 'string'
         ? product.images

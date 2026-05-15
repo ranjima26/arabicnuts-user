@@ -63,9 +63,18 @@ export async function POST(req: Request) {
     const createdOrder = await order.save();
 
     // Clear cart if requested
-    if (clearCart && session.user.id) {
+    if (clearCart && (session.user.id || session.user.email)) {
       const User = (await import("@/models/User")).default;
-      await User.findByIdAndUpdate(session.user.id, { cartItems: [] });
+      // Use findOneAndUpdate with $or to match either ID or email for robustness
+      await User.findOneAndUpdate(
+        { 
+          $or: [
+            { _id: toObjectId(session.user.id) || session.user.id }, 
+            { email: session.user.email }
+          ] 
+        }, 
+        { cartItems: [] }
+      );
     }
 
     return NextResponse.json({ success: true, order: createdOrder }, { status: 201 });

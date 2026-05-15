@@ -46,7 +46,7 @@ export function BestSellers() {
     dispatch(addToCart({
       _id: String(product._id),
       name: product.name,
-      image: product.name?.toLowerCase().includes('medjool') ? imgMedjool.src : 
+      image: product.name?.toLowerCase().includes('medjool') || product.name?.toLowerCase().includes('majbool') ? imgMedjool.src : 
              product.name?.toLowerCase().includes('pistachio') ? imgPistachio.src :
              product.name?.toLowerCase().includes('cashew') ? imgAlmond.src :
              (product.mainImage || (typeof product.images?.[0] === 'string' ? product.images[0] : product.images?.[0]?.url) || imgJar.src),
@@ -117,7 +117,7 @@ export function BestSellers() {
               {/* Image side */}
               <div className="w-[40%] flex items-center justify-center p-1 md:p-2 shrink-0">
                 <img
-                  src={product.name?.toLowerCase().includes('medjool') ? imgMedjool.src : 
+                  src={product.name?.toLowerCase().includes('medjool') || product.name?.toLowerCase().includes('majbool') ? imgMedjool.src : 
                        product.name?.toLowerCase().includes('pistachio') ? imgPistachio.src :
                        product.name?.toLowerCase().includes('cashew') ? imgAlmond.src :
                        (product.mainImage || (typeof product.images?.[0] === 'string' ? product.images[0] : product.images?.[0]?.url) || imgJar.src)}

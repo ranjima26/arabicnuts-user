@@ -109,7 +109,7 @@ export function Cart() {
                       {/* Product Image */}
                       <div className="relative w-full sm:w-40 h-40 bg-gray-50 rounded-2xl overflow-hidden shrink-0 flex items-center justify-center p-4">
                         <img 
-                          src={item.name?.toLowerCase().includes('medjool') ? imgMedjool.src : 
+                          src={item.name?.toLowerCase().includes('medjool') || item.name?.toLowerCase().includes('majbool') ? imgMedjool.src : 
                                item.name?.toLowerCase().includes('pistachio') ? imgPistachio.src : 
                                item.name?.toLowerCase().includes('cashew') ? imgAlmond.src : item.image} 
                           alt={item.name} 
