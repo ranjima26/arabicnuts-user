@@ -10,6 +10,7 @@ import imgChocolates from "../assets/Margin-4.png";
 import imgSpices from "../assets/Margin-5.png";
 import imgJar from "@/assets/0d50403659dbeb714860454d0322380314619c03.png";
 import imgMedjool from "@/assets/medjool_dates.png";
+import imgPistachio from "@/assets/roasted_pistachios.png";
 import { ShoppingCart, Tag, ShieldCheck, Leaf, PackageCheck, ThermometerSnowflake } from "lucide-react";
 import Link from 'next/link';
 import { useRouter } from "next/navigation";
@@ -65,7 +66,10 @@ export function ShopPage() {
     dispatch(addToCart({
       _id: product._id || product.id,
       name: product.name,
-      image: product.name?.toLowerCase().includes('medjool') ? imgMedjool.src : (product.images?.[0]?.url || product.images?.[0] || product.mainImage),
+      image: product.name?.toLowerCase().includes('medjool') || product.name?.toLowerCase().includes('majbool') ? imgMedjool.src : 
+             product.name?.toLowerCase().includes('pistachio') ? imgPistachio.src : 
+             product.name?.toLowerCase().includes('cashew') ? imgAlmonds.src : 
+             ((typeof product.images?.[0] === 'string' ? product.images[0] : product.images?.[0]?.url) || product.mainImage || imgPistachio.src),
       price: priceValue,
       qty: 1,
       variant: product.variants?.[0] || null
@@ -136,7 +140,7 @@ export function ShopPage() {
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6"
         >
           {/* Large Card */}
-          <Link href="/product/premium-dates" className="lg:col-span-1 lg:row-span-2 bg-[#f4ebd0]/30 backdrop-blur-sm rounded-[24px] overflow-hidden border border-[#d0c5af]/20 p-6 md:p-8 flex flex-col relative min-h-[300px] lg:min-h-full group hover:shadow-xl transition-all cursor-pointer">
+          <Link href="/product/majbool-dates" className="lg:col-span-1 lg:row-span-2 bg-[#f4ebd0]/30 backdrop-blur-sm rounded-[24px] overflow-hidden border border-[#d0c5af]/20 p-6 md:p-8 flex flex-col relative min-h-[300px] lg:min-h-full group hover:shadow-xl transition-all cursor-pointer">
             <div className="z-10 relative">
               <p className="text-[#735c00] font-bold text-xs uppercase tracking-widest mb-2">Signature</p>
               <h3 className="text-[#1b1d0e] font-bold text-3xl">Premium Dates</h3>
@@ -203,7 +207,10 @@ export function ShopPage() {
                     </div>
                   )}
                   <img 
-                    src={item.name?.toLowerCase().includes('medjool') ? imgMedjool.src : (item.images?.[0]?.url || item.images?.[0] || item.mainImage)} 
+                    src={item.name?.toLowerCase().includes('medjool') || item.name?.toLowerCase().includes('majbool') ? imgMedjool.src : 
+                         item.name?.toLowerCase().includes('pistachio') ? imgPistachio.src :
+                         item.name?.toLowerCase().includes('cashew') ? imgAlmonds.src :
+                         ((typeof item.images?.[0] === 'string' ? item.images[0] : item.images?.[0]?.url) || item.mainImage || imgPistachio.src)} 
                     alt={item.name} 
                     className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500 drop-shadow-2xl" 
                   />

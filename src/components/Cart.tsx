@@ -10,6 +10,8 @@ import { addToCart, removeFromCart, clearBuyNowItem } from '@/redux/slices/cartS
 import { openAuthModal } from '@/redux/slices/usersSlice';
 import jarImage from '@/assets/0d50403659dbeb714860454d0322380314619c03.png';
 import imgMedjool from "@/assets/medjool_dates.png";
+import imgPistachio from "@/assets/roasted_pistachios.png";
+import imgAlmond from "@/assets/Margin.png";
 
 export function Cart() {
   const dispatch = useDispatch();
@@ -107,7 +109,9 @@ export function Cart() {
                       {/* Product Image */}
                       <div className="relative w-full sm:w-40 h-40 bg-gray-50 rounded-2xl overflow-hidden shrink-0 flex items-center justify-center p-4">
                         <img 
-                          src={item.name?.toLowerCase().includes('medjool') ? imgMedjool.src : item.image} 
+                          src={item.name?.toLowerCase().includes('medjool') || item.name?.toLowerCase().includes('majbool') ? imgMedjool.src : 
+                               item.name?.toLowerCase().includes('pistachio') ? imgPistachio.src : 
+                               item.name?.toLowerCase().includes('cashew') ? imgAlmond.src : item.image} 
                           alt={item.name} 
                           className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500 drop-shadow-xl" 
                         />
