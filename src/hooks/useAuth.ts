@@ -1,16 +1,21 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { onAuthStateChanged, User as FirebaseUser } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from '@/redux/slices/usersSlice';
-import { clearCartItems, setCartItems } from '@/redux/slices/cartSlice';
+import { resetCart, setCartItems } from '@/redux/slices/cartSlice';
 
 export function useAuth() {
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
   const user = useSelector((state: any) => state.users?.user);
+  const prevUserRef = useRef(user);
+
+  useEffect(() => {
+    prevUserRef.current = user;
+  }, [user]);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
@@ -54,8 +59,7 @@ export function useAuth() {
         }
       } else {
         dispatch(setUser(null));
-        // We no longer clear cart items here so they persist in localStorage as a guest cart
-        // They will be merged again when the next user logs in
+        dispatch(resetCart());
       }
       setLoading(false);
     });

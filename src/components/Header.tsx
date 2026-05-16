@@ -10,6 +10,7 @@ import { auth } from '@/lib/firebase';
 import { AuthModal } from './AuthModal';
 import { products } from '@/data/products';
 import { openAuthModal, closeAuthModal } from '@/redux/slices/usersSlice';
+import { resetCart } from '@/redux/slices/cartSlice';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -35,7 +36,7 @@ export function Header() {
   const [searchResults, setSearchResults] = useState<typeof products>([]);
   const searchInputRef = useRef<HTMLInputElement>(null);
 
-  const cartItemCount = cartItems.reduce((acc: number, item: any) => acc + (item.qty || 0), 0);
+  const cartItemCount = user ? cartItems.reduce((acc: number, item: any) => acc + (item.qty || 0), 0) : 0;
 
   useEffect(() => {
     setIsMounted(true);
@@ -144,6 +145,7 @@ export function Header() {
                   <DropdownMenuItem 
                     onClick={() => {
                       signOut(auth);
+                      dispatch(resetCart());
                       router.push('/');
                     }}
                     className="flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm text-red-600 hover:bg-red-50 cursor-pointer outline-none transition-all mt-1"
@@ -278,6 +280,7 @@ export function Header() {
               <button 
                 onClick={() => {
                   signOut(auth);
+                  dispatch(resetCart());
                   setMobileMenuOpen(false);
                   router.push('/');
                 }}

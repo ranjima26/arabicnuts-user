@@ -129,6 +129,14 @@ const cartSlice = createSlice({
       state.buyNowItem = null;
       localStorage.removeItem('buyNowItem');
     },
+    resetCart: (state) => {
+      state.cartItems = [];
+      state.shippingAddress = {};
+      state.buyNowItem = null;
+      localStorage.removeItem('cartItems');
+      localStorage.removeItem('shippingAddress');
+      localStorage.removeItem('buyNowItem');
+    },
     createOrder: (state, action: PayloadAction<Omit<Order, 'id' | 'date' | 'status'>>) => {
       const newOrder: Order = {
         ...action.payload,
@@ -156,6 +164,7 @@ export const {
   clearBuyNowItem,
   createOrder,
   setCartItems,
+  resetCart,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

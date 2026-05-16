@@ -7,9 +7,10 @@ import { signOut } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { useUpdateProfileMutation, useGetMeQuery } from '@/redux/api/userApi';
 import { toast } from 'sonner';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { useMyOrdersQuery } from '@/redux/api/orderApi';
+import { resetCart } from '@/redux/slices/cartSlice';
 import imgMedjool from "@/assets/medjool_dates.png";
 import imgPistachio from "@/assets/roasted_pistachios.png";
 import imgAlmond from "@/assets/Margin.png";
@@ -19,6 +20,7 @@ export default function Profile() {
   const { data: userData, refetch: refetchUser, isLoading: getMeLoading } = useGetMeQuery({});
   const searchParams = useSearchParams();
   const router = useRouter();
+  const dispatch = useDispatch();
   const [updateProfile, { isLoading: isUpdating }] = useUpdateProfileMutation();
   
   const initialTab = (searchParams.get('tab') as 'details' | 'orders') || 'details';
@@ -180,6 +182,7 @@ export default function Profile() {
                 <button 
                   onClick={() => {
                     signOut(auth);
+                    dispatch(resetCart());
                     router.push('/');
                   }}
                   className="w-full flex items-center gap-4 p-4 rounded-2xl text-red-500 hover:bg-red-50 transition-all font-bold"
