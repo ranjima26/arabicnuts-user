@@ -127,12 +127,8 @@ export function Checkout() {
     e.preventDefault();
 
     if (items.length === 0) {
-      Swal.fire({
-        title: 'Cart is Empty',
-        text: 'Please add at least one item to your cart before placing an order.',
-        icon: 'warning',
-        confirmButtonColor: '#496506',
-        customClass: { popup: 'rounded-[32px]', confirmButton: 'rounded-xl px-8 py-3' }
+      toast.warning('Cart is Empty', {
+        description: 'Please add at least one item to your cart before placing an order.',
       });
       return;
     }
@@ -143,12 +139,8 @@ export function Checkout() {
         .filter((key) => checkoutValidators[key](shippingData[key as keyof typeof shippingData]) !== "")
         .map((key) => fieldLabels[key] || key);
 
-      Swal.fire({
-        title: 'Missing or Invalid Details',
-        html: `<p style="margin-bottom:10px">Please correct the following fields before proceeding:</p><ul style="text-align:left;padding-left:20px">${failedFields.map(f => `<li style="margin:4px 0">• ${f}</li>`).join('')}</ul>`,
-        icon: 'error',
-        confirmButtonColor: '#e7000b',
-        customClass: { popup: 'rounded-[32px]', confirmButton: 'rounded-xl px-8 py-3' }
+      toast.error('Missing Details', {
+        description: `Please correct the following fields: ${failedFields.join(', ')}`,
       });
       return;
     }
